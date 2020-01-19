@@ -1,0 +1,1047 @@
+# Sets, functions, relations, permutations {#sets}
+
+This section begins by introducing informal ("naive") set theory as a way to reason about unordered collections of objects without repetition.  We then look at relations and functions and their properties. Finally we introduce permutations of finite sets for later use both in linear algebra and as a fundamental example in the section on group theory.
+
+**Learning objectives for this section:**
+
+- Know the meaning of and symbols used for sets, containment, membership, unions, intersections, the empty set, set difference, complement, size/cardinality
+- Understand when two sets are equal
+- Be able to explain and use the laws of set algebra, including De Morgan's laws, to compare and evaluate expressions in the language of set theory
+- Understand inclusion-exclusion and use it to calculate set sizes
+- Know the meaning of the terms relation, function, symmetric, transitive, reflexive, equivalence relation, partition, equivalence class, injective/one-to-one, surjective/onto, bijective, inverse function, left inverse, right inverse
+- Explain the connection between equivalence classes and partitions
+- Determine properties of functions and relations
+- Understand notation used for permutations
+- Know the definition of permutation, transposition, cycle, disjoint cycles, orbit of a permutation
+- Know and be able to apply the result that permutations can be expressed as products of disjoint cycles, and as products of transpositions
+- Be able to define and calcuate products/compositions, inverses, signs, and the disjoint cycle decomposition of a permutation
+
+
+<!--
+**Learning objectives:** Here's what I intend you to be able to do by the end of this section.
+
+ - Know the meaning of and symbols used for sets, containment, membership, unions, intersections, the empty set, set difference, complement.
+ - 
+ - put
+ - the rest of the
+ - learning
+ - objectives
+ - here.
+ - [Bloom's taxonomy](https://en.wikipedia.org/wiki/Bloom%27s_taxonomy#The_cognitive_domain_(knowledge-based)): knowledge, comprehension, application, analysis, synthesis, evaluation
+-->
+ 
+
+## Set theory
+
+A set, informally, is a collection of (mathematical) objects.  The
+objects in a set are called its **elements**, and we write sets
+down by listing or describing their elements surrounded  with
+$\{$curly brackets$\}$.  For example, the set whose elements
+are 1,2 and 3 is written $\{1,2,3\}$, and
+from MATH0003 Analysis 1 you should already be familiar with
+set-theoretic notation like
+
+$$ \{ x \in \mathbb{R}: x < 0\} $$
+
+meaning the set of all strictly negative real numbers.  Often you'll see a $|$ 
+instead of a $:$ in this 'set builder notation': it means the same
+thing.
+
+One of the amazing things about set theory is that *absolutely everything* you study in an undergraduate maths degree - whole numbers, real numbers, complex numbers, functions, relations, groups, rings, vectors, matrices, sequences, and so on - can be built starting with the empty set and the axioms of set theory.  This is what people mean when they call set theory a foundation for mathematics. As an example, [a common way to represent the natural numbers](https://en.wikipedia.org/wiki/Set-theoretic_definition_of_natural_numbers) 0,1,2,... as sets is 
+
+$$ \emptyset, \{\emptyset\}, \{\emptyset, \{\emptyset\}\},\ldots $$
+
+In MATH0007 however we are going to keep things simple - instead of giving a formal set-theoretic definition of a function, for example, we'll be happy with an informal description in terms of a rule for mapping one set to another.   If you want to learn about formal set theory, [@goldrei] is a fantastic book for self-study and very easy to read.
+
+
+<!-- ### Some important sets -->
+
+<!-- Certain sets of numbers get special notation: -->
+
+<!--  - $\mathbb{N} = \{0,1,2,\ldots\}$ is called the set of natural numbers. Sometimes people omit 0. -->
+<!--  - $\mathbb{Z} = \{\ldots, -2,-1,0,1,2,\ldots\}$, the integers or whole numbers. -->
+<!--  - $\mathbb{Q}$, the rational numbers, all numbers of the form $a/b$ for $a,b \in \mathbb{Z}$ and $b \neq 0$. -->
+<!--  - $\mathbb{R}$, the set of real numbers (informally, numbers with a decimal expansion). -->
+<!--  - $\mathbb{C}$, the set of complex numbers: numbers of the form $x+iy$ where $x$ and $y$ are real numbers and $i^2=-1$. -->
+
+
+<!-- The **empty set**, written $\emptyset$ or (rarely) $\{\,\}$ is -->
+<!-- the set with no elements.  -->
+
+### Set terminology
+
+
+```{definition}
+Let $A$ and $B$ be sets.
+
+- $x \in A$ means that $x$ is an element of $A$, and $x\notin A$ means $x$ is not an element of $A$.
+- $A \subseteq B$ means every element of $A$ is also an element of $B$.  In this case we say $A$ is a **subset** of $B$ or $A$ is **contained in** $B$.
+- $A=B$ means $A \subseteq B$ and $B \subseteq A$.
+- $A \not\subseteq B$ means $A$ is not a subset of $B$.
+- $A \subsetneq B$ means $A$ is a subset of $B$ but $A \neq B$. In this case we say $A$ is a **proper** subset of $B$.
+
+
+```
+
+
+The definition of equality of sets means that two sets $A$ and $B$ are equal if and only if every element of $A$ is an element of $B$, and every element of $B$ is an element of $A$.  This has
+two important consequences.  Firstly, for example,
+$$ \{1,2\} = \{2,1\} $$
+since every element of $\{1,2\}$ is an element of $\{2,1\}$ and vice versa.  So *order doesn't matter* for sets.  Secondly
+$$ \{1,2,1\} = \{1,2\} $$
+ --- again, the only elements of the set on the left are 1 and 2,
+these are the same as the elements of the set on the right, so the
+two sets are equal.  For sets, *repetition doesn't matter*. This is why we can use sets to reason about unordered collections of objects without repetition.
+
+If $A$ has exactly $n$ distinct elements, where $n \in \mathbb{N}$, we
+write $|A|=n$ and call $n$ the **size** or **cardinality** of $A$.  For example,
+$$|\{1,2\}|=2, |\{1,2,1,3\}|=3.$$
+
+The **empty set**, written $\emptyset$, is the set with no elements. Therefore $|\emptyset|=0$.
+
+We often use **set builder notation** (or **set comprehension**) to describe sets.  This is best described with an example.  If $\mathbb{N}$ is the set $\{0,1,2,\ldots\}$ of natural numbers, then
+
+$$ \{x \in \mathbb{N} : x < 100\}$$
+
+means 'the set of all natural numbers which are less than 100', and
+
+$$ \{x \in \mathbb{N} : \exists p,q \in \mathbb{N} : x = p^2 + q^2\}$$
+
+means 'the set of all natural numbers which can be written as the sum of two squares.' Sometimes in set builder notation people use a $|$ instead of a $:$, the meaning is exactly the same.
+
+### Combining sets
+
+There are several important ways of combining two (or more) sets. 
+
+```{definition}
+Let $A$ and $B$ be sets:
+
+- The **union**  or **join** of $A$ and $B$, written $A \cup B$, is $\{x : x \in A \text{ or } x \in B\}$.
+- The **intersection** or **meet** of $A$ and $B$, written $A \cap B$, is $\{ x : x \in A \text{ and } x \in B\}$.
+- Two sets $A$ and $B$ are called **disjoint** if $A \cap B = \emptyset$.
+- The **set difference** $A \setminus B$ is $\{x \in A : x \notin B\}$.
+- If $A$  is a subset of a fixed 'universe' $\Omega$, we call $\Omega \setminus A$ the **complement** of $A$ in $\Omega$ and write it as $A^c$.  
+
+
+```
+
+$A \setminus B$ is often pronounced "$A$ take $B$."
+
+```{r fig1, fig.cap='Venn diagram for $A\\cup B$. Two overlapping circles labelled $A$ and $B$ represent the sets $A$ and $B$. The whole area of both circles is shaded, representing the fact that $A\\cup B$ consists of everthing which is either in $A$, or in $B$, or both.', auto_pdf=TRUE, out.width='50%', echo=FALSE}
+knitr::include_graphics(rep("vennAunionB.svg"))
+```
+
+```{r fig2, fig.cap='Venn diagram for $A\\cap B$. Two overlapping circles labelled $A$ and $B$ represent the sets $A$ and $B$. The area where the circles overlap is shaded, representing the fact that $A\\cap B$ consists of everthing which is simultaneously in $A$ and in $B$.', auto_pdf=TRUE, out.width='50%', echo=FALSE}
+knitr::include_graphics(rep("vennAintersectionB.svg"))
+```
+
+```{r fig3, fig.cap='Venn diagram for $A\\setminus B$. Two overlapping circles labelled $A$ and $B$ represent the sets $A$ and $B$. That part of $A$ which does not overlap with $B$ is shaded, representing the fact that $A\\setminus B$ consists of everthing which is in $A$ but not in $B$.', auto_pdf=TRUE, out.width='50%', echo=FALSE}
+knitr::include_graphics(rep("vennAdiffB.svg"))
+```
+
+```{r fig4, fig.cap='Venn diagram for $A^c$. Two overlapping circles labelled $A$ and $B$ represent the sets $A$ and $B$. Everything outside $A$ is shaded, representing the fact that $A^c$ is everything which is not in $A$.', auto_pdf=TRUE, out.width='50%', echo=FALSE}
+knitr::include_graphics(rep("vennAcomplement.svg"))
+```
+
+<!-- One final definition: -->
+
+<!-- ```{definition}  -->
+<!-- The **power set** of a set $A$, written -->
+<!-- $\mathcal{P}(A)$, is the set of all subsets of $A$. -->
+<!-- ```   -->
+
+<!-- For example, the -->
+<!-- subsets of $\{1,2\}$ are $\emptyset, \{1\}, \{2\}, \{1,2\}$ so -->
+
+<!-- $$ \mathcal{P}(\{1,2\}) = \{\emptyset, \{1\}, \{2\}, \{1,2\}\}.$$ -->
+
+<!-- When $A$ is a finite set, we can say how big its power set is. -->
+
+<!-- ```{theorem} -->
+<!-- Let $A$ be a finite set. Then $|\mathcal{P}(A)|=2^{|A|}$. -->
+<!-- ``` -->
+
+<!-- ```{proof} -->
+<!-- One way to prove this is to think about how to determine a subset of -->
+<!-- $A$.  For each element of $A$, you have to say whether or not it is -->
+<!-- in the subset.  That means a total of $|A|$ yes-no choices, so there -->
+<!-- are $2\times \cdots \times 2= 2^{|A|}$ possible subsets.  -->
+
+<!-- Alternatively we can prove this by induction on $|A|$.  In the base -->
+<!-- case $|A|=0$, we must have  -->
+<!-- $A=\emptyset$ and $\mathcal{P}(A)=\{ \emptyset\}$, so -->
+<!-- $|\mathcal{P}(A)|=1=2^0=2^{|A|}$. -->
+
+<!-- Now suppose we know the result is true for all sets of size $n$.  Let -->
+<!-- $A$ be a set of size $n+1$ and fix some $a \in A$.  We divide -->
+<!-- $\mathcal{P}(A)$ into two disjoint pieces -->
+
+<!-- \begin{align*} -->
+<!-- \mathcal{P}_1 &= \{ x \subset A : a \in x\} \\ -->
+<!-- \mathcal{P}_2 &= \{ x \subset A : a \notin x\} -->
+<!-- \end{align*} -->
+
+<!-- $\mathcal{P}_2$ is the set of subsets of $A \setminus\{a\}$, a set of -->
+<!-- size $n$, so by induction $|\mathcal{P}_1|=2^{n}$.  Every -->
+<!-- element of $\mathcal{P}_1$ can be expressed uniquely as $\{a\} \cup B$ -->
+<!-- where $B \subseteq A\setminus \{a\}$, so $|\mathcal{P}_1|$ equals the -->
+<!-- number of subsets of $A \setminus \{a\}$, which is $2^{n}$ by -->
+<!-- induction.  So $|\mathcal{P}| = |\mathcal{P}_1|+|\mathcal{P}_2|= -->
+<!-- 2^{n}+2^{n} = 2^{n+1}$, completing the inductive step. -->
+<!-- ``` -->
+
+As practise in using the definition of set equality, we will now prove a simple result about complements:
+
+```{lemma}
+Let $A$ be a subset of a set $\Omega$.  Then $(A^c)^c = A$.
+```
+
+To prove two sets $X$ and $Y$ are equal we often use the definition of set equality: first we show $X \subseteq Y$ and then we show $Y \subseteq X$. To prove $X \subseteq Y$ we show that any $x \in X$ is also in $Y$, and to prove $Y \subseteq X$ we show any $y \in Y$ is also in $X$.
+
+```{proof}
+First we'll show $A \subseteq (A^c)^c$.  Let $a \in A$.  Then $a \notin A^c$ by definition of complement, so $a \in (A^c)^c$ again by the definition of complement.
+
+Now let $x \in (A^c)^c$.  Then $x \notin A^c$, so $x \in A$.
+```
+***
+
+This proof could be written more simply, but the technique of proving X=Y by proving $X \subseteq Y$ then $Y \subseteq X$ is useful and common.
+
+
+
+### Laws for union and intersection
+
+It's useful to write down some results about how $\cup$, $\cap$, and
+$\setminus$ interact with each other. The first result is called
+**De Morgan's laws**:
+
+
+```{theorem}
+Let $A$ and $B$ be subsets of a set $\Omega$. Then
+
+1. $(A\cup B)^c = A^c \cap B^c$, and
+2. $(A \cap B)^c = A^c \cup B^c$.
+
+
+```
+
+Before we prove this, here are two figures illustrating De Morgan's laws.  In the first you should notice that the shaded area, which is everything outside $A \cup B$, could also be obtained by colouring those parts of the diagram which are not part of $A$ and not part of $B$.
+In the second you see that the shaded area, which is everything outside $A \cap B$, could also be obtained by colouring everything which is either not part of $A$ or not part of $B$.
+
+```{r fig5, fig.cap='Venn diagram for $(A\\cup B)^c$.  Two overlapping circles represent the sets $A$ and $B$.  The area outside the two circles, representing the complement of $A\\cup B$, is shaded.', auto_pdf=TRUE, out.width='50%', echo=FALSE}
+knitr::include_graphics(rep("vennAcupBcomp.svg"))
+```
+```{r fig6, fig.cap='Venn diagram for $(A \\cap B)^c$. Two overlapping circles represent the sets $A$ and $B$.  Everything outside the part where the circles overlap is shaded, representing the complement of $A \\cap B$.', auto_pdf=TRUE, out.width='50%', echo=FALSE}
+knitr::include_graphics(rep("vennAcapBcomp.svg"))
+```
+
+```{proof}
+
+
+1.  Let $x \in (A \cup B)^c$. Then $x \notin A \cup B$, so $x \notin A$ and $x \notin B$. This means $x \in A^c$ and $x \in B^c$, so $x \in A^c \cap B^c$. It follows $(A\cup B)^c \subseteq A^c \cap B^c$.  Now let $x \in A^c \cap B^c$. Then $x \in A^c$ and $x \in B^c$, so $x \notin A$ and $x \notin B$, so $x \notin A \cup B$. Therefore $x \in (A\cup B)^c$. If follows $A^c \cap B^c \subseteq (A \cup B)^c$, and we are finished.
+2. The previous result with $A^c$ in place of $A$ and $B^c$ in place of $B$ gives $(A^c \cup B^c)^c = A \cap B$, because $A^{cc}=A$ and $B^{cc}=B$. Taking complements of both sides gives $A^c \cup B^c = (A \cap B)^c$.
+
+
+```
+***
+
+De Morgan's laws can be generalized to unions and intersections of any number (even an infinite number) of sets.  For example, we have
+
+\begin{align*}
+(A_1 \cup A_2 \cup \cdots)^c &= A_1^c \cap A_2^c \cap \cdots \\
+(A_1 \cap A_2 \cap \cdots)^c &= A_1^c \cup A_2^c \cup \cdots
+\end{align*}
+
+Here is an example, called the *Jacobean Locks problem*, which shows how using De Morgan's laws can make it easier to solve problems with sets.
+
+```{example}
+A group of 5 housemates, fed up of people stealing from the communal fridge, are going to fit a number of locks to the fridge door and distribute the keys amongst them.  Each key will work in one and only one lock, but they can make as many copies of each key as they want.  They want to do this in such a way that
+
+1. no group of two housemates can open the fridge, but
+2. any group of three housemates can open the fridge.
+
+**How many locks do they need, and how should the keys be distributed?**
+
+Let's suppose the locks on the fridge are numbered 1, 2, ..., L, and let $K_i$ be the set of keys which housemate i has.  Let $\Omega = \{1,2,\ldots,L\}$, so every $K_i$ is a subset of $\Omega$.
+Let $N_i = K_i^c$, so $N_i$ is the set of keys that person i does not have.  
+
+Condition 1 means that for every i and every j we must have
+
+$$ K_i \cup K_j \neq \Omega. $$
+
+By taking complements of both sides and using De Morgan's laws,
+
+\begin{align*}
+(K_i \cup K_j)^c & \neq \Omega ^c \\
+K_i^c \cap K_j^c & \neq \emptyset \\
+N_i \cap N_j &\neq \emptyset 
+\end{align*}
+
+Condition 2 means that for every *distinct* i, j, and k we have
+
+$$ K_i \cup K_j \cup K_k = \Omega. $$
+
+By taking complements of both sides and using De Morgan's laws,
+
+\begin{align*}
+(K_i \cup K_j \cup K_k)^c & = \Omega^c \\
+K_i^c \cap K_j^c \cap K_k^c &= \emptyset \\
+N_i \cap N_j \cap N_j &= \emptyset
+\end{align*}
+
+So if i and j are distinct, we know that $N_i$ and $N_j$ have an element in common (since $N_i \cap N_j \neq \emptyset$) but that this element doesn't belong to any other $N_k$ (since $N_i \cap N_j \cap N_k = \emptyset$).  There must be at least as many locks as there are pairs of distinct numbers i and j.
+
+You should try working out how many pairs of distinct numbers between 1 and 5 there are.  For this number of locks, can you find a way of distributing keys that fulfills conditions 1 and 2?
+
+```
+
+
+The **distributive laws** tell us how $\cap$ and $\cup$ interact:
+
+```{theorem}
+Let $A,B,C$ be sets. Then
+
+1. $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$, and
+2. $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$.
+
+
+```
+
+```{proof}
+**1.** Again, we will show that the set on the left is contained in the set on the right and vice versa.  
+
+$\subseteq$: Let $x \in A \cup (B \cap C)$, so that either $x \in A$ or $x \in B\cap C$ (or both!). We'll do those two cases separately. In the first case, $x \in A$ then $x \in A \cup B$ and $x \in A \cup C$ so $x \in (A\cup B)\cap (A\cup C)$.  In the second, $x \in B\cap C$ so $x \in B$, so $x \in A \cup B$, and $x \in C$, so $x \in A \cup C$. It follows $x \in (A \cup B) \cap (A \cup C)$. We've proved the left hand side is contained in the right.  
+
+$\supseteq$: suppose $x \in (A\cup B)\cap (A \cup C)$. If $x \in A$
+then certainly $x \in A \cup (B \cap C)$, so let's suppose $x \notin
+A$.
+Since $x \in A \cup B$ and $x\notin A$ we must have $x\in
+B$. Similarly, $x \in C$. So $x \in B \cap C \subseteq A \cup (B\cap
+C)$. It follows the right hand side is contained in the left.
+
+**2.** This is similar to the previous part.
+```
+***
+
+
+Lastly, union and intersection have two properties called
+**commutativity** and **associativity**. They follow
+straight from the definitions, so we will just list them rather than
+giving a proof:
+
+Let $A,B,C$ be sets.
+
+ - (commutativity) $A\cup B=B\cup A$, and $A \cap B = B \cap A$. 
+ - (associativity) $A \cup (B \cup C) = (A\cup B) \cup C$, and $A \cap (B\cap C) =
+  (A\cap B)\cap C)$.
+
+The associativity property means we can just write $A \cup B \cup C$
+without ambiguity --- no need for brackets, just like we can write
+$1+2+3$ without having to specify which order you do the addition in.
+
+### Cartesian products
+
+An **ordered pair** $\langle a,b\rangle$ is something that has
+the property that
+
+\begin{equation}
+\langle a,b\rangle = \langle c,d\rangle \text{ if and only if } a=c
+  \text{ and } b=c.
+(\#eq:op)
+\end{equation}
+
+Sometimes people write $(a,b)$ instead; I will
+try to avoid this so that we don't confuse ordered pairs with
+intervals of real numbers.
+
+It looks like this is some new construction, but in fact we can
+express it just using set theory: if you define
+$$ \langle a,b\rangle = \{ \{a\}, \{a,b\}\} $$
+it is possible to show that it has the defining
+property \@ref(eq:op) of ordered pairs. 
+
+Given two sets $A$ and $B$ we define their **Cartesian product**
+$A \times B$ by
+$$ A \times B = \{ \langle a,b\rangle : a \in A, b \in B\}.$$
+If $A$ and $B$ are finite sets then $|A\times B|= |A||B|$.
+
+### More about sets
+
+
+You will be learning some Python in the first half of MATH0011.
+Python has a built-in set datatype which can be constructed using `{`
+and `}`. Try commands like the following:
+
+```{python eval=FALSE}
+A = {1, 2, 1}
+B = {1, 2}
+A == B  # Python will say 'True'
+C = {3, 4}
+A.union(C)
+A.intersection(C)
+len(A)  # tells you the size of A
+A <= B  # checks if A is a subset of B
+A < B   # checks if A is a proper subset of B
+{(a, b) for a in A for b in B} # Cartesian product AxB 
+```
+
+There's one snag, which is that you can't define the empty set as
+`{}` (Python interprets this as an empty *dictionary*, one of
+its other built-in types). Instead, you need:
+
+```{python eval=FALSE}
+emptyset = set()
+A = {1, 2}
+C = {3, 4}
+A.intersection(C) == emptyset  # True
+```
+
+You can even do set builder notation in Python --- it's called 'set comprehension.' Try `{x **2 for x in range(3)}`, for example.
+
+
+One of the reasons that formal set theory exists (and is
+  complicated) is that if we keep treating sets in this informal
+  manner, we eventually run into problems.  For example, let
+
+$$ X = \{ x : x \notin x\}$$
+
+so $X$ is the set of all sets which are not members of themselves.  Is
+$X \in X$? Then $X \notin X$ by the defining property of $X$, a
+contradiction. So it must be that $X \notin X$, but then it follows
+that $X \in X$ again by definition of $X$ - we get a contradiction either way!  This is called
+[Russell's paradox](https://en.wikipedia.org/wiki/Russell\%27s_paradox).  One way round this is to develop set theory using axioms
+that are permissive enough to allow us to describe all the mathematics
+we want to do inside set theory, but restrictive enough to
+avoid the kind of set-formation that gave rise to Russell's
+paradox. The usual system is called
+[Zermelo-Fraenkel](https://en.wikipedia.org/wiki/Zermelo%E2%80%93Fraenkel_set_theory)
+set theory, or ZF for short.  If you want to know more, a good book is
+Derek Goldrei's *Classic Set Theory*.
+
+
+## Relations
+
+We often want to talk about whether two elements of a given set are
+related in a particular way, e.g. whether one real number is smaller or larger
+than the other, whether two integers have the same remainder on
+dividing by 7, and so on.
+
+Following our idea that 'everything is a set' we want to construct
+these relations as sets. Here's the definition:
+
+```{definition} 
+A **relation** on a set $X$ is a subset of $X\times X$.
+```
+
+We match this up with our ordinary notation for relations as follows:
+if $\sim$ is a relation on $X$, then we write $x \sim y$ instead of
+$\langle x,y\rangle \in \sim$ and $x \nsim y$ instead of $\langle
+x,y\rangle \notin \sim$.
+
+For example, the $<$ relation on the set $X=\{1,2,3\}$ would be the
+subset 
+
+$$ \{ \langle 1,2\rangle, \langle 1,3\rangle, \langle 2,3\rangle \}$$
+of $X\times X$.
+
+Here are the most important properties a relation can have.
+
+```{definition}
+Let $\sim$ be a relation on a set $X$.
+
+- $\sim$ is called **symmetric** if for any $x,y \in X$ if $x\sim y$ then $y \sim x$
+- $\sim$ is called **reflexive** if for any $x\in X$ we have $x\sim x$.
+- $\sim$ is called **transitive** if for any $x,y,z \in X$ if $x\sim y$ and $y\sim z$ then $x \sim z$.
+- $\sim$ is called an **equivalence relation** if it is reflexive, symmetric, and transitive. 
+
+
+```
+
+Equivalence relations turn out to be very important as they appear in
+lots of different places.  The simplest example is the $=$ relation on
+any set, but you will see less familiar examples in lectures. This section ends with some important
+notation and results related to equivalence relations.
+
+```{definition}
+Let $\sim$ be an equivalence relation on a set $X$, and let $x \in X$. The **equivalence class** of $x$, written $[x]$ or $[x]_\sim$, is
+$$ [x] = \{ y \in X: y \sim x\}. $$
+```
+
+A **partition** of a set X is a collection of nonempty subsets of X (called the **parts** of the partition) with the property that every element of X belongs to exactly one part.  In other words, a partition is a collection of disjoint nonempty subsets of X whose union is X.
+
+The next result says that the set of equivalence classes of an equivalence
+relation on a set X form a partition of X.
+
+
+```{proposition}
+Let $\sim$ be an equivalence relation on a set $X$. Then
+
+- Every $x \in X$ belongs to some equivalence class, and
+- if two equivalence classes are not disjoint, then they are equal.
+
+
+```
+
+```{proof}
+
+
+- This is clear, as $x \in [x]$.
+- Suppose $z \in [x]\cap [y]$, we'll show $[x]=[y]$. 
+    * First of all, we have $z \sim x$ and $z \sim y$.  By symmetry $x \sim z$. 
+    * $x\sim z \sim y$, so by transitivity $x \sim y$.  
+    * Let $u \in [x]$, so $u \sim x$. Then $u \sim x \sim y$, so $u \in [y]$. We've shown $[x]\subseteq [y]$.
+    * The same argument shows $[y]\subseteq [x]$, so $[x]=[y]$. 
+
+
+```
+
+***
+
+Conversely, suppose X is a set and you are given a partition of X.  Then you can define a relation $\sim$ on X by $x \sim y$ if and only if they lie in the same part of the partition.
+It's not hard to check that this is an equivalence relation, and the
+equivalence classes are exactly the collection of nonempty subsets we
+started with.  Thus equivalence relations on a set X are 'the same
+thing' as partitions of X.
+
+### Congruence modulo $n$
+
+We finish the section on relations by discussing one of the most important kinds of equivalence relation, congruence modulo (mod for short) an integer $n$.
+
+For each nonzero integer $n$ we define a relation on the integers $\mathbb{Z}$ called congruence mod $n$ as follows: two integers a and b are **congruent mod $n$** if $a-b$ is divisible by $n$.
+
+This is equivalent to saying a and b have the same remainder when you divide by $n$.  For example, 7 and 15 are congruent modulo 4 (as 7-15 is a multiple of 4), but they are not congruent modulo 5 (as 7-15 is not a multiple of 5.)
+
+It is common to write
+$$ a \equiv b \mod n $$
+to mean that a is congruent to b mod n.  You will be checking that congruence modulo n is an equivalence relation on your problem sheet.
+
+The set of equivalence classes under congruence modulo $n$ is written $\mathbb{Z}_n$. For example, if n=2 there are exactly two equivalence classes, $[0] = \{\ldots, -4, -2, 0, 2, 4, \ldots\}$ which is the set of all even numbers and $[1] = \{\ldots, -3, -1, 1, 3, \ldots \}$ which is the set of all odd numbers.
+
+## Functions
+
+Informally, when we write $f:X \to Y$ and say '$f$ is a function from
+$X$ to $Y$' we mean that $f$ is some kind of definite rule which associates to
+each element $x \in X$ a single element $f(x)$ of $Y$.  Expressing
+this in the language of set theory helps get rid of the vagueness of
+what a 'definite rule' is, so here is the set-theoretic definition of
+a function $f$ from a set $X$ to another set $Y$:
+
+```{definition}
+
+
+- A function $f$ from a set $X$ to a set $Y$ is a subset of $X\times Y$ with the property that for each $x \in X$ there is a unique $y \in Y$ such that $\langle x,y\rangle \in f$.  We write $f(x)$ for the unique element of $Y$ such that $\langle x,f(x)\rangle \in f$.
+- The set $X$ is called the **domain** of $f$.
+- The set $Y$ is called the **codomain** of $f$. 
+
+
+```
+
+As shorthand for 'f is a function from X to Y' we  write $f:X \to Y$.
+
+Often people talk of functions in terms of input and output: if $f: X \to Y$ then when we give it an input $x\in X$, it gives an output
+$f(x)$. The x in f(x) is called the argument of f, and people
+talk about 'applying' a function f to an input x to get an output f(x).
+
+Here's a quick example of how functions are identified with subsets of
+a Cartesian product. Let $X= \{0,1,2\}, Y = \{1, 2,3,4,5,6\}$ and let
+$f$ be the function from $X$ to $Y$ whose 'rule' is that for all $x\in X$ we have f(x)=2x+1. The description above was that a function was
+identified with the subset of $X\times Y$ consisting of all the pairs
+$\langle x, f(x) \rangle$, so
+$$ f = \{ \langle 0, 1\rangle, \langle 1, 3\rangle, \langle 2, 5\rangle\}.$$
+
+Two functions $f,g : X \to Y$ are said to be equal if they are equal
+as sets, that is, they are the same subset of $X \times Y$. This means
+that when we describe a function informally, by giving a rule, it
+isn't the description of the rule that is important but merely which
+output f(x) it produces for a given input x.  The functions:
+\begin{align*} f: \{0,1\} \to \{0,1\} & \;\;\; f(x) = x^2 & \text{and} \\
+g: \{0,1\} \to \{0,1\} & \;\;\; g(x)=x^3 
+\end{align*}
+are equal, even though the rules look different, because f(0)=g(0) and f(1)=g(1).
+
+Rather than use this set theoretic definition of a function, we will
+tend to define functions by specifying their output f(x) for a given
+input $x$.  A common alternative notation is to write
+
+\begin{align*}
+f: & X \to Y \\
+& x \mapsto x^2
+\end{align*}
+
+to indicate that the function $f$ has domain $X$ and codomain $Y$, and
+sends an input $x$ to the output $x^2$.
+
+Note: people often talk about a **map** from $X \to Y$. It means
+exactly the same thing as a function.
+
+### Function properties and composition
+
+```{definition}
+Let $f:X \to Y$ be a function.
+
+
+- $f$ is called **injective** or **one to one** if for all $a,b \in X$, if $f(a)=f(b)$ then $a=b$.
+- The **image** of $f$, written $\im f$, is $\{f(x): x \in X\}$. This is a subset of $Y$.
+- $f$ is called **surjective** or **onto** if $\im f = Y$.
+- $f$ is called a **bijection** if it is injective and surjective. 
+
+
+```
+  
+If we have a function $f: X \to Y$ and $g: Y \to Z$ then 'do $f$ then
+do $g$' is a rule for getting from $X$ to $Z$.  The associated
+function is called the composition of $f$ and $g$:
+
+```{definition}
+Let $f:X \to Y$ and $g: Y \to Z$ be functions.  The
+**composition** of $g$ and $f$, written $g \circ f$ is the
+function $g\circ f: X \to Z$ such that $(g\circ f)(x)= g(f(x))$.
+```
+
+Thus $g\circ f$ means 'do $f$, then do $g$.'  Be careful to get this
+the correct way round.
+
+Notice that composition only makes sense when the codomain of $f$ is
+the same as the domain of $g$.  Function composition has the important
+property of being **associative**: if $f:X \to Y, g: Y \to Z, h :
+Z \to W$ then
+$$ h \circ (g \circ f) = (h \circ g) \circ f$$
+as functions from $X$ to $Z$.  The reason this is true is because both
+sides send an input $x\in X$ to the output $h(g(f(x)))$.
+
+One important function from a set $X$ to itself is the **identity function**
+$\id_X$, which does nothing: it is defined by $\id_X(x) = x$ for all
+$x \in X$.
+
+```{definition}
+Let $f:X \to Y$ and $g: Y \to X$ be functions.
+- We say that $g$ is a **left inverse** to $f$, and that $f$ is a **right inverse** to $g$, if $g\circ f = \id_X$.
+- We say that $f$ is **invertible** if there is a function $h:Y \to X$ such that $f\circ h = \id_Y$ and $h \circ f=\id_X$. 
+
+
+```
+
+A left inverse to $f$ is a function $g:Y \to X$ such that $g\circ f=\id_x$, and a right inverse to $f$ is a function $h:Y \to X$ such
+that $f\circ h = \id_Y$. In fact, if $f$ has a left inverse $g$ and a
+right inverse $h$ then it must be that $g=h$: given any $y \in Y$,
+$$ g(y) = g(f(h(y)) = h(y)$$
+with  the first equality because $f(h(y))=y$ as $h$ is right inverse
+to  $f$, and the second equality because $g(f(x))=x$ for any $x$ as
+$g$ is left inverse to $f$.  This shows that if $f$ has a left inverse
+and a right inverse, it is invertible.
+
+It also follows that if $f$ is
+invertible then there is one and only one function which is a left and
+right inverse to $f$. We write this function $f^{-1}$ and call it
+*the* inverse to $f$.
+
+We can connect the properties of left and right invertibility to those
+of injectivity and surjectivity:
+
+```{proposition}
+Let $f: X \to Y$ be a function.
+
+1. $f$ has a left inverse if and only if it is injective.
+2. $f$ has a right inverse if and only if it is surjective.
+3. $f$ is invertible if and only if it is a bijection.
+
+
+```
+
+```{proof}
+
+
+- (1, **only if**). Suppose $f$ has a left inverse $g$, and that $f(a)=f(b)$. Then $g(f(a))=g(f(b))$, and since $g\circ f = \id_X$ we have $a=b$, which shows $f$ is injective.
+- (1, **if**). Suppose $f$ is injective.  Notice that if $y \in \im f$ then there is a *unique* $x \in X$ such that $f(x)=y$, by injectivity. Choose any $x_0 \in X$, and define $g:Y \to X$ by 
+$$ g(y) = \begin{cases}
+\text{the unique } x \text{ such that } f(x)=y & y \in \im f \\
+x_0 & y \notin \im f \end{cases} $$
+Then $g$ is left inverse to $f$.
+- (2, **only if**) Suppose $f$ has a right inverse $g$ and let $y \in Y$. Then $f(g(y))=y$ as $f\circ g = \id_Y$. This shows $y \in \im f$, so $\im f=Y$ and $f$ is onto.
+- (2, **if**) Suppose $f$ is surjective.  Then every $y \in Y$ is in the image of $f$, so for each $y \in Y$ pick an element $g(y) \in X$ such that $f(g(y))=y$. Then $g$ is right inverse to $f$.
+- (3, **only if**) If $f$ is invertible then it has a left inverse, so is injective
+  by part 1, and it has a right inverse, so is surjective by part 2. Thus $f$ is a bijection.
+- (3, **if**) If $f$ is a bijection then it has a left inverse by part 1 and a right inverse by part 2, so it is invertible as we showed in the text before this proposition.
+
+
+```
+***
+
+```{proposition}
+If $f:X \to Y$ and $g:Y \to Z$ are both invertible then so is
+$g\circ f$, and its inverse is $f^{-1}\circ g^{-1}$.
+```
+
+```{proof}
+Notice that
+\begin{align*}
+(f^{-1}\circ g^{-1}) \circ (g \circ f) &= f^{-1} \circ (g^{-1}\circ g)
+                                         \circ f &\text{associativity}
+  \\
+&= f^{-1}\circ \id_Y \circ f &\text{definition of inverse}\\
+&= f^{-1}\circ f &\text{as } \id_Y\circ f=f \\
+&= \id_X \end{align*}
+and similarly $(g\circ f)\circ (f^{-1}\circ g^{-1})=\id_Z$, so
+$f^{-1}\circ g^{-1}$ is a two-sided inverse to $f\circ g$.
+```
+***
+
+Since a function is invertible if and only if it is a bijection, this
+tells us that the composition of two bijections is again a bijection.
+
+### Well-definedness
+
+This is a topic which often causes confusion.  When people talk about whether a certain function is or isn't "well-defined", they're really discussing whether a function has been successfully defined or not.  This is easier to understand with an example.
+
+Consider the set $\mathbb{Q}$ of all rational numbers. Suppose someone says "I define a function $f:\mathbb{Q} \to \mathbb{N}$ by $f(p/q) = p + q$." This doesn't work, and there's no such function! The problem is that $1/2 = 2/4$, but $1+2 \neq 2 + 4$: the proposed definition violates the rule that a function has one and only one output for each input.  In this situation we say "f isn't well-defined."
+
+
+## Permutations
+
+```{definition}
+
+
+-  A **permutation** of a set X is a bijection from X to X.
+- If $X=\{1,2,\ldots,n\}$ we write $S_n$ for the set of all permutations of X, and call $S_n$ the **symmetric group on n letters**.
+
+
+```
+
+Sometimes, like when $X=\{1,2,3,\ldots,n\}$, a set comes with a
+natural order. Then a permutation $\sigma$ can be thought of as a
+re-ordering of $X$, since the elements
+$\sigma(1),\sigma(2),\ldots,\sigma(n)$ are the numbers 1,2,\ldots,$n$
+written in some different order.
+
+If $\sigma$ and $\tau$ are permutations we will often write $\sigma \circ \tau$ as $\sigma \tau$, and refer to
+it as the **product** of $\sigma$ and $\tau$ instead of the
+composition.
+
+### Two row notation
+
+To record an element $\sigma\in S_n$, we need to say what $\sigma(i)$
+is for $1\leq i \leq n$.  One way to do this is **two row notation** in which we write the numbers 1 to n in a row and then
+write $\sigma(i)$ beneath i:
+$$ \begin{pmatrix} 1 & 2 & \cdots & n-1 & n \\
+\sigma(1) & \sigma(2) & \cdots & \sigma(n-1) & \sigma(n) 
+\end{pmatrix}
+$$
+Because elements of $S_n$ are bijections, the numbers appearing on the
+bottom row are just 1,2,...,n written in a possibly different order.
+
+The inverse of a bijection is again a bijection so if $\sigma \in S_n$ then $\sigma^{-1} \in S_n$.  If we have $\sigma$ in two row
+notation it is easy to find its inverse: since $\sigma^{-1}$ must send
+$\sigma(i)$ to $i$, we just swap the two rows and then rearrange the
+columns so that the top row is in the correct order. For example, if
+we begin with
+$$ \sigma = \begin{pmatrix}
+1 & 2 & 3 & 4 & 5 \\
+3 & 4 & 5 & 1 & 2 \end{pmatrix} $$
+then on swapping the rows we get
+$$  \begin{pmatrix}
+3 & 4 & 5 & 1 & 2 \\
+1 & 2 & 3 & 4 & 5 
+\end{pmatrix} $$
+and rearranging gives
+$$ \sigma^{-1} = \begin{pmatrix}
+1 & 2 & 3 & 4 & 5 \\
+4 & 5 & 1 & 2 & 3
+\end{pmatrix}.$$
+
+
+```{theorem}
+$|S_n|=n!$.
+```
+
+
+```{proof}
+Induction on $n$.  When $n=1$ there is a unique bijection
+$\{1\}\to\{1\}$, namely the identity map, so $|S_1|=1=1!$ as required.  
+
+For the inductive step, note that the number of elements of $S_n$ is
+the number of different ways to order the elements $1,2,\ldots,n$. An
+ordering of $1,2,\ldots,n$ is the same thing as an ordering of
+$1,2,\ldots,n-1$ with $n$ inserted into one of $n$ positions, so the
+number of possible orderings is $n$ times the number of orderings of
+$1,\ldots,n-1$, which is $(n-1)!$ by the inductive hypothesis.  So
+$|S_n|=n\times (n-1)!=n!$, completing the inductive step.
+```
+
+### Cycles
+
+```{definition}
+
+
+- Let $a_0,\ldots,a_{m-1}$ be distinct elements of $\{1,2,\ldots,n\}$. Then $(a_0,\ldots,a_{m-1})$ is the permutation in $S_n$ such that $a_i \mapsto a_{i+1}$ for $0\leq i < m-1$, $a_{m-1}\mapsto a_0$, and if $x \neq a_1,\ldots,a_m$ then $x \mapsto x$.  Such a permutation is called an $m$-**cycle**
+-  A permutation which is an $m$-cycle for some $m$ is called a **cycle**.
+- Two cycles $(a_0,\ldots,a_{m-1})$ and $(b_0,\ldots,b_{l-1})$ are called **disjoint** if no $a_i$ is equal to any $b_j$.
+
+
+```
+
+Not every permutation is a cycle, e.g.
+$$ \begin{pmatrix} 1&2&3&4\\
+2&1&4&3 \end{pmatrix}. $$
+On the other hand, as we will prove in this section, any permutation
+can be written as a product of disjoint cycles: you can check that the
+permutation above is equal to $(1,2)(3,4)$.  To give the proof, we
+need some further ideas related to permutations.
+
+```{definition}
+Let $m\in\mathbb{Z}$ and $\sigma\in S_n$. Then
+$$ \sigma^m = \begin{cases}
+\sigma \circ \cdots \circ \sigma (m \text{ times}) & m>0 \\
+\id & m=0 \\
+\sigma^{-1}\circ \cdots \circ \sigma^{-1} (-m \text{ times}) & m<0
+\end{cases} $$
+```
+
+It's slightly tedious, but you can check that for any $a,b\in\mathbb{Z}$ we
+have
+$$ \sigma^a \sigma^b = \sigma^{a+b}.$$
+
+```{definition}
+Let $x \in \{1,2,\ldots,n\}$ and $\sigma \in S_n$.  The
+**orbit** of $x$ under $\sigma$, written $\operatorname{orb}(x)$, is
+$$ \operatorname{orb}(x) = \{\sigma^m(x) : m \in \mathbb{Z}\} .$$
+```
+
+Despite appearances, $\operatorname{orb}(x)$ is a *finite* set: it is a subset
+of $\{1,\ldots,n\}$.  We can say a little about what $\operatorname{orb}(x)$ looks
+like using the following result:
+
+```{proposition}
+Let $x \in \{1,\ldots,n\}$ and $\sigma \in S_n$. Then there is a whole number $r>0$ such that $\sigma^r(x)=x$.
+```
+
+```{proof}
+The elements $\sigma^m(x)$ for $m=0,1,2,\ldots$ can't all be
+different, so there must exist $i<j$ such that
+$\sigma^i(x)=\sigma^j(x)$. Then $\sigma^{-i}\sigma^i (x) =
+\sigma^{-i}\sigma^j (x)$, so $x =\sigma^{j-i}(x)$ and we can take $r=j-i$.
+```
+
+Finally we're ready to describe the orbit of x:
+
+```{proposition}
+Let $\sigma\in S_n$ and $x \in \{1,2,\ldots,n\}$, and let $r$ be the smallest strictly positive natural number such that $\sigma^r(x)=x$. Then
+
+- $\orb(x)=\{x, \sigma(x), \ldots, \sigma^{r-1}(x)\}$, and
+- all of the elements $x,\sigma(x),\ldots,\sigma^{r-1}(x)$ are different.
+ 
+ 
+```
+
+Notice that we needed the proposition before this to establish that
+such an r exists.
+```{proof}
+
+
+- Let $\sigma^a \in \orb(x)$, we have to show that it equals one of $x, \sigma (x), \ldots, \sigma^{r-1}(x)$.  To do that, write $a=qr+b$ where $b$ is the remainder on dividing $a$ by $r$, so that $0 \leq b < r$. Then $\sigma^a(x)= \sigma^{qr+b}(x) = \sigma^b( \sigma^{rq}(x))$.  But $\sigma^r(x)=x$, so $\sigma$ to the power of any multiple of $r$ sends $x$ to itself too.  Thus $\sigma^a(x) = \sigma^b(x) \in \{x,\sigma(x),\ldots,\sigma^{r-1}(x)\}$.
+- If $\sigma^i(x)=\sigma^j(x)$ for some $1\leq i<j<r$ then $x=\sigma^{j-i}(x)$ as before, and $0<j-i<r$ which contradicts $r$ being the smallest strictly positive natural number with $\sigma^r(x)=x$. 
+
+
+```
+***
+
+This actually gives a way of calculating orbits: if we want $\orb(x)$
+we just find $x, \sigma(x), \sigma^2(x),$ and so on, stopping when we first get
+back to $x$. The last proposition guarantees that this list is the complete
+orbit of $x$ with no repetitions.
+
+```{proposition}
+Let $\sigma \in S_n$. Define a relation $\sim$ on $\{1,2,\ldots,n\}$
+by $x\sim y$ if and only if $x \in \orb(y)$. Then $\sim$ is an
+equivalence relation and the equivalence classes are the orbits of $\sigma$.
+```
+
+```{proof}
+
+
+- (R): certainly $x \in \orb(x)$, so $x\sim x$.
+- (S): if $x ~y$ then $x\in \orb(y)$, so $x=\sigma^a(y)$ for some $a$, so $\sigma^{-a}(x) = \sigma^{-a}\sigma^a(y)=y$. Therefore $y \in \orb(x)$, and $y\sim x$.
+- (T): if $x\sim y\sim z$ then $x\in \orb(y)$, so $x=\sigma^a(y)$ for some $a$, and $y \in \orb(z)$, so $y=\sigma^b(z)$ for some $b$.  Then $x=\sigma^a(\sigma^b(z))=\sigma^{a+b}(z) \in \orb(z)$, so $x\sim z$.
+Since $y\sim x$ if and only if $y \in \orb(x)$, the equivalence class
+$[x]$ is $\orb(x)$.
+
+
+```
+***
+
+```{theorem}
+Every element of $S_n$ can be written as a product of disjoint cycles.
+```
+
+```{proof}
+Let $\sigma \in S_n$ and let the distinct orbits of $\sigma$ be
+$\orb(x_1),\ldots,\orb(x_m)$. These are the equivalence classes for
+an equivalence relation, so every element of $\{1,2,\ldots, n\}$
+belongs to exactly one of these orbits.  We also know that
+$$ \orb(x_i) = \{x_i, \sigma(x_i), \ldots , \sigma^{r_i-1}(x_i)\} $$
+where $r_i$ is the smallest strictly positive natural number such that
+$\sigma^{r_i}(x_i)=x_i$.
+
+We will show that
+$$ \sigma = (x_1,\sigma(x_1)\ldots,\sigma^{r_1-1} (x_1))\cdots (x_m,
+  \sigma(x_m), \ldots, \sigma^{r_m-1}(x_m)) $$
+which is a product of disjoint cycles as the elements in each cycle
+are the elements of an equivalence class.  To prove this we need to
+show that if $j$ is any
+element of $\{1,2,\ldots,n\}$ then the product of disjoint cycles on
+the right sends $j$ to $\sigma(j)$.
+
+$j$ belongs to exactly one of the orbits: say $j= \sigma^k(x_i)$ for
+some $0\leq k < r_i$.  
+We say that a permutation $\tau$ **fixes** a number $y$ if
+$\tau(y)=y$. Every cycle except the $i$th fixes $j=\sigma^k(x_i)$ and
+$\sigma(j)=\sigma^{k+1}(x_i)$, since both of those things lie in the
+orbit of $x_i$ and this orbit is disjoint from all the other
+orbits. So applying each of the cycles in turn to $j$, they all
+fix it except the cycle corresponding to the orbit of $x_i$. 
+This cycle sends $j=\sigma^k(x_i)$ to
+$\sigma^{k+1}(x_i)=\sigma(j)$, and the remaining cycles fix
+$\sigma(j)$, so the product of disjoint cycles sends $j$ to
+$\sigma(j)$ as required.
+```
+
+The theorem gives us a way of expressing a given permutation as a
+product of disjoint cycles: first we find the orbits, then 
+each orbit gives rise to a cycle and the product of these cycles is
+equal to our original permutation.
+
+### Transpositions and the sign of a permutation
+
+```{definition}
+A **transposition** is a 2-cycle.
+```
+
+```{proposition}
+Every permutation is equal to a product of transpositions.
+```
+
+```{proof}
+We already know that every permutation is equal to a product of cycles,
+so it is enough to express an arbitrary cycle as a product of
+transpositions.
+
+Let $a_0,\ldots,a_{m-1}$ be distinct.  We will show that
+\begin{equation}
+ (a_0,\ldots,a_{m-1}) =
+(a_0,a_{m-1})(a_0,a_{m-2})\cdots (a_0,a_2)(a_0,a_1).
+(\#eq:cycle)
+\end{equation}
+The proof is by induction on $m$, and the case $m=1$ is clear.
+
+Suppose the result is true for any (m-1)-cycle. Then we have
+$$ (a_0,a_{m-1})(a_0,a_{m-2})\cdots (a_0,a_2)(a_0,a_1) =
+(a_0,a_{m-1})(a_0,a_1,\ldots,a_{m-2})$$
+by the inductive hypothesis.  We will check that for any $1\leq x \leq
+n$, the image of x under the cycle $c=(a_0,\ldots,a_{m-1})$ is the same as
+the image of x under $d=(a_0,a_{m-1})(a_0,\ldots,a_{m-2})$.
+
+- If $x\neq a_i$ for any i, then both c and d fix x.
+- If $0\leq i<m-2$ then $c(a_i)=a_{i+1}$, and $(a_0,\ldots,a_{m-2})$ sends $a_i$ to $a_{i+1}$, and $1\leq i+1 < m-1$ so $(a_0,a_{m-1})$ fixes $a_{i+1}$. Thus $d(x)=a_{i+1}$ too.
+- If $x=a_{m-2}$ then $c(x)=a_m$ and $(a_0,\ldots,a_{m-2})$ sends x to $a_0$ and $(a_0,a_{m-1})$ sends $a_0$ to $a_{m-1}$, so c and d agree on x.
+- If $x=a_{m-1}$ then $c(a_m)=a_0$, and $(a_0,\ldots, a_{m-2})$ fixes x, and $(a_0,a_{m-1})$ sends x to $a_0$, so c and d agree on x.
+
+These exhaust all possibilities for x, so this completes the proof.
+```
+
+```{definition}
+A permutation is **even** if it can be written as a product of
+an even number of transpositions, and **odd** if it can be
+written as an odd number of transpositions.
+```
+
+For example, the identity permutation $\id = (1,2)(1,2)$ so it is even.
+It follows straight from the definition that an even permutation
+multiplied by another even permutation is even, even times odd is odd,
+odd times even is odd, and odd times odd is even.
+
+It's not clear however that a permutation couldn't be odd and even at
+the same time.
+
+```{theorem}
+Every permutation is either odd or even, but not both.
+```
+
+```{proof}
+This proof is not examinable: I will only give an outline of how to do
+it.  First we know from the previous proposition that every permutation
+can be written as a product of transpositions, so the only problem is to
+prove that it is not possible to find two expressions for a given
+permutation, one using a product $s_1  s_2 \cdots s_{2m+1}$ of an odd
+number of transpositions and one using a product $t_1 t_2 \cdots t_{2l}$
+of an even number of transpositions. The steps are as follows:
+
+- If this were the case then we would have $\id = t_{2l}\cdots t_1 s_1 \cdots s_{2m+1}$, expressing the identity as a product of an odd number of transpositions, so it is enough to prove this impossible.
+- Observe that any transposition $(i,j)$ can be written $$ (j-1,j)\cdots (i+2,i+3)(i+1,i+2) \times (i,i+1) \times (i+1,i+2)(i+2,i+3)\cdots (j-1,j)$$ where we have assumed without loss of generality that $i<j$.  This is a product of an odd number of *adjacent* transpositions, i.e.\ transpositions of the form $(k,k+1)$.
+- So it is enough to show that the identity cannot be written as a product of an odd number of adjacent transpositions.
+- Consider polynomials in the $n$ variables $x_1,\ldots,x_n$. If you have such a polynomial $f(x_1,\ldots,x_n)$ and a permutation $\sigma \in S_n$, you get a new polynomial $\sigma(f)$ by replacing each $x_i$ in $f$ with $x_{\sigma(i)}$. For example, if $\sigma = (1,2,3)$ and $f=x_1+x_2^2$ then $\sigma(f)=x_2+x_3^2$. Define $$ \Delta = \prod_{1\leq i<j \leq n}(x_i-x_j)$$
+- Observe that for any $k$, $(k,k+1)(\Delta) = -\Delta$, and so any product of an odd number of adjacent transpositions sends $\Delta$ to $-\Delta$ too.
+- Get a contradiction from the fact that $\id(\Delta) = \Delta$.
+
+
+```
+***
+
+```{proposition}
+
+
+- The identity permutation is even.
+- An $m$-cycle is even if $m$ is odd and odd if $m$ is even.
+
+
+```
+
+```{proof}
+
+
+- $\id = (1,2)(1,2)$.
+- This follows from \@ref(eq:cycle).
+
+
+```
+***
+
+```{definition}
+The sign of a permutation $\sigma$, written $\sgn(\sigma)$, is
+$$ \sgn(\sigma) = \begin{cases} \phantom{-}1 & \sigma \text{ is even} \\
+-1 & \sigma \text{ is odd.}
+\end{cases} $$
+```
+
+Thus $\sgn (a_0,\ldots,a_{m-1}) = (-1)^{m-1}$, and from the fact that an even
+permutation composed with an even permutation is even and so on that we
+noted earlier we get
+$$ \sgn(\sigma \tau) = \sgn(\sigma)\sgn(\tau) $$
+for any permutations $\sigma$ and $\tau$.
+
+This lets us find the sign of an arbitrary permutation: first express it
+as a product of cycles (they don't have to be disjoint), then use this
+result and the fact that even length cycles are odd and odd length
+cycles are even.
+
+<!-- You can label chapter and section titles using '{#label}' after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods). -->
+
+<!-- Figures and tables with captions will be placed in 'figure' and 'table' environments, respectively. -->
+
+<!-- '''{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'} -->
+<!-- par(mar = c(4, 4, .1, .1)) -->
+<!-- plot(pressure, type = 'b', pch = 19) -->
+<!-- ''' -->
+
+<!-- Reference a figure by its code chunk label with the 'fig:' prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from 'knitr::kable()', e.g., see Table \@ref(tab:nice-tab). -->
+
+<!-- '''{r nice-tab, tidy=FALSE} -->
+<!-- knitr::kable( -->
+<!--   head(iris, 20), caption = 'Here is a nice table!', -->
+<!--   booktabs = TRUE -->
+<!-- ) -->
+<!-- ''' -->
+
+<!-- You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015]. -->
+
+<!-- Equation \@ref(eq:label) -->
+
+<!-- Theorem \@ref(thm:ferm). -->

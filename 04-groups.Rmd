@@ -1,0 +1,980 @@
+# Group theory {#groups}
+
+
+## Basic definitions
+
+Let $G$ be a set.  A **binary operation** on $G$ is a function that
+takes as input a pair of elements of $G$ and whose output is a single
+element of $G$: that is, a function $G \times G \to G$.  We usually
+write these binary operations in *infix notation*, so if the binary
+operation is called $*$ we write $g*h$ for the result of applying $*$ to
+the pair $(g,h)$ of elements of $G$.
+
+```{example}
+
+
+- $+$ is a binary operation on the set of integers $\mathbb{Z}$.
+- $-$ is a binary operation on the set of complex numbers $\mathbb{C}$.
+- $-$ is **not** a binary operation on the set of strictly positive whole numbers $\mathbb{N}$, because it doesn't always output an element of $\mathbb{N}$.
+- Binary operations needn't be some mathematical operation we're familiar with, they can be something silly: this $ a * b = 2$ for all $a,b$ is a perfectly good, if useless, binary operation on the real numbers $\mathbb{R}$.
+
+```
+
+***
+
+Here are the group axioms:
+
+```{definition, label="groupaxioms"}
+A group $G, *$ is a set $G$ with a binary operation $*$ such that
+
+- There is an element $e \in G$ called the **identity element** such that for all $g \in G$, we have $e*g=g*e=g$.
+- For all $g \in G$ there exists $h \in G$ such that $h*g=g*h=e$.
+- For all $g,h,k \in G$ we have $(g*h)*k = g*(h*k)$ (that is, $*$ is **associative**).
+
+
+```
+
+***
+
+So when I give you a group, I have to tell you two things: the
+underlying set $G$ *and* the binary operation $*$, which we call the **group operation**.
+
+In fact there's only one element of $G$ which satisfies the condition of
+the first axiom from Definition \@ref(def:groupaxioms}.
+
+```{proposition}
+Suppose $G, *$ is a group. Then there is a unique element $e$ of $G$ such that  $e*g=g*e=g$ for all $g \in G$.
+```
+```{proof}
+
+The first axiom of Definition \@ref(def:groupaxioms)
+guarantees us that one such element exists, so pick one
+and call it $e$.  Now
+suppose that $e'$ is another element of $G$ such
+that
+\begin{equation}
+(\#eq:e1)
+e' *g  = g*e' =
+    g
+\end{equation}
+for all $g \in
+G$.  Then putting $g=e$ in \@ref(eq:e1) we get $e =
+e *e'$ and putting $g=e_2$ in the first axiom of
+Definition \@ref(def:groupaxioms) we get
+$e*e'=e'$.  So $e'=e$. 
+```
+
+***
+
+An element $h \in G$ is called an **inverse** of $g \in G$ if
+$h*g=g*h=e$.  Such an element is guaranteed to exists for every $g$ by
+the second group action, we'll show that in fact each $g$ has only one
+inverse.
+
+```{proposition}
+Suppose $G,*$ is a group, $g \in G$.  Then $g$ has only
+	one inverse element.
+```
+```{proof}
+Suppose $h$ and $k$ are inverses of $g$, so that in
+particular $h*g=e$ and $g*k=e$. Then $(h*g)*k = e*k = k$, but
+$h*(g*k) = h*e = h$.  But the associativity law tells us
+$(h*g)*k=h*(g*k)$, which says $k=h$. 
+```
+
+***
+
+So we are justified in talking about *the* inverse element of an
+element of a group.  We usually write $g^{-1}$ for the inverse of $g$,
+so that $$ g*g^{-1} = g^{-1}*g = g.$$
+
+```{proposition} Let $G,*$ be a group and let $g \in G$.  Then
+	$(g^{-1})^{-1} = g$, that is, the inverse of $g^{-1}$ is $g$.
+```
+```{proof}
+To show that $g$ is the inverse of $g^{-1}$ we have to check
+that $g* g^{-1}=g^{-1} *g = e$.  But this is true because
+$g^{-1}$ is the inverse of $g$!
+```
+
+***
+
+**Remark.** There are only two ways to bracket a product of three elements
+$a,b,c$ of a group: 
+$$ a*(b*c) \,\,\, \text{ or } \,\,\, (a*b)*c $$
+and the associativity axiom tells you that these are equal, so
+that the product $a*b*c$ is unambiguous.  But the associativity
+axiom doesn't tell you immediately that longer products are
+independent of how they are bracketed, for example, is
+$$ (a*b)*(c*d) \,\,\, \text{ equal to } \,\,\, ((a*b)*c)*d?$$
+In fact the answer is yes, for a product of any length: any
+bracketing you use to work out a product like $g_1* \cdots *
+g_n$ gives the same result.  You can prove this by induction:
+one such proof is given in the book by J.A. Green in the
+suggested reading above, or there is a proof at
+[MSE 21581](http://math.stackexchange.com/a/21585/5316).
+
+***
+
+```{proposition, label="inverseProduct"}
+Let $G,*$ be a group and $g,h \in G$.  Then $(g*h)^{-1} = h^{-1}* g^{-1}$.
+```
+
+```{proof}
+We are going to start by showing that $(h^{-1}*g^{-1})*(g*h) = e$.  We are
+free to bracket the
+product on the left in whichever way we like as discussed in the previous remark, so 
+\begin{equation}
+(\#eq:proinv)
+(h^{-1}*g^{-1})*(g*h) = h^{-1}*(g^{-1}*g)*h = h^{-1} * e * h = h^{-1}*h = e.\end{equation}
+If $x*y=e$ then multiplying on the right by $y^{-1}$
+gives $x*y*y^{-1}=e*y^{-1}$ so $x = y^{-1}$.  Applying that to
+\@ref(eq:proinv) gives that $h^{-1}*g^{-1} = (g*h)^{-1}$ as
+required.
+```
+
+***
+
+There is some special notation for what happens when you multiply a
+group element by itself some number of times.
+```{definition} 
+Let $n \in \mathbb{Z}$, let $G,*$ be a group and let $g \in
+G$.  Then we define $g^n$ as follows:
+$$ g^n = \left\{ \begin{array}{ll} g * g* \cdots * g & n>0 \\ g^{-1}
+	* g^{-1} * \cdots * g^{-1} & n<0 \\
+	e & n=0
+\end{array} \right. $$
+where in the first case there are $n$ copies of $g$ in
+the product and in the second there are $-n$ copies of
+$g^{-1}$, so that $g^{n}=(g^{-1})^{-n}$. 
+```
+These exponents behave exactly how you would expect them to.
+```{proposition} 
+Let $n,m \in \mathbb{Z}$ and let $G, *$ be a group. Then- $ g^n * g^m = g^{n+m}. $ - $(g^n)^m = g^{nm}$.
+```
+
+```{proof}
+
+	
+- This result is clear if either $n$ or $m$ is zero, and follows directly from associativity of $G,*$ if $n$ and $m$ have the same sign.  So suppose $n>0$ and $m<0$.  The proof is by induction on $n$, and when $n=1$, \begin{equation*} g* g^{m} = g* (\underbrace{g^{-1} * \cdots * g^{-1}}_{-m }) = (g*g^{-1}) * g^{m+1} = g^{m+1} \end{equation*} as required.  Now for $n>1$ we have \begin{equation*} g^n * g^m = g* g^{n-1} * g^m = g* g^{m+n-1} \end{equation*} by induction, and using either the base case (if $m+n-1<0$) or the comment at the start of the proof, this equals $g^{m+n}$ as required.  The case $n<0$ and $m>0$ is similar.
+- For $m$ positive or zero this follows immediately from the definition, so suppose $m<0$.  We do the case $n>0$.  The first part of this proposition implies $(g^n)^{-1}= g^{-n}$, so \begin{equation*} (g^n)^m = g^{-n} * \cdots * g^{-n} \end{equation*}	with $-m$ copies of $g^{-n}$ appearing.  This is the product of $-mn$ copies of $g^{-1}$, so equals $g^{mn}$ by definition.  The case when $n<0$ is similar.  
+
+
+```
+
+***
+
+Very often we'll write the product $g*h$ of two group elements
+simply as $gh$, especially when the group operation $*$ is some
+kind of multiplication.
+
+```{definition}
+Let $G,*$ be a group.  If $G$ is a finite set with exactly $n$ different elements we write $|G|=n$ and say $G$ has **order** $n$, and that $G$ is a finite group.  Otherwise we say that $G,*$ is an infinite group. 
+```
+
+## Some examples
+
+To get a good understanding of group theory it's important to have a
+library of examples.
+
+```{example, label="groupExamples"}
+
+    
+- $\mathbb{Z}, +$ is a group.  The identity is 0, the inverse of $a\in\ZZ$ is $-a$, and addition is associative. Equally the real numbers, or the complex numbers, with the binary operation $+$ form groups.  But the natural numbers $\mathbb{N}$ with the operation $+$ are **not** a group (why?) 
+- $\ZZ, -$ is **not** a group.  Work out $1-(2-3)$ and $(1-2)-3$.  They're different, so the binary operation $-$ isn't associative on $\ZZ$.
+- ''The'' **trivial group**.  Let $G = \{ e \}$, a one element set, and let $*$ be the binary operation on $G$ defined by $e*e=e$ (in fact, there's only one binary operation on a one element set).  Then $G, *$ is a group called the trivial group.
+- $\CC, \times$ is **not** a group.  What would the inverse element of $0$ be?  But if we write $\CC^{\times}$ for the set of nonzero complex numbers then $\CC^{\times}, \times$ is a group.  Equally the nonzero real numbers or rational numbers under multiplication are groups. 
+- Let $G = GL(n,\CC)$ be the set of $n \times n$ invertible matrices over the complex numbers.  Let $*$ be matrix multiplication.  Then $G,*$ is a group. 
+- Let $V = \{ 1, -1, i ,-i\} \subset \CC$ and let $*$ be multiplication of complex numbers on $V$.  Then $V,*$ is a group.
+- Recall that $S_n$ is the set of all bijections from $\{1,2,\ldots,n\}$ to itself, and that the composition of two bijections is again a bijection.  This means that $\circ$ is a binary operation on $S_n$, and in fact $S_n,\circ$ is a group.  The identity element is the identity permutation $\id$, the inverse of a bijection is a bijection so the second group axiom holds, and function composition is always associative so the final axiom holds too.  This is why we called $S_n$ the symmetric *group* on $n$ letters.  
+
+
+```
+
+### Modular arithmetic
+
+An example which is particularly important for applications in computer science and cryptography is the group of integers modulo $n$ under addition, which we'll define in this subsection.
+
+Most
+programming languages have a \texttt{mod} or \texttt{\%} operator which
+behaves as follows.  Fix a positive whole number $n$.  Let $m$ be any
+integer and write $m = qn + r$ where $r,q$ are whole numbers and $0 \leq
+r < n$, so $r$ is the remainder when you divide $m$ by $n$.  Then
+if you type \texttt{m \% n} into the Python interpreter, or \texttt{mod
+	m n} into a Haskell interpreter, or \texttt{X is mod(m,n)} into the
+Prolog interpreter, or \texttt{printf("\%d", m \% n);} in C, or \ldots, 
+it will print \texttt{r}.
+
+A reminder of the definition of congruence mod $n$ which we met in the
+first part of this course, when we proved that it was an equivalence
+relation:
+
+```{definition} 
+Let $n,a,b \in \ZZ$.  We say $a$ is congruent to $b$ modulo
+(or just mod) $n$ if $a-b$ is divisible by $n$.  In this case we
+write
+$$ a \equiv b \mod n.$$
+We write $[a]_n$, or just $[a]$, for the equivalence class of $a$ under this relation.
+
+```
+
+***
+
+For example, $[0]_2 = \{\ldots, -2, 0, 2, 4, 6, \ldots\}= [-2]_2=[42]_2$
+and $[1]_2 = \{\ldots, -3, -1, 1, 3, 5, \ldots\}=[-1]_2=[33]_2$.
+
+```{definition} 
+Let $n>0$.  Then $\ZZ_n$ is, the set of equivalence classes
+for the relation of congruence modulo $n$ on $\zz$. 
+```
+
+***
+
+If $n >0$, any integer is congruent mod $n$ to exactly one
+of the numbers $0,1,\ldots,n-1$.  
+Because of this, the set $\ZZ_n$ has size $n$ and
+$$ \zz_n = \{ [0]_n,[1]_n,\ldots, [n-1]_n\}.$$
+
+```{lemma}
+Define a binary operation $+$ on $\ZZ_n$ by $[a]_n+[b]_n=[a+b]_n$.  Then $\ZZ_n,+_n$ is a group.
+```
+
+```{proof}
+First we need to check that this definition of $+$ really does define a
+binary operation on $\zz_n$. It can be that $[a]_n=[a']_n$ but $a \neq
+a'$, so we need to check that if $[a]_n=[a']_n$ and $[b]_n=[b']_n$ then
+$[a+b]_n=[a'+b']_n$.  We have $a=a'+kn$ and $b=b'+ln$ for some $k,l \in
+\zz$ so
+\begin{align*}
+    a+b &= a'+kn + b' + ln \\
+        &= a'+b' + (k+l)n
+\end{align*}
+so $a+b \equiv a'+b' \mod n$ and $[a+b]_n = [a'+b']_n$.
+
+The group axioms are easy to check.  $[0]_n$ is clearly an identity
+element, $[-a]_n$ is inverse to $[a]_n$, and because $+$ is associative
+on $\zz$ we have $[a]_n+ ([b]_n+[c]_n)= [a]_n + [b+c]_n = [a+b+c]_n$ and
+$([a]_n+[b]_n)+[c]_n = [a+b]_n+[c]_n=[a+b+c]_n$ so 
+\begin{equation*}
+    [a]_n+ ([b]_n+[c]_n) = ([a]_n+[b]_n)+[c]_n
+\end{equation*}
+and $+$ is associative on $\zz_n$.
+```
+
+***
+
+From now on we'll just write $+$ for the group operation $+_n$ on $\ZZ_n$.
+
+```{definition} 
+Let $n>0$.  The binary operation $\times$ on $\ZZ_n$ is defined by $[a]_n \times [b]_n = [ab]_n$ 
+```
+
+***
+
+We'll sometimes write $[a]_n[b]_n$ instead of $[a]_n\times [b]_n$.
+
+Again, we should check that this really defines a binary operation on
+$\zz_n$: if $[a]_n=[a']_n$ and $[b]_n=[b']_n$ then we need $[ab]_n =
+[a'b']_n$. This is true because $a=a'+kn$ and $b=b'+ln$ for some $k,l
+\in \zz$ so
+\begin{align*}
+    ab &= (a'+kn)(b'+ln) \\
+       &= a'b' + n(kb'+la'+kln)
+\end{align*}
+so $ab \equiv a'b' \mod n$ and therefore $[ab]_n=[a'b']_n$.
+
+This does not make $\ZZ_n, \times$ into a group, because 0 has no
+inverse for the operation $\times$.
+
+On the other hand, $\times$ is always an associative binary operation on
+$\zz_n$ since $\times$ is associative on $\zz$.
+
+We write $x|y$ to mean that $y$ is an integer multiple of $x$, or
+equivalently that $x$ divides $y$, and $x
+\nmid y$ to mean that $x$ does not divide $y$.  A **prime number** is a positive integer $p>1$ such that for all
+$a,b \in \zz$, if $p|ab$ then $p|a$ or $p|b$.
+
+```{lemma, label="fin"}
+Let $X$ be a finite set and $f:X \to X$ be a function. Then $f$ is injective if and only if it is surjective.
+```
+
+```{proof}
+Let $|X|=n$, and label the elements of $X$ as $x_1,\ldots, x_n$. If $f$
+is injective then all the elements $f(x_1),\ldots, f(x_n)$ are distinct,
+so $|\im f|=n$, so $\im f = X$ and $f$ is surjective.  If $f$ is not
+injective then $f(x_1)=f(x_2)$, say, so $|\im f| < n$ and $f$ is not
+surjective.
+```
+
+***
+
+```{theorem}
+Let $p$ be a prime number.  Then the set $\ZZ_p^\times$, defined to be 
+$\{[1]_p,[2]_p,\ldots,[p-1]_p\}$, is a group under $\times$. 
+```
+
+```{proof}
+First note that $\times$ really is a binary operation on
+$\ZZ_p^\times$.  If
+$[a]_p,[b]_p \in \ZZ_p^\times$ then $[ab]_p \neq [0]_p$ (if it did
+we would have $p|ab$, so $p|a$ or $p|b$, so $[a]_p=[0]_p$ or
+$[b]_p=[0]_p$), and hence $[ab]_p \in \zz_p^\times$.
+
+$\times$ is clearly associative, and $[1]_p$ is an identity element,
+so we only need to check the existence of inverses.  Fix $[a]_p \in
+\zz_p^\times$ and consider the
+map $f: \zz_p^\times \to \zz^\times_p$ defined by
+$f([b]_p)=[a]_p[b]_p$.  This is injective: if $f([b]_p)=f([c]_p)$
+then $[ab]_p=[ac]_p$, so $p|(ab-ac)$, so $p|a(b-c)$. Since $p \nmid
+a$ we have $p|(b-c)$ so $[b]_p=[c]_p$.  It is therefore surjective
+by Lemma \@ref(lem:fin),
+so $f([b]_p)=[1]_p$ for some $[b]_p \in \zz^\times_p$, which means
+that $[a]_p[b]_p=[1]_p$ and therefore $[b]_p$ is an inverse for
+$[a]_p$.
+```
+
+These groups $\ZZ_p^\times$ are an important part of the famous
+[RSA cryptosystem](http://en.wikipedia.org/wiki/RSA_cryptosystem).
+
+### Cayley tables
+
+For small groups $G,*$ we can completely describe the group operation by
+drawing a table called a Cayley table.  This has rows and columns
+labelled by the elements of $G$, and the entry in row $g$ and column $h$
+is $g * h$.  For example, if $V,*$ is the group of Example \@ref(exm:groupExamples), the Cayley table is:
+
+
+$\times$      1     $-1$   $i$   $-i$ 
+-----------  ---   -----  ----- ------
+1            1     $-1$    $i$  $-i$
+-1           -1    1       $-i$ $i$
+$i$          $i$   $-i$    -1   1
+$-i$         $-i$  $i$     1    $-1$ 
+
+
+## More properties of groups
+
+```{definition} 
+Let $G,*$ be a group and $g,h \in G$.  We say that $g,h$ **commute** if $g*h=h*g$. 
+```
+
+```{definition} 
+A group $G,*$ is called **abelian** or **commutative** if all
+pairs of elements of $G$ commute.  That is, for all
+$g,h \in G$ we have $g*h=h*g$.
+```
+
+```{example} 
+
+
+- $\ZZ,+$ is abelian, as are $\CC^\times, \times$ and $\ZZ_n, +$, and $\zz_p^\times, \times$, and the trivial group.
+- $S_1,\circ$ and $S_2,\circ$ are abelian, but $S_n,\circ$ is not abelian if $n\geq 3$ as $(1,2)(2,3) \neq (2,3)(1,2)$.
+- $GL(n,\CC)$ is not abelian if $n>1$.
+
+
+```
+
+You should verify the last statement by  finding, for each $n>1$, two invertible
+complex $n\times n$ matrices that don't commute.  Is $GL(1,\CC)$
+abelian?
+
+```{definition}
+Let $G,*$ be a group and let $g \in G$. If
+$g^n \neq e$ for all $n>0$ we say $g$ has **infinite order**.
+Otherwise we say $g$ has **order** $n$ and write $o(g)=n$ if
+$n$ is the smallest strictly positive integer such that $g^n=e$.  
+```
+
+Don't confuse the order of an element with the order of a group.
+
+```{lemma}
+Let $G,*$ be a finite group.  Then every element of $G$ has finite
+order.
+```
+
+```{proof}
+
+Let $g \in G$, and consider the elements
+\begin{equation*}
+g, g^2, g^3, \ldots
+\end{equation*}
+of $G$.  Since $G$ is finite and this list is infinitely long, the
+elements of the list can't all be different: we must have $g^a = g^b$
+for some $a<b$.  Then $g^{b-a}=e$, that is, some positive power of $g$
+equals the identity element.  Thus the order of $g$ is some number which
+is at most $b-a$.
+```
+
+***
+
+```{lemma, label="powers"}
+Suppose $G,*$ is a group and $g \in G$ has order $n$.  Then
+the elements $e=g^0, g, g^2,\ldots,g^{n-1}$ are all different.
+```
+
+```{proof}
+Suppose $g^i=g^j$ for some $0 \leq i < j \leq n-1$.  Then we can
+write $j=i+k$ for some $0<k<n$. So $g^i = g^{i+k}=g^ig^k$.
+Multiplying both sides by $(g^i)^{-1}=g^{-i}$ we get $e = g^k$.
+But this contradicts $n$ being the smallest positive power of
+$g$ which equals the identity.
+```
+
+
+```{definition}
+A group $G,*$ is called **cyclic** if there is a $g \in G$ such
+that $G = \{ g^n : n \in \ZZ\}$. Any $g$ such that $G = \{g^n :n
+\in \ZZ\}$ is called a **generator** of $G,*$. 
+```
+
+***
+
+So $G$ is cyclic if it has an element $g$ such that any element of $G$
+is equal to a power of $g$. 
+
+```{lemma}
+ Cyclic groups are abelian.
+```
+
+```{proof}
+Let $G,*$ be a cyclic group and $g$ be a generator.  Any
+element of $G$ is equal to some power of $g$, but if $i,j \in
+\ZZ$ then 
+$$ g^i g^j = g^{i+j} = g^{j+i} = g^j g^i $$
+so powers of $g$ commute with each other.  Thus any two elements
+of $G$ commute, and $G$ is abelian. 
+```
+
+***
+
+```{example}
+
+
+- $\ZZ, +$ is cyclic, and $1$ and $-1$ are both generators.  $1$ is a generator because any nonzero element of $\ZZ$ can be obtained by adding some number of $1$s together or some number of $-1$s together.  $-1$ is a generator for the same reason.
+- $\ZZ_n, +$ is cyclic, and $1$ is a generator.  For the elements of $\ZZ_n$ are $0, 1, 2=1+1, 3=1+1+1,\ldots$.
+- $GL(2,\CC)$ can't be cyclic, because it is not even abelian.
+- $\{1,-1,i,-i\},\times$ is cyclic, and $i$ is a generator. 
+- $\{ 1,2,4,7,8,11,13,14\}, \times$ is not cyclic, as you can see by checking each group element in turn to see that it is not a generator.
+- $\mathbb{Q},+$ is abelian, isn't cyclic.  Why not? 
+- Let $C_n = \{ e^{2\pi i k /n} : k \in \ZZ\}$, a subset of the complex numbers. This is a group under multiplication: certainly multiplication is a binary operation on this set, for \begin{equation*} e^{2\pi i k/n}e^{2\pi i l/n}=e^{2\pi i(k+l)/n} \end{equation*} which is an element of $C_n$.  You can check the other group axioms.  $C_n$ is a cyclic group, because every element is a power of $\zeta = e^{2\pi i/n}$, and $\zeta$ has order $n$ so $|C_n|= n$.  Any generator of $C_n$ is called a primitive $n$th root of unity.
+ 
+
+```
+
+## The symmetric group
+
+We have already met the symmetric group $S_n,\circ$ and studied its
+elements.  Here's a reminder of what we proved in the first part of the
+course:
+
+
+- $S_n$ is the set of all bijections from $\{1,2,\ldots,n\}$ to itself, that is, all permutations of $\{1,2,\ldots,n\}$. It is a group under composition of functions.
+- If $a_1,\ldots,a_m$ are distinct then $(a_1,\ldots,a_m)$ is the permutation which sends $a_i$ to $a_{i+1}$ for $i<m$, $a_m$ to $a_1$, and anything not equal to $a_i$ for some $i$ to itself.  Such a permutation is called an $m$-cycle, and a permutation which is an $m$-cycle for some $m$ is called a cycle.
+- Two cycles $(a_1,\ldots,a_m)$ and $(b_1,\ldots,b_l)$ are called disjoint if no $a_i$ is equal to any $b_j$.
+- Any permutation $\sigma \in S_n$ can be written as a product of disjoint cycles.
+- $|S_n|=n!= n(n-1)\cdots \cdot 2 \cdot 1$.
+
+
+```{lemma}
+ The order of an $m$-cycle is $m$.
+```
+
+```{proof}
+Let $\sigma = (a_0,a_1,\ldots,a_{m-1})$ be an $m$-cycle.  We
+have $\sigma(a_i) = a_{i+_m1}$ for all $i$, where the addition
+is done in $\ZZ_m$.  So $\sigma^2(a_i) = \sigma(a_{i+_m1}) =
+a_{i+_m 2}$, and you can prove by induction that $\sigma^k(a_i)
+= a_{i+_m k}$.  The smallest $k>0$ such that $i +_m k = i$ is
+$k=m$, so the smallest power of $\sigma$ which is the identity
+is $m$.
+```
+
+***
+
+Not only did we prove that any element $\sigma \in S_n$ equalled a product of
+disjoint cycles, we saw how to find the disjoint cycles required by
+finding the orbits of $\sigma$.  As a reminder, consider
+$$ \sigma = \left(\begin{array}{ccccccc} 1 & 2 & 3 & 4 & 5 & 6 & 7\\
+			4 & 1 & 3 & 2 & 6 & 7 & 5 \end{array}\right). $$
+At the first step we choose the number $1$.  We have $\sigma(1)=4,
+\sigma^2(1) = \sigma(\sigma(1))=2, \sigma^3(1) = \sigma(2) = 1$.  So the
+first cycle is $(1,4,2)$.  Not all of the numbers $1,2,\ldots,7$ appear
+in this cycle, so we go back to step one and pick one that doesn't
+appear, say $3$.  Since $\sigma(3)=3$, the cycle that we add is just
+$(3)$, so we now have $(1,4,2)(3)$.
+
+Next we pick a number that hasn't appeared yet, say 5.  We have
+$\sigma(5)=6, \sigma^2(5) = \sigma(6)=7, \sigma^3(5)=\sigma(7)=5$, and
+so the cycle we add is $(5,6,7)$ and we now have
+$$ \sigma = (1,4,2)(3)(5,6,7) $$
+and since there aren't any elements of $1,2,\ldots,7$ that don't appear
+in one of our cycles, the algorithm stops.
+
+Notice the one-cycle $(3)$ appears.  But it doesn't do anything, so we
+usually omit one-cycles when we write permutations like this.
+
+## Subgroups
+
+Recall the group $G=\{1, -1, i, -i\}, \times$, where $i$ is a square
+root of $-1$ in $\CC$.  Consider the subset $H = \{1,-1\}$ of $G$.  Then
+$H$ is still a group with the same group operation as $G$ -- it is a
+group sitting inside $G$ with the same operation.
+
+On the other hand $K = \{1, i\} \subset G$ doesn't form a group under
+$\times$.  Indeed $\times$ doesn't even give a binary operation on $K$,
+because $i \times i = -1 \notin K$.
+
+As another example, consider the group $\ZZ, +$.  Then $2\ZZ$ which is
+defined to be $\{ 2z : z \in \ZZ\}$, that is the set of even integers,
+is again a group under $+$ (check this!).  Now consider $\mathbb{N} =
+\{0,1,2,\ldots\} \subset \ZZ$.  This time $+$ *does* give a binary
+operation on $\mathbb{N}$, but $\mathbb{N}$ isn't a group under $+$
+(why?).
+
+We capture the notion of a group inside another group with the following
+definition:
+
+```{definition}
+Let $G, *$ be a group.  Let $H \subseteq G$ be a non-empty
+subset which forms a group under $*$.  Then we say that $H$ is a
+subgroup of $G$, and we write $H \leq G$. 
+```
+
+The important part of the definition is that $H$ has to be a group with
+the same group operation as $G$.
+
+```{example}
+ 
+
+- $\{1, -1\}$ is a subgroup of $\{1,-1,i, -i\}, \times$ which is itself a subgroup of $\mathbb{C}^\times, \times$.
+- Let $n \in \ZZ$. Then $$ n\ZZ := \{ nz : z \in \ZZ\} $$is a subgroup of $\ZZ,+$.
+- Let $G=S_4$ and let $V_4 = \{\id, (1,2)(3,4), (1,3)(2,4), (1,4)(2,3)\}$. You should check that $V_4$ is a subgroup of $S_4$ - it is called the Klein 4-group (or *Viergruppe* in German, hence the notation).
+- Let $A_n$ be the set of all even permutations in $S_n$. Because the identity permutation is even, the product of two even permutations is even, and the inverse of an even permutation is even, $A_n$ is a subgroup of $S_n$, called the **alternating group**.  Furthermore $|A_n|=n!/2$, since exactly half the permutations in $S_n$ are even.
+- $\{ e \}$ is a subgroup of $G, *$ for any group $G$.  This is called the trivial subgroup.  $G$ is a subgroup of $G, *$ for any group $G, *$.  So every group has at least two subgroups.
+ 
+
+```
+
+```{definition}
+A subgroup of $G,*$ is called **proper** if it is not equal to $G$, and non-trivial if it is not equal to $\{e \}$. 
+```
+
+```{proposition}
+(The **subgroup test**).  Let $G,*$ be a group and let $H$ be a non-empty subset of $G$ such that for all $x,y \in H$ we have
+\begin{equation}
+(\#eq:sgp)
+x^{-1}*y \in H.
+\end{equation}
+Then $H$ is a subgroup of $G$.
+```
+
+```{proof}
+Firstly $H$ contains the identity element $e$ of $G$.  For since
+$H$ is non-empty there
+is some element $x\in H$, so by \@ref(eq:sgp) with $y=x$ we have $x^{-1}*x \in H$, that is $e \in H$.
+
+Secondly, if $x \in H$ then $x^{-1} \in H$.  For $x,e \in H$ and
+so using \@ref(eq:sgp) with $y=e$ we get $x^{-1}*e=x^{-1} \in H$.
+
+Now if $x,y \in H$ then $x^{-1}$ is in $H$ too, so
+$(x^{-1})^{-1} * y = x*y \in H$.  Thus $*$ gives a binary operation
+on $H$.  We have already seen that $H$ has the identity element,
+and each element of $H$ has its inverse in $H$.  Since $*$ is
+associative on $G$, it is certainly associative on $H$.  Thus
+$H$ is a group under $*$, and so it is a subgroup of $G$.
+```
+
+```{example}
+If $\sigma \in S_n$ is a permutation, we say $\sigma$ **fixes** $i$ if
+$\sigma(i)=i$.  Let $H$ be the subset of $S_n$ consisting of all
+permutations fixing $1$.  We'll show that $H$ is a subgroup using the
+subgroup test.
+
+Firstly, $H$ is non-empty, since it certainly contains the
+identity permutation which fixes everything.  Secondly, suppose
+$x,y \in S_n$ fix 1.  Then $x(1)=1$, so $x^{-1}(1) = 1$.
+Therefore $(x^{-1} \circ y) (1) = x^{-1}( y ( 1)) = x^{-1}(1) =
+1$.  It follows $x^{-1}\circ y \in H$, and so $H$ is a subgroup
+of $S_n$ by the subgroup test. 
+```
+
+### Cyclic subgroups
+
+Let $G,*$ be a group, let $g \in G$, and let $\langle g \rangle = \{ g^i : i \in \ZZ\}$.  Then $\langle g \rangle$ is called the **cyclic subgroup generated by** $g$.
+
+```{lemma}
+$\langle g \rangle \leq G$.
+```
+
+```{proof}
+Apply the subgroup test: $\langle g \rangle$ contains $g$ so it's
+certainly not empty, and if $g^i, g^j \in \langle g \rangle$ then
+$(g^i)^{-1} * g^j = g^{-i}* g^j = g^{j-i} \in \langle g \rangle$.  So
+the subgroup test implies $\langle g \rangle \leq G$.
+```
+
+```{lemma, label="sizeCyclicSubgroup"}
+If $g$ has order $n$, then $\langle g \rangle$ has order $n$.
+```
+
+
+```{proof}
+We know from Lemma \@ref(lem:powers) that the elements $e, g,
+g^2, \ldots, g^{n-1}$ of $\langle g \rangle$ are all different,
+so the size of $\langle g \rangle$ is at least $n$.  We'll show
+that it is exactly $n$ by showing that any $g^i \in \langle g
+\rangle$ equals one of these elements.
+
+We can write $i = qn + r$ where $q,r \in \ZZ$ and $0 \leq r < n$
+by the division algorithm.  So
+$$ g^i = g^{qn+r} = g^{qn}*g^r = (g^n)^q *g^r = e^q * g^r =
+	e*g^r = g^r.$$
+Thus any element of $\langle g \rangle$ equals one of $e, g,
+\ldots, g^{n-1}$, and we're done.
+```
+
+```{example}
+
+
+- Consider $\langle (1,2) \rangle \leq S_3$.  The permutation $(1,2)$ has order two (why?), so $\langle (1,2)\rangle$ has size two, and its elements are $\{ e, (1,2) \}$. 
+- The order of $2 \in \ZZ_6$ is 3, because $2+_62=4$ and $2+_64=0$, which is the identity element of $\ZZ_6, +_6$.  Thus the cyclic subgroup generated by $2$ is $\langle 2 \rangle = \{0,2,4\} \leq \ZZ_6$. 
+
+
+```
+
+## Cosets and Lagrange's Theorem
+
+```{definition}
+Let $G, *$ be a group, $H$ a subgroup of $G$, and $g \in G$.  
+	
+-  The left coset of $H$ by $g$ is $gH := \{ g*h : h \in H\}$.
+- The right coset of $H$ by $g$ is $Hg := \{ h*g : h \in H\}$.
+	
+We write $G:H$ for the set of left cosets of $H$ by elements of $G$ so $G:H
+= \{ gH : g \in G\}$, and $|G:H|$ for its size.  Similarly $H:G$
+is the set of right cosets of $H$ by elements of $G$.
+
+```
+
+***
+
+
+Let's look at some example cosets.
+
+```{example}
+   
+
+- The 3-cycle $(1,2,3) \in S_4$ has order 3, so $H=\langle (1,2,3) \rangle$ is equal to $\{ e, (1,2,3), (1,2,3)^2 = (1,3,2)\}$.   Then \begin{align*} (1,2)H &= \{ (1,2), (1,2)(1,2,3), (1,2)(1,3,2) \} \\ &= \{ (1,2), (2,3), (1,3) \} \\ H(1,2) &= \{ (1,2), (1,2,3)(1,2), (1,3,2)(1,2) \} \\ &= \{ (1,2), (1,3), (2,3) \}. \end{align*} So in this case, $(1,2)H = H(1,2)$.
+- The 2-cycle $(1,2) \in S_3$ has order 2, so $H := \langle (1,2) \rangle$ is equal to $\{ e, (1,2) \}$.  Then \begin{align*} (2,3)H &= \{ (2,3), (2,3)(1,2)\} = \{ (2,3),(1,3,2)\} \\ H(2,3)&= \{ (2,3), (1,2)(2,3) \} = \{ (2,3), (1,2,3) \} \end{align*} So in this case $(2,3)H \neq H(2,3)$.
+- We know that $2\ZZ = \{ 2 z : z \in \ZZ\}$, the set of all even integers, is a subgroup of $\ZZ,+$.  Then the coset $1+2\ZZ = \{ 1+ 2z : z \in \ZZ\}$ is the set of all odd integers.  More generally if $n \in \ZZ$ then $n\ZZ$ is a subgroup of $\ZZ,+$ and $1 + n\ZZ$ is the set of all integers congruent to 1 mod $n$, $2+n\ZZ$ is the set of all integers congruent to 2 mod $n$, and so on.  
+
+
+```
+
+Consider the cosets $0+3\ZZ=3\ZZ, 1+3\ZZ, 2+3\ZZ$ of the subgroup $3\ZZ$ of
+$\ZZ,+$.  Each element of $\ZZ$ belongs to
+exactly one of them, for any integer  is congruent to exactly one
+of 0, 1, or 2 mod 3.  So we have
+\begin{equation*}
+	\ZZ = 3\ZZ \sqcup (1+3\ZZ) \sqcup (2+3\ZZ)
+\end{equation*}
+(the symbol $\sqcup$ means that this is a disjoint union). Furthermore,
+$3n \mapsto i+3n$ is a bijection between $3\ZZ$ and $i+3\ZZ$, so all
+three cosets have the same size.  So the cosets of the subgroup $3\ZZ$
+split $\ZZ$ into three disjoint pieces, each of the same size.  If $\ZZ$
+were a finite set this would imply that its size was three times
+that of the subgroup $3\ZZ$. When we
+prove Lagrange's theorem, which says that if $G$ is finite and $H$ is a
+subgroup then the order of $H$ divides that of $G$, our strategy will be
+to prove that you get exactly this kind of decomposition of $G$ into a
+disjoint union of cosets of $H$.
+
+```{example} 
+The $3$-cycle $(1,2,3) \in S_3$ has order 3, so $H:= \langle (1,2,3) \rangle$ is equal to $\{ e, (1,2,3), (1,3,2) \}$. Then
+\begin{align*}
+(1,2)H& = \{(1,2), (1,2)(1,2,3), (1,2)(1,3,2) \} \\
+&= \{ (1,2), (2,3), (1,3) \} \\
+(2,3)H  &= \{ (2,3), (2,3)(1,2,3), (2,3)(1,3,2) \} \\
+&= \{ (2,3), (1,3), (1,2) \}
+\end{align*}
+So $(1,2)H = (2,3)H$.
+```
+
+***
+
+This last example is important, because it tells us we can have $g_1H =
+g_2 H$ even if $g_1 \neq g_2$.  The next result tells us exactly when
+this happens.
+
+From now on I'll be lazy and write $gh$ instead of $g*h$, and so on.
+```{proposition, label="eqrel"}
+Let $G$ be a group and $H$ a subgroup of $G$.  The relation $g\sim k$ if
+and only if $g^{-1}k \in H$ is an equivalence relation on $G$, and the
+equivalence classes are the left cosets of $H$.
+```
+
+```{proof}
+    
+
+- (**R**) Let $g\in G$. Then $g^{-1}g=e \in H$ as $H$ is a subgroup, so $g \sim g$.
+- (**S**) Let $g \sim k$.  Then $g^{-1}k \in H$, so $(g^{-1}k)^{-1} \in H$ as $H$ is a subgroup. But $(g^{-1}k)^{-1} = k^{-1}( g^{-1})^{-1}= k^{-1}g$, so $k \sim g$.
+- (**T**) Let $g\sim k \sim l$. Then $g^{-1}k \in H, k^{-1}l\in H$, so $(g^{-1}k)(k^{-1}l) \in H$ as $H$ is a subgroup.  But $g^{-1}kk^{-1}l=g^{-1}l$, so $g \sim l$.
+    
+Now $g \sim k$ iff $g^{-1}k = h$ for some $h \in H$, iff $k=gh$ for
+some $h \in H$. So the equivalence class of $g$ under $\sim$ is $\{gh : h \in H\} = gH$.
+```
+
+***
+
+Of course, there's a version of this for right cosets as well (Exercise:
+write it down and prove it).
+
+```{lemma}
+$gH = H$ if and only if $g \in H$.
+```
+
+```{proof}
+If $gH = H$ then $ge \in H$ which means $g\in H$.
+Conversely if $g \in H$ then $g \in gH$ and $g \in H$, so $gH \cap H
+\neq \emptyset$, so $gH=H$.
+```
+
+***
+
+We can also say something about the size of a coset:
+
+```{lemma, label="sizeOfCoset"}
+$|gH| = |H| = |Hg|$.
+```
+
+```{proof}
+We will prove the first of these equalities, the second being
+similar.  The proof is by writing down a bijection between $H$
+and $gH$.  Define $\alpha : H \to gH$ by $\alpha(h) = g*h$.
+
+$\alpha$ is one-to-one:  for if $\alpha(h_1)=\alpha(h_2)$ then $g*h_1=g*h_2$,
+so multiplying on the left by $g^{-1}$ we get that $h_1=h_2$.
+
+$\alpha$ is onto: for any element of $gH$ equals $g*h$ for some $h
+\in H$, and $\alpha(h)=g*h$, so $g*h$ is in the image of $\alpha$.
+
+Thus $\alpha$ is a bijection, and $|gH| = |H|$.
+```
+
+```{theorem}
+(**Lagrange's Theorem**) Let $G$ be a finite group and let $H$ be a subgroup.  Then $|G| = |G:H||H| = |H:G||H|$.  In particular, the order of $H$ divides the order of $G$.
+
+```
+
+```{proof}
+Let the distinct left cosets of $H$ in $G$ be $g_1H,\ldots,g_mH$, so
+$m=|G:H|$.
+Proposition \@ref(prp:eqrel) says the left cosets of $H$ are the
+equivalences classes for an equivalence relation $\sim$ on $G$.
+Therefore they are a partition of $G$, and $|G| = |g_1H|+\cdots +
+|g_mH|$.  Since $|g_iH|=|H|$ by Lemma \@ref(lem:sizeOfCoset) we get
+$|G|=m|H|= |G:H||H|$.  The result for right cosets is similar.
+```
+
+```{corollary}
+Let $G$ be a finite group and $g \in G$.  Then the order of $g$ divides the order of $G$. 
+```
+
+```{proof}
+The order of $g$ equals the order of the cyclic subgroup
+$\langle g \rangle \leq G$ by Lemma \@ref(lem:sizeCyclicSubgroup).
+This divides $|G|$ by Lagrange's theorem.
+```
+
+
+```{corollary}
+Let $G,*$ be a group whose order is a prime number $p$.  Then $G$ is cyclic. 
+```
+
+```{proof}
+Let $e \neq g \in G$.  Consider the subgroup $\langle g \rangle
+\leq G$.  Its size divides $|G|=p$ by Lagrange's theorem, so it is $1$ or $p$, but it is larger than one as
+it contains $e$ and $g$ so $|\langle g \rangle|=p$.   So
+$\langle g \rangle = G$ and $G$ is cyclic. 
+```
+
+```{corollary}
+(Fermat's Little Theorem).  Let $a \in \ZZ$ and let $p$ be a prime number.  Then $a^p \equiv a \mod p$. 
+```
+
+```{proof}
+If $a$ is divisible by $p$ this is easy, so let's suppose $a$ is
+not divisible by $p$.  Since $\ZZ_p^\times, \times$ is a group of
+order $p-1$, the order of $[a]_p$ divides $p-1$ so $[a]_p^{p-1}=[1]_p$,
+that is, $[a^{p-1}]_p=[1]_p$. Therefore $a^{p-1}  \equiv 1 \mod p$, and
+so $a^p \equiv a \mod p$.
+```
+
+
+
+## The dihedral groups
+
+Given $\theta \in \RR$ we let $A(\theta)$ be the element of $GL(2,\RR)$ which represents a rotation about the origin anticlockwise through $\theta$
+radians.  So
+$$ A(\theta) = \begin{pmatrix} \cos \theta & -\sin \theta \\ \sin \theta
+& \cos \theta \end{pmatrix} $$
+Then $A(\theta)^n = A(n\theta)$, since a rotation by
+$\theta$ done $n$ times is the same as a rotation of $n\theta$.
+
+Fix a positive whole number $n$, and let $A = A(2\pi /n)$.  Then $A$ is
+an element of $GL(2,\RR)$ with order $n$.  Let 
+$$ J = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$$
+so $J$ represents a reflection in the $x$-axis of $\RR^2$.
+
+```{lemma}
+$AJ = JA^{-1}$
+```
+
+```{proof}
+This is equivalent to $AJA=J$.  Multiply the matrices and see
+what happens!
+```
+
+```{corollary}
+For all $m$ we have $J A^mJ = A^{-m}$. 
+```
+
+```{proof}
+Let $I$ be the $2\times 2$ identity matrix. Multiplying the previous lemma on the left by $J$ tells us $JAJ=A^{-1}$ (because $J^2=I$).
+Now $JAJ = A^{-1}$, so $A^{-2} = JAJJAJ = JAIAJ=JA^2J$, and so on. 
+```
+
+```{lemma}
+$D_{2n} := \{ I, A, \ldots, A^{n-1}, J, JA, \ldots, JA^{n-1}
+\}$ is a subgroup of $GL(2,\RR)$ with order $2n$.
+```
+
+```{proof}
+Apply the subgroup test.  To do this we'll need to work case by
+case, and we need to know the inverse of an element that looks
+like $JA^m$.  But
+$$ JA^m JA^m = A^{-m} A^m = I $$
+by the previous corollary, so $JA^m$ is its own inverse.
+
+To use the subgroup test we have to pick $x,y \in D_{2n}$ and
+show $x^{-1}y \in D_{2n}$.  There are four cases:
+
+1. $x=A^i, y=A^j$.  This is easy.
+2. $x = A^i, y = JA^j$.  Then $x^{-1}y = A^{-i}JA^j = JJA^{-i}JA^j = JA^i A^j = JA^{i+j} \in D_{2m}$.
+3. $x=JA^i, y=A^j$.  This is easy too.
+4. $x=JA^i, y = JA^j$.  Then $x^{-1}y=JA^iJA^j = A^{-i}A^j=A^{j-i}\in D_{2m}$.
+
+Certainly $|D_{2n}|$ is at most $2n$ as its elements were $A^i$
+and $JA^j$ for $0 \leq i,j \leq n$.  To show that $|D_{2n}|=2n$, first note that all of the elements
+$I, A, \ldots, A^{n-1}$ are different since $A$ has order $n$:
+these elements make up the cyclic subgroup $\langle A \rangle$
+of $D_{2n}$.
+Now $J \notin \langle A \rangle$ since every element of that
+subgroup has determinant one, whereas $J$ has determinant $-1$.
+So the coset $J\langle A\rangle$ is disjoint from $\langle A
+\rangle$.  This means $D_{2n}$ has at least $|\langle A \rangle|
++ |J \langle A \rangle| = 2n$ elements, and we are done.
+```
+
+$D_{2n}$ is called the **dihedral group of order $2n$**. It
+consists of $n$ rotations $I, A, \ldots A^{n-1}$ and $n$ reflections $J,
+JA, \ldots, JA^{n-1}$.  You can think of it as the symmetry group of the
+regular $n$-gon with vertices at
+$$ \begin{pmatrix} \cos(2\pi k/n) \\ \sin (2\pi k/n) \end{pmatrix} : k =
+	0,1,\ldots n-1. $$
+
+## Homomorphisms and isomorphisms
+
+Let $G,*$ and $H,\triangle$ be groups.  A function $f:G \to H$ doesn't
+necessarily tell us anything about the relationship between $G$ and $H$
+*as groups* unless we insist that it interacts in some specific way
+with the group operations $*$ and $\triangle$.  We define a *group
+homomorphism* $G \to H$ to be a function which respects the group
+structure on $G$ and $H$ in the following sense:
+
+```{definition}
+    Let $G,*$ and $H,\triangle$ be groups.
+
+- A **group homomorphism** $f:G \to H$ is a function such that for all $x,y \in G$ we have $$ f(x*y)= f(x)\triangle f(y).$$
+- A **group isomorphism** is a group homomorphism which is a bijection.
+ 
+
+```
+
+***
+
+We usually just say homomorphism and isomorphism instead of group
+homomorphism and group isomorphism.
+
+```{example}
+
+
+- The identity map $G \to G$ is an isomorphism.
+- Let $G,*$ and $H,\triangle$ be any groups.  The map $f: G \to H$ given by $f(g)=e_H$ for all $g \in G$ is a group homomorphism.
+- The map $f: \zz \to \zz_n$ given by $f(z)=[z]_n$ is a group homomorphism.  To see this, we have to check that $f(z+w) = f(z)+f(w)$.  This is true because $f(z+w)=[z+w]_n$ and by definition, $[z]_n+[w]_n=[z+w]_n$.
+- Let $H = \{1, -1\}$ so that $H,\times$ is a cyclic group of order 2.  Then our results on the sign of a permutation show that $\sgn : S_n \to H$ is a group homomorphism. 
+- The map $\det : GL(n,\rr) \to \rr^\times$ is a group homomorphism.
+- There is an isomorphism between $S_3$ and the dihedral group of order 6.
+
+
+```
+
+```{lemma}
+Let $f:G \to H$ be a group homomorphism.  Then
+
+- $f(e_G)=e_H$, and
+- for any $g \in G$ we have $f(g^{-1})=f(g)^{-1}$.
+
+
+```
+
+```{proof}
+
+
+- We have \begin{align*} f(e_G) &= f(e_G*e_G) & \text{as } e_G*e_G=e_G
+            \\& = f(e_G) \triangle f(e_G) & \text{as } f \text{ is a homomorphism.} \end{align*}  Now multiply both sides on the left by the inverse of $f(e_G)$, to get \begin{equation*} e_H = f(e_G).  \end{equation*}
+- By the previous part, $e_H = f(g*g^{-1}) = f(g) \triangle f(g^{-1})$.  Multiply on the left by $f(g)^{-1}$ to get \begin{equation*} f(g)^{-1} = f(g^{-1}) \end{equation*}
+
+
+```
+
+```{definition}
+Let $f:G \to H$ be a group homomorphism.
+    
+- $\ker f$, the kernel of $f$, is defined to be $\{ g \in G: f(g) = e_H\}$.
+- $\im f$, the image of $f$, is defined to be $\{ f(g): g \in G\}$. 
+
+
+```
+
+***
+
+The latter isn't a new definition --- it's just the image of the function $f$ as we already defined it.
+
+```{proposition}
+Let $f:G \to H$ be a group homomorphism.  Then $\ker f$ is a subgroup of
+$G$ and $\im f$ is a subgroup of $H$.
+```
+
+```{proof}
+The kernel contains $e_G$ because $f(e_G) = e_H$ by the previous
+Lemma.  If $g \in \ker f$ then 
+\begin{align*} f(g^{-1}) &= f(g)^{-1} & \text{by
+the lemma} \\
+&= e_H^{-1} & \text{as } g \in \ker f \\
+&= e_H
+\end{align*}
+so $g^{-1} \in \ker f$ which is therefore closed under inverses, and if
+$g,h \in \ker f$ then \begin{align*} f(g*h) & =f(g)\triangle f(h) &
+\text{as } f \text{ is a homomorphism} \\
+&= e_H \triangle e_H & \text{as } g,h \in \ker f \\
+&= e_H \end{align*}
+so $g*h \in \ker f$.  It follows $\ker f$ is a subgroup.
+
+Now the image.  The previous lemma shows $e_h \in \im f$, and that $\im
+f$ is closed under inverses.  If $f(g),f(h) \in \im f$ then
+$f(g)\triangle f(h) = f(gh) \in \im f$ as $f$ is a homomorphism, so $\im
+f$ is a subgroup.
+```
+
+

@@ -1,0 +1,1596 @@
+# Linear Algebra {#linalg2}
+
+
+
+## Vector spaces
+
+When we met vectors and matrices, we saw that these could be added,
+subtracted, and multiplied by scalars, and these operations obeyed
+some simple rules.  A **vector space** generalizes this
+situation.
+
+```{definition}
+
+Let $\mathbb{F}$ be $\mathbb{R}$ or $\mathbb{C}$.
+An $\ff$-**vector space** or 'vector space over $\ff$' is a set $V$ with a map $+: V\times V \to V$ called
+addition, a special element called $\mathbf{0}_V$ and a map
+$\ff \times V \to V$ written $(\lambda,v)\mapsto \lambda v$ called
+scalar multiplication  such that
+for all $\mathbf{u},\mathbf{v},\mathbf{w} \in V$ and all
+$\lambda,\mu \in \ff$:
+
+- $\mathbf{0}_V + \mathbf{v}= \mathbf{v}$. 
+- There exists $\mathbf{v}' \in V$ such that $\mathbf{v}+\mathbf{v}' = \mathbf{0}_V$.
+-	$\mathbf{u}+(\mathbf{v}+\mathbf{w}) = (\mathbf{u}+\mathbf{v})+\mathbf{w}$.
+- $\mathbf{u}+\mathbf{v}=\mathbf{v}+\mathbf{u}$.
+- $\lambda(\mu \mathbf{v}) = (\lambda \mu)\mathbf{v}$.
+- $1 \mathbf{v} = \mathbf{v}$.
+- $\lambda (\mathbf{u}+\mathbf{v}) = \lambda \mathbf{u}+ \lambda \mathbf{v}$. ('scalar multiplication distributes over addition')
+- $(\lambda+\mu)\mathbf{v} = \lambda \mathbf{v} + \mu \mathbf{v}$. ('scalar multiplication distributes over scalar addition') 
+
+
+```
+
+These are called the **vector space axioms** .
+
+It's possible to use any 'field' instead of $\mathbb{R}$ or
+$\mathbb{C}$: roughly speaking a field is something where you can add and multiply
+elements subject to the usual rules of algebra, and such that you can
+divide by any nonzero element: $\mathbb{Q}$ would be another example
+of a field.
+
+***
+
+```{example}
+
+
+- $\RR^n$, the set of all $n\times 1$ column vectors, is an $\RR$-vector space (check for yourself that all of the axioms hold), and $\CC^n$ is a $\CC$-vector space when given the usual vector addition and scalar multiplication. We usually call a $\RR$-vector space a real vector space and a $\CC$-vector space a complex vector space.
+- $\rr$ is an $\rr$-vector space, and $\cc$ is a $\cc$-vector space, with the usual $+$ and scalar multiplication being the usual multiplication. 
+- $M_{n\times m}(\RR)$ and $M_{n\times m}(\CC)$, the sets of $n\times m$ real and complex matrices, are real and complex vector spaces when equipped with the usual addition and scalar multiplication.
+- Let $C[0,1]$ be the set of continuous functions $[0,1] \to \RR$.  For two functions $f,g :\RR \to \RR$ define $f+g$ by $(f+g)(x) = f(x) + g(x)$ and for $\lambda \in \RR$ define $\lambda f$ by $(\lambda f)(x) = \lambda f(x)$.  Then $C[0,1]$ is a real vector space, because of the results from MATH1101 that say sums and constant multiples of continuous functions are again continuous.
+- Let $\RR[x]$ be the set of all polynomials in one variable $x$.  This is a real vector space given the usual definitions of addition and scalar multiplication of polynomials.
+- Let $\RR[x]_{\leq n}$ be the set of all polynomials of degree at most $n$ in one variable $x$.  This is a real vector space with the same operations as $\RR[x]$.
+- $\{0\}$ is an $\ff$-vector space under the operations $0+0=0$ and $\lambda 0=0$ for any $\lambda \in \ff$.  This is called the **zero vector space**.
+		
+
+```
+
+***
+
+In our examples, the inverse of $\mathbf{v}\in V$ in the additive group
+$V,+$ is the same as what you get by scalar multiplying $\mathbf{v}$ by
+$-1$.  This is always true:
+
+***
+
+```{lemma}
+Let $V$ be an $\ff$-vector space and let $\mathbf{x}\in V$.  Then
+$\mathbf{x} + (-1)\mathbf{x}= \mathbf{0}_V$.
+```
+```{proof}
+First we note that $0 \mathbf{x}= \mathbf{0}_V$, for 
+\begin{equation*}
+	0 \mathbf{x} = (0+0)\mathbf{x} = 0\mathbf{x}+0 \mathbf{x}
+\end{equation*}
+(the first equality is because $0=0+0$ in $\ff$, the second is by the
+last vector space axiom).  Then because $V,+$ is a group we can add the
+additive inverse of $0 \mathbf{x}$ to both sides of this equation to get
+that $\mathbf{0}_V = 0 \mathbf{x}$.
+
+Now 
+\begin{align*}
+	\mathbf{x} + (-1) \mathbf{x} &= 1 \mathbf{x} + (-1) \mathbf{x}
+	\\
+	&= (1 + -1) \mathbf{x} \\
+	&= 0 \mathbf{x} \\
+	&= \mathbf{0}_V
+\end{align*}
+where the first equality is by vector space axiom 6, the second is
+because scalar addition distributes over scalar multiplication, the next
+is because $1+-1=0$ and the last because of the result we just proved.
+```
+
+***
+
+We write $-\mathbf{x}$ for the additive inverse of $\mathbf{x}$ which
+axiom 2 provides, and
+$\mathbf{y}-\mathbf{x}$ for $\mathbf{y}+ (-\mathbf{x})$.
+
+Lots of things that we know to be true in $\rr^n$ hold in arbitrary
+vector spaces, because they can be deduced from these axioms.  For
+example,
+
+```{lemma}
+
+    
+- Let $\lambda$ be a scalar. Then $\lambda \mathbf{0} _V =
+            \mathbf{0} _V$.
+- Suppose $\lambda \neq 0$ is a scalar and $\lambda \mathbf{x} = \mathbf{0} _V$. Then $\mathbf{x} = \mathbf{0}_V$.
+
+
+```
+
+```{proof}
+    
+
+- \begin{align*}\lambda \mathbf{0} _V & = \lambda( \mathbf{0} _V + \mathbf{0}_V) & \text{by axiom 1} \\ &= \lambda \mathbf{0} _V + \lambda \mathbf{0}_V & \text{by axiom 7.} \end{align*} Axiom 2 tells there's an additive inverse to $\lambda \mathbf{0}_V$. Adding it to both sides of the above and using axiom 3, we get $\mathbf{0} _V=\lambda \mathbf{0} _V$.
+-    \begin{align*} \lambda \mathbf{x} &= \mathbf{0} _V \\ \lambda^{-1} (\lambda \mathbf{x} ) &= \mathbf{0} _V &\text{by the above} \\ (\lambda ^{-1}\lambda) \mathbf{x}  &= \mathbf{0} _V & \text{axiom 5} \\ 1 \mathbf{x} &= \mathbf{0} _V \\ \mathbf{x} &= \mathbf{0} _V &\text{axiom 6}.  \end{align*} 
+    
+
+```
+
+***
+
+
+### Subspaces
+
+```{definition}
+
+Let $V$ be a $\ff$-vector space and $U$ be a subset of $V$.
+    
+- $U$ is called **closed under addition** if for all $\mathbf{u}_1,\mathbf{u}_2 \in U$ we have $\mathbf{u}_1 + \mathbf{u}_2 \in U$.
+- $U$ is called **closed under scalar multiplication** if  for all $\mathbf{u}\in U$ and all $\lambda \in \ff$ we have $\lambda \mathbf{u}\in U$.
+-  $U$ is called a **subspace** of $V$ if it is closed under addition and scalar multiplication.
+
+
+```
+
+
+It follows that a subspace $U$ of $V$ is a vector space in its own
+right, using the same operations of addition and scalar multiplication
+as $V$ --- indeed, an alternative definition of subspace is 'subset
+which forms a vector space under the addition and scalar multiplication
+from $V$.'
+
+```{example, label="subspaces"}
+
+
+- The set of column vectors of the form  $\begin{pmatrix} \lambda \end{pmatrix}$
+for $\lambda, \mu \in \RR$ is a subspace of $\RR^3$.
+- The set of all functions $f: \RR \to \RR$ such that $f(1)=0$ is a subspace of the vector space of all functions $\RR \to \RR$.
+- Let $\mathbf{v}$ be an element of an $\ff$-vector space $V$.  Then the set $\{ \lambda \mathbf{v} : \lambda \in \FF \}$ is a subspace of $V$.
+- A vector space is a subspace of itself.
+- $\{ \mathbf{0}_V \}$ is a subspace of $V$ (the ``zero subspace'').
+	
+
+```
+
+***
+
+There's a quick way to check if something is a subspace:
+
+```{lemma} 
+(the **subspace test**).
+A non-empty subset $U$ of a vector space $V$ is a subspace if for all
+$\mathbf{u},\mathbf{v} \in U$ and all scalars $\lambda,\mu$ we have
+$\lambda \mathbf{u} + \mu \mathbf{v} \in U$.
+```
+```{proof}
+By taking $\lambda=\mu=1$ we see that such a subset is closed under
+addition, and by taking $\mu=0$ we see that it is closed under scalar
+multiplication.
+```
+
+***
+
+
+```{lemma}
+  Let $U$ and $W$ be subspaces of a vector space $V$. Then
+  
+- $U\cap W$ is a subspace of $V$.
+- $U+W$, defined to be $\{ \mathbf{u}+\mathbf{w}: \mathbf{u} \in U, \mathbf{w}\in W\}$, is a subspace of $V$. 
+
+
+```
+```{proof}
+
+
+- Let $\mathbf{x},\mathbf{y}\in U \cap W$ and $\lambda \in \mathbb{F}$. We have to show that $\mathbf{x}+\mathbf{y} \in U\cap W$ and $\lambda \mathbf{x} \in U\cap W$.  These are both true for the same reason: $\mathbf{x}$ and $\mathbf{y}$ are in $U$, so $\mathbf{x}+\mathbf{y}\in U$ and $\lambda \mathbf{x}\in U$ as $U$ is a subspace, but the same argument applies to $W$. So $\mathbf{x}+\mathbf{y}\in U\cap W$ and $\lambda \mathbf{x}\in U \cap W$ which is therefore a subspace.
+- Let $\mathbf{u}_i+\mathbf{w}_i \in U+W$ for $i=1,2$, where $\mathbf{u}_i \in U$ and $\mathbf{w}_i\in W$. Then
+\begin{equation*}
+(\mathbf{u}_1+\mathbf{w}_1) + (\mathbf{u}_2+\mathbf{w}_2) =
+(\mathbf{u}_1+\mathbf{u}_2) + (\mathbf{w}_1+\mathbf{w}_2)
+\end{equation*} 
+by using the vector space rules. But
+ $\mathbf{u}_1+\mathbf{u}_2 \in U$ as $U$ is a subspace and
+$\mathbf{w}_1+\mathbf{w}_2\in W$ as $W$ is a subspace, so this is in
+$U+W$ which is therefore closed under addition. Now if $\lambda \in
+\ff$ then
+\begin{equation*}
+\lambda (\mathbf{u}_1+\mathbf{w}_1) = \lambda \mathbf{u}_1+\lambda \mathbf{w}_1
+\end{equation*}
+again by the vector space rules. $\lambda \mathbf{u}_1 \in U$ as
+$U$ is subspace, $\lambda \mathbf{w}_1 \in W$ as $W$ is a subspace, so
+their sum is in $U+W$ which is therefore closed under scalar
+multiplication.
+
+
+```
+
+***
+
+
+```{definition}
+
+Let $U$ and $W$ be subspaces of a vector space $V$. We write
+$V=U\oplus W$, and say that $V$ is the **direct sum** of $U$ and
+$W$, if
+
+- $U+W=V$, and
+- $U\cap W=\{\mathbf{0}_V\}$.
+
+
+```
+
+
+```{proposition}
+Let $U$ and $W$ be subspaces of $V$. Then $V=U\oplus W$ if and only if
+every element of $V$ can be written uniquely as
+$\mathbf{u}+\mathbf{w}$ for $\mathbf{u}\in U, \mathbf{w}\in W$.
+```
+
+```{proof}
+Suppose $V=U\oplus W$ and let $\mathbf{v}\in V$. Because $V=U+W$
+there are $\mathbf{u}\in U, \mathbf{w}\in W$ such that
+$\mathbf{v}=\mathbf{u}+\mathbf{w}$. Furthermore if $\mathbf{u}'\in
+U$ and $\mathbf{w}'\in W$ and $\mathbf{v}=\mathbf{u}'+\mathbf{w}'$
+then we
+have \begin{equation*}\mathbf{u}-\mathbf{u'}=\mathbf{w'}-\mathbf{w}. \end{equation*}
+The left hand side is an element of $U$, and the right hand side is
+an element of $W$, because $U$ and $W$ are subspaces. But the left
+hand side and right hand side are equal, so they are both elements
+of $U \cap W = \{\mathbf{0}_V\}$. Therefore
+$\mathbf{u}-\mathbf{u}'=\mathbf{0}_V$, so $\mathbf{u}=\mathbf{u}'$,
+and similarly $\mathbf{w}=\mathbf{w}'$. This gives uniqueness.
+
+Now suppose that every element of $V$ can be written uniquely as an
+sum of an element of $U$ and an element of $W$. We have to check the
+two conditions in the definition of $V$ being the direct sum of $U$
+and $W$. For the first condition, every element of $V$ can be written
+as a sum of an element of $U$ and an element of $W$, which means
+$V=U+W$. For the second condition, if $\mathbf{x}\in
+U\cap W$ is nonzero then
+$$\mathbf{x}=\mathbf{x}+ \mathbf{0}_V = \mathbf{0}_V+\mathbf{x}$$
+expresses $\mathbf{x}$ as a sum of something in $U$ and something in
+$W$ in two different ways, which is a contradiction: so $U\cap
+W=\{\mathbf{0}_V\}$. 
+```
+
+***
+
+
+```{example}
+
+
+- Let $V=\mathbb{R}^2$, let $U=\left\{ \begin{pmatrix} \lambda \\ 0 \end{pmatrix} : \lambda \in \mathbb{R}\right\}$, and let $W=\left\{ \begin{pmatrix} 0\\\mu  \end{pmatrix} : \mu \in \rr \right\}$.  Then $V=U\oplus W$.  To verify this, we have to check the two conditions.  Certainly $V=U+W$, because if $\begin{pmatrix} x\\y    \end{pmatrix} \in V$ then \begin{equation*} \begin{pmatrix} x\\y \end{pmatrix} = \begin{pmatrix} x\\0 \end{pmatrix} + \begin{pmatrix} 0\\y \end{pmatrix} \in U+W.  \end{equation*} Equally if $\mathbf{x} \in U\cap W$ then $\mathbf{x} = \begin{pmatrix} \lambda \\ 0 \end{pmatrix}$ for some $\lambda$ and also $\mathbf{x}= \begin{pmatrix} 0\\ \mu \end{pmatrix}$ for some $\mu$. It must be $\mathbf{x}= \begin{pmatrix} 0\\0    \end{pmatrix}= \mathbf{0}_V$, so $U \cap W=\{\mathbf{0}_V\}$ as required.
+- There is usually more than one way to write a given vector space as a direct sum of subspaces.  Let $V$ and $U$ be as before, and let $W= \left\{ \begin{pmatrix} \lambda \\ \lambda \end{pmatrix} : \lambda \in \rr \right\}$. You should check that $W$ is a subspace of $V$ and that $V=U\oplus W$.
+
+
+```
+
+## Bases and dimension
+
+### Spanning sets
+
+If $\mathbf{v}_1,\ldots \mathbf{v}_n$ are elements of an $\FF$-vector
+space $V$  then a **linear combination** of
+$\mathbf{v}_1,\ldots,\mathbf{v}_n$ is an element of $V$ equal to
+
+$$\lambda_1 \mathbf{v}_1 + \cdots + \lambda_n \mathbf{v}_n $$
+
+for some $\lambda_1,\ldots,\lambda_n \in \FF$.  The $\lambda_i$ are
+called the coefficients in this linear combination.  A
+**non-trivial** linear combination is one where not all the
+coefficients are zero.
+
+This allows us to rephrase our definition of subspace: a non-empty
+subset $U$ of $V$ is a subspace if and only if every linear combination
+of elements of $U$ is again in $U$.
+
+
+***
+
+```{definition}
+Let $V$ be an $\FF$-vector space and $\mathbf{s}_1,\ldots \mathbf{s}_n \in V$.  The **span** of $\mathbf{s}_1,\ldots, \mathbf{s}_n$, written $\spa \{ \mathbf{s} _1,\ldots, \mathbf{s} _n\}$, is the set of all linear combinations of $\mathbf{s}_1,\ldots, \mathbf{s}_n$. 
+```
+
+So $\spa  \{ \mathbf{s} _1,\ldots, \mathbf{s} _n\}$ consists of all
+elements of the form
+\begin{equation*}
+\lambda_1 \mathbf{s}_1 +
+\cdots + \lambda_n \mathbf{s}_n 
+\end{equation*}
+for $\lambda_i \in \ff$.
+We also define the span of the empty set of vectors to be $\{ \mathbf{0}_V\}$, which is sometimes useful.
+
+```{example}
+
+    
+- Let $\mathcal{S}=\{\mathbf{s}\}$ be a one-element subset of an $\FF$-vector space $V$. Then $\spa \mathcal{S} = \{ \lambda \mathbf{s} : \lambda \in \FF\}$, since any linear combination of elements of $\mathcal{S}$ is just a scalar multiple of $\mathbf{s}$.
+- Let $\mathbf{u} = \begin{pmatrix} 1\\ 0 \\ 0 \end{pmatrix}, \mathbf{v} = \begin{pmatrix} 0\\1\\0 \end{pmatrix} \in \rr^3$. Then $\spa \{ \mathbf{u}, \mathbf{v} \}$ is the set \begin{equation*} \left\{   \begin{pmatrix} \lambda \\ \mu \\ 0 \end{pmatrix}  : \lambda,\mu \in \rr \right\} \end{equation*} The span of $\mathbf{u} , \mathbf{v},$ and $\mathbf{w} = \begin{pmatrix} 1\\2\\0 \end{pmatrix}$ is the same as $\spa \{ \mathbf{u} , \mathbf{v} \}$.
+
+
+```
+
+***
+
+
+```{lemma}
+$\spa \{ \mathbf{s} _1,\ldots, \mathbf{s} _n\}$ is a subspace of $V$.
+```
+
+```{proof}
+We'll use the subspace test. Let $\mathbf{u} = \sum_{i=1}^n \lambda _i
+\mathbf{s}_i$ and $\mathbf{v} =\sum _{i=1}^n \mu_i \mathbf{s} _i$
+be elements of $\spa \{ \mathbf{s} _1,\ldots, \mathbf{s} _n\}$, and
+let $\lambda, \mu \in \ff$. Then
+\begin{align*}
+    \lambda \mathbf{u} + \mu \mathbf{v} &= \lambda \sum_{i=1}^n
+    \lambda _i \mathbf{s} _i + \mu \sum_{i=1}^n \mu_i \mathbf{s}
+    _i\\
+    &= \sum_{i=1}^n \lambda \lambda_i \mathbf{s} _i + \sum_{i=1}^n
+    \mu \mu_i \mathbf{s} _i \\
+    &= \sum_{i=1}^n (\lambda \lambda_i + \mu \mu_i) \mathbf{s} _i 
+\end{align*}
+which is in the span.
+```
+
+***
+
+
+```{definition}
+
+A subset $\mathcal{S}$ of the $\FF$-vector space $V$ is called a **spanning set** if the span of the elements of $\mathcal{S}$ equals $V$.
+
+```
+
+In other words, $\mathcal{S}$ is a spanning set if every element of $V$ can be written as a linear combination of elements of $\mathcal{S}$.
+
+```{lemma, label="subspwspset"}
+	If a subspace $U$ of $V$ contains a spanning set $\mathcal{S}$ for $V$ then $U=V$.
+```
+
+```{proof}
+$U$ is closed under taking linear combinations of elements of
+$U$, so it contains every linear combination of
+elements of $\mathcal{S}$, but every element of $V$ is a linear
+combination of $\mathcal{S}$, so $U$ contains every element
+of $V$.
+```
+
+***
+
+```{definition}
+An $\FF$-vector space is called **finite-dimensional** if it has a finite spanning set.
+
+```
+
+So $V$ is finite
+dimensional if there is a finite set
+$\{\mathbf{v}_1,\ldots,\mathbf{v}_n\}$ of elements of $V$
+such that any element of $V$ is a linear combination of the $\mathbf{v}_i$.
+
+```{example, label="eispan"}
+Recall that the **standard basis vector**
+$\mathbf{e}_i \in \RR^n$ is the height $n$ column vector whose entries
+are all zero except for the $i$th, which is one.  Then the
+$\mathbf{e}_i$ form a spanning set of the real vector space $\RR^n$
+since any vector 
+\begin{equation*}
+	\mathbf{v} = \begin{pmatrix}
+	v_1 \\ \vdots \\ v_n
+	\end{pmatrix}
+\end{equation*}
+can be written as a linear combination of the $\mathbf{e}_i$ as follows:
+\begin{equation*}
+	\mathbf{v} = v_1 \mathbf{e}_1 + \cdots + v_n \mathbf{e}_n.
+\end{equation*}
+It follows that $\RR^n$ is finite-dimensional.
+```
+
+```{example}
+The vectors
+\begin{equation*}
+\begin{pmatrix}
+1 \\ 0 \\ 0
+\end{pmatrix} \text{ and } \begin{pmatrix}
+0\\2\\2
+\end{pmatrix}
+\end{equation*}
+form a spanning set for the vector space in the first part of Example \@ref(exm:subspaces).
+```
+
+### Linear independence
+
+A **sequence** of vectors is an ordered list, written $(\mathbf{u},
+\mathbf{v}, \mathbf{w},\ldots)$ or just
+$\mathbf{u},\mathbf{v},\mathbf{w},\ldots$.  Ordered means that, for example
+$(\mathbf{u},\mathbf{v}) \neq (\mathbf{v},\mathbf{u})$.  Sequences are
+different to sets, for two main reasons: first
+$\{\mathbf{v},\mathbf{u}\}$ is the same set as $\{
+	\mathbf{u},\mathbf{v}\}$ --- order doesn't matter to sets ---
+and secondly $\{\mathbf{u},\mathbf{u}\} = \{\mathbf{u}\}$ whereas
+$(\mathbf{u},\mathbf{u}) \neq (\mathbf{u} )$.
+
+```{definition}
+A sequence $(\mathbf{v}_1,\ldots ,\mathbf{v}_n)$ of elements of the $\FF$-vector space $V$ is called **linearly independent** if
+\begin{equation}
+(\#eq:ld)
+\lambda_1 \mathbf{v}_1 + \cdots + \lambda_n \mathbf{v}_n = \mathbf{0}_V
+\end{equation}
+implies all of the $\lambda_i$ equal zero.  Otherwise it is called
+**linearly dependent**, and an equation \@ref(eq:ld) in which not all the
+$\lambda_i=0$ is called a **nontrivial linear dependence relation** between the
+$\mathbf{v}_i$.
+
+```
+
+***
+
+So to check if a sequence $(\mathbf{v}_1,\ldots,\mathbf{v}_n)$ of
+elements of $V$ is linearly independent, you have to see if there are
+any non-zero solutions to the equation 
+$$
+\lambda_1\mathbf{v}_1+ \cdots + \lambda _n \mathbf{v}_n = \mathbf{0}_V.  
+$$
+Notice that if the sequence
+$(\mathbf{v}_1,\ldots,\mathbf{v}_n)$ contains the same element twice, it
+is is linearly dependent: if $\mathbf{v}_i = \mathbf{v}_j$ for $i \neq
+j$ then $\mathbf{v}_i-\mathbf{v}_j=\mathbf{0}_V$ is a nontrivial linear
+dependence relation.
+
+By convention we regard the empty subset $\emptyset$ of a vector
+space $V$ as being linearly independent.
+
+```{example, label="eili"}
+- The vectors $\mathbf{x} =\begin{pmatrix}
+1 \\ 0
+\end{pmatrix}, \mathbf{y} = \begin{pmatrix}
+1 \\ 1
+\end{pmatrix}$ are linearly independent in $\mathbb{R}^2$.  For
+suppose that $\lambda \mathbf{x} + \mu \mathbf{y} = \mathbf{0}
+_{\rr^2}$.  Then we have
+\begin{equation*}
+\lambda \begin{pmatrix}
+    \lambda \\ 0
+\end{pmatrix} + \begin{pmatrix}
+    \mu \\ \mu
+\end{pmatrix} = \begin{pmatrix}
+    0 \\ 0
+\end{pmatrix}
+\end{equation*}
+which is equivalent to saying that  $\lambda + \mu = 0$ and $\mu=0$.  It follows that $\lambda=\mu=0$, which means those two vectors were linearly independent.
+- The one-element sequence $\mathbf{0}_V$ isn't linearly independent:
+$\lambda \mathbf{0}_V = \mathbf{0}_V$ for any $\lambda$ so there is a nontrivial linear dependence relation on $\{\mathbf{0}_V\}$.
+- $\begin{pmatrix} 1 \\ 0 \end{pmatrix},\begin{pmatrix} -1 \\ 0 \end{pmatrix}$ are not linearly independent in $\RR^2$,
+since we can make the zero vector of $\RR^2$ as a non-trivial
+linear combination of these two vectors:
+\begin{equation*}
+\begin{pmatrix}
+0\\0
+\end{pmatrix} = \begin{pmatrix}
+1 \\ 0
+\end{pmatrix} + \begin{pmatrix}
+-1 \\ 0
+\end{pmatrix}
+\end{equation*}
+- The vectors $\mathbf{e}_1,\ldots,\mathbf{e}_n$ in $\RR^n$ are linearly independent.  For
+\begin{equation*}
+\sum_{i=1}^n \lambda_i \mathbf{e_i} = \begin{pmatrix}
+\lambda_1 \\ \vdots \\ \lambda_n
+\end{pmatrix}
+\end{equation*}
+and the only way for this to be the zero vector is if all of the
+coefficients $\lambda_i$ are zero.
+
+```
+
+A spanning set in a vector space has to be 'large' enough to span the
+whole space.  A linearly independent set has to be 'small' enough that
+it doesn't admit any nontrivial linear dependences. So there should be
+something special about sequences of vectors which are linearly
+independent and which form spanning sets.
+
+```{definition}
+
+A **basis** of a vector space is a linearly independent sequence of vectors which is also a spanning set.
+
+```
+
+
+```{example, label="dimsex"}
+
+
+- Consider the zero vector space $\{0\}$.  The empty set $\emptyset$ is
+linearly independent, and its span was defined to be $\{0\}$.  Thus
+$\emptyset$ is a basis of the zero vector space.
+- In Example \@ref(exm:eili) part 3 above we showed $\mathbf{e}_1,\ldots,\mathbf{e}_n$ is linearly independent, and in Example \@ref(exm:eispan) we showed it was a spanning set of $\RR^n$. Thus $\mathbf{e}_1,\ldots,\mathbf{e}_n$ is a basis of $\RR^n$.  This is called the **standard basis** of $\rr^n$.
+- Let $M = M_{2\times 2}(\RR)$ be the $\RR$-vector space of all
+$2\times 2$ real matrices.  Then any element of $M$ looks like
+$\begin{pmatrix}
+a & b \\ c & d
+\end{pmatrix}$ for some $a,b,c,d \in \RR$, and 
+\begin{equation*}
+\begin{pmatrix}
+a & b \\ c & d
+\end{pmatrix}=a \begin{pmatrix}
+1 & 0 \\ 0 & 0 
+\end{pmatrix}+ b \begin{pmatrix}
+0 & 1 \\ 0 & 0 
+\end{pmatrix}+c \begin{pmatrix}
+0 &0 \\ 1 & 0
+\end{pmatrix} +d \begin{pmatrix}
+0&0\\0&1
+\end{pmatrix}.
+\end{equation*}
+It follows that the four matrices on the right form a spanning
+set for $M$.  They are also linearly independent, for if
+$\alpha,\beta,\gamma,\delta$ are scalars such that
+\begin{equation*}
+\alpha \begin{pmatrix}
+1 & 0 \\ 0 & 0 
+\end{pmatrix}+ \beta \begin{pmatrix}
+0 & 1 \\ 0 & 0 
+\end{pmatrix}+\gamma \begin{pmatrix}
+0 &0 \\ 1 & 0
+\end{pmatrix} +\delta \begin{pmatrix}
+0&0\\0&1
+\end{pmatrix}=\begin{pmatrix}
+0 & 0\\0&0
+\end{pmatrix}
+\end{equation*}
+then
+\begin{equation*}
+\begin{pmatrix}
+	\alpha & \beta \\ \gamma&\delta
+\end{pmatrix}
+=\begin{pmatrix}
+0&0\\0&0
+\end{pmatrix}
+\end{equation*}
+and so $\alpha=\beta=\gamma=\delta=0$.  So those four matrices
+form a basis of $M$.
+
+```
+
+***
+
+It will turn out that any two bases have the same size, so that we
+can sensibly define the **dimension** of a vector space as the size
+of any basis.
+
+One of the key properties of a basis of a vector space $V$ is that every
+element can be written as a linear combination of the elements of the
+basis in exactly one way, in the following sense:
+
+```{lemma}
+Let $\mathcal{B}=( \mathbf{b} _1, \ldots, \mathbf{b} _n)$ be a basis of a vector space $V$.  If $\lambda_i$ and $\mu_i$ are scalars such that $\sum_{i=1}^n \lambda_{i} \mathbf{b}_i = \sum_{i=1}^n \mu_{i}
+	\mathbf{b}_i$  then $\lambda_{i}=\mu_{i}$ for all $i$.
+```
+```{proof}
+Rearranging we get \begin{equation*}
+	\mathbf{0}_V=\sum_{i=1}^n
+	(\lambda_i-\mu_i) \mathbf{b}_i
+\end{equation*}
+and since $\mathcal{B}$ is linearly independent, 
+$\lambda_i-\mu_i=0$ for all $i$.
+```
+
+
+### Bases and dimension
+
+
+In order to prove some properties of dimension, we need some results
+about linearly independent sets.
+
+```{lemma, label="addVec"}
+(**Extension lemma**).
+Suppose $\mathbf{l}_1, \ldots, \mathbf{l}_n$ are linearly
+independent.  Let $\mathbf{v} \notin \spa \{ \mathbf{l} _1, \ldots, \mathbf{l} _n \}$.
+Then $\mathbf{l} _1,\ldots, \mathbf{l} _n, \mathbf{v}$ is linearly independent.
+```
+
+```{proof}
+ We'll prove the contrapositive: if $\mathbf{l} _1,\ldots,
+\mathbf{l}_n, \mathbf{v}$ is
+linearly dependent then $\mathbf{v} \in \spa \{ \mathbf{l} _1,\ldots,
+\mathbf{l}_n \}$.
+
+Suppose $\mathbf{l} _1,\ldots, \mathbf{l} _n,\mathbf{v}$ is linearly
+dependent.  There are scalars
+$\lambda,\lambda_1,\ldots,\lambda_n$ not all zero  such that
+\begin{equation*}
+\lambda \mathbf{v} + \sum_{i=1}^n \lambda_i \mathbf{v}_i =
+\mathbf{0}_V.
+\end{equation*}
+$\lambda$ can't be zero, for then this equation would say that 
+$\mathbf{l} _1,\ldots, \mathbf{l} _n$ was linearly dependent.  Therefore we can rearrange to get
+\begin{equation*}
+	\mathbf{v} = -\lambda^{-1} \sum_{i=1}^n \lambda_i \mathbf{l}_i=\sum_{i=1}^n
+	(-\lambda^{-1}
+	\lambda_i)\mathbf{l}_i \in
+    \spa \{ \mathbf{l} _1,\ldots, \mathbf{l} _n\}. 
+\end{equation*}
+```
+
+***
+
+
+```{proposition, label="extend"}
+(**Extending to a basis**). 
+Let $V$ be finite-dimensional and let $\mathbf{l} _1,\ldots, \mathbf{l}_n$ be linearly independent. Then there is a basis of $V$ containing $\mathbf{l} _1,\ldots, \mathbf{l} _n$. 
+```
+
+```{proof}
+Let $\mathcal{L}=( \mathbf{l} _1,\ldots, \mathbf{l} _n)$.
+Since $V$ is finite-dimensional it has a finite spanning set $\{\mathbf{v}_1,\ldots,\mathbf{v}_m\}$.
+Define a sequence of subsets of $V$ as follows:  $\mathcal{S}_0 =
+\mathcal{L}$, and  for $i\geq 0$,
+\begin{equation*}\mathcal{S}_{i+1}= 
+\begin{cases}
+\mathcal{S}_i & \text{if }\mathbf{v}_{i+1} \in
+\spa \mathcal{S}_i \\ \mathcal{S}_i \cup \{ \mathbf{v}_{i+1}\} &
+\text{otherwise.}\end{cases} \end{equation*}  
+Note that in either case
+$\mathbf{v}_{i+1} \in \spa \mathcal{S}_{i+1}$, and also that
+$\mathcal{S}_0
+\subseteq \mathcal{S}_1
+\subseteq \cdots \subseteq \mathcal{S}_m$.
+
+Each set $\mathcal{S}_i$ is linearly independent by Lemma \@ref(lem:addVec),
+and in
+particular $\mathcal{S}_m$ is linearly independent.
+Furthermore $\spa \mathcal{S}_m$ contains the spanning set
+$\{\mathbf{v}_1,\ldots,
+	\mathbf{v}_m\}$ because for each $i$ we have $\mathbf{v}_i
+\in \spa \mathcal{S}_i \subseteq \spa \mathcal{S}_m$, so by Lemma
+\@ref(lem:subspwspset), $\spa \mathcal{S}_m = V$. Therefore $\mathcal{S}_m$ is a basis containing $\mathcal{L}$.
+```
+
+***
+
+
+```{corollary}
+Every finite-dimensional vector space has a basis.
+```
+
+```{proof}
+Apply the previous lemma to the linearly independent set $\emptyset$.
+```
+
+***
+
+
+The process of taking a linearly independent set and finding a basis
+containing it is called extending it to a basis.  In general there will
+be many different bases containing a given linearly independent set.
+
+```{lemma, label="swap"}
+Let $( \mathbf{e} _1,\ldots, \mathbf{e} _n)$ be a basis of the
+vector space $V$, and let $\mathbf{f} = \sum _{i=1}^n \lambda _i
+\mathbf{e}_i$ with $\lambda_j \neq 0$. Then $\mathcal{B} =( \mathbf{e} _1,\ldots, \mathbf{e} _{j-1}, \mathbf{f} , \mathbf{e} _{j+1},\ldots, \mathbf{e} _n)$ is a basis of $V$.
+```
+
+```{proof}
+Suppose $\mu \mathbf{f}+\sum_{i\neq j} \mu_i \mathbf{e} _i  =
+\mathbf{0}_V$.  Since $\mathbf{f} = \sum_{i=1}^n \lambda_i
+\mathbf{e}_i$ we have
+\begin{equation*}
+\mu\lambda_j \mathbf{e} _j+ \sum_{i \neq j} (\mu_i+\mu\lambda_i) \mathbf{e} _i  = \mathbf{0} _V
+\end{equation*}
+Linear independence of the $\mathbf{e} _i$ implies that all the
+coefficients here are zero.  So $\mu\lambda_j=0$, and since
+$\lambda_j\neq 0$ we must have $\mu=0$.  Now $\mu_i +
+\mu\lambda_i=0$ for all $i\neq j$, but since $\mu=0$ we have
+$\mu_i=0$ for all $i\neq j$.  It follows that $\mathcal{B}$ is
+linearly independent.
+
+$\spa \mathcal{B}$ obviously contains each $\mathbf{e} _i$ with $i
+\neq j$, and
+\begin{equation*}
+\mathbf{e} _j = \lambda_j^{-1} \mathbf{f}  - \sum_{i\neq j}
+\lambda_j^{-1}\lambda_i \mathbf{e} _i \in \spa \mathcal{B} .
+\end{equation*}
+It follows that $\spa \mathcal{B}$ contains the spanning set $\mathbf{e}_1,\ldots, \mathbf{e}_n$, so is all of $V$, so $\mathcal{B}$ is a spanning set and therefore is a basis.
+```
+
+***
+
+```{theorem}
+    Any two bases of a vector space have the same size.
+```
+
+```{proof} (not examinable).
+Let $\mathcal{B} =( \mathbf{e} _1,\ldots, \mathbf{e} _n)$ and $\mathcal{C}=(  \mathbf{f} _1, \ldots,
+\mathbf{f}_m)$ be bases and suppose that $m\geq n$.   
+
+$\mathbf{f} _1$ can be written as a linear combination of the $\mathbf{e}_i$ since they form a spanning set. Since $\mathbf{f} _1\neq
+0$, one of the coefficients in this linear combination is nonzero --- by
+renumbering the $\mathbf{e} _i$ if necessary, we can assume it is the
+coefficient of $\mathbf{e} _1$. By Lemma \@ref(lem:swap) $\mathcal{B} '=( \mathbf{f} _1,
+\mathbf{e} _2,\ldots, \mathbf{e}_n)$ is a basis.
+
+Now repeat this with $\mathbf{f} _2$ and $\mathcal{B} '$: we can write
+$\mathbf{f} _2$ as a linear combination of $\mathcal{B} '$, one of the
+coefficients of the $\mathbf{e} _i$ in this linear combination must be
+nonzero (otherwise $\mathbf{f} _2$ would be a multiple of $\mathbf{f}
+_1$, contradicting linear independence of $\mathcal{C}$), by
+renumbering we can assume the coefficient of $\mathbf{e}   _2$ is
+nonzero, and then by the lemma $( \mathbf{f} _1, \mathbf{f} _2,
+\mathbf{e}_3,\ldots, \mathbf{e} _n)$ is a basis.
+
+Repeating $n$ times we end up with $( \mathbf{f}_1,\ldots,
+\mathbf{f}_n)$ being a basis. If $n>m$ we would then have $\mathbf{f}
+_{n+1} \in \spa \{ \mathbf{f} _1,\ldots, \mathbf{f} _n\}$ contradicting
+linear independence of $\mathcal{C}$, so it must be $m=n$.
+
+```
+
+***
+
+```{definition}
+Let $V$ be a finite dimensional vector space.  The **dimension** of $V$, written $\dim V$, is the size of any basis of $V$.  
+```
+
+***
+
+It is also true that a finite dimensional vector space has finite
+dimension.
+
+```{example}
+
+
+- From Example \@ref(exm:dimsex) we see that the dimension of the zero vector space is zero, $\dim \RR^n = n$, and $\dim M_{2\times 2}(\RR) = 4$.
+- You can generalize  the calculation in Example \@ref(exm:dimsex) to prove that the dimension of $\dim M_{n\times m}(\RR)$ and $M_{n\times m}(\CC)$ is $nm$.
+	
+
+```
+
+```{example}
+Let $V$ be the set of $3\times 1$ column vectors $\begin{pmatrix} a\\b\\c \end{pmatrix}$ with real entries such that $a+b+c=0$.  You should check that $V$ is a subspace of $\rr^3$.  To find $\dim V$, we need a basis of $V$.
+
+A typical element of $V$ looks like $\begin{pmatrix}
+    a \\ b \\ -a-b
+\end{pmatrix}$, so a good start is to notice that
+\begin{equation}
+(\#eq:sp)
+\begin{pmatrix} a\\b\\-a-b \end{pmatrix}= a \begin{pmatrix} 1\\0\\-1 \end{pmatrix} + b \begin{pmatrix} 0\\1\\-1 \end{pmatrix}.
+\end{equation}
+We might guess that the two vectors $\mathbf{u} =  \begin{pmatrix}
+    1\\0\\-1
+\end{pmatrix}$ and $\mathbf{v} = \begin{pmatrix}
+    0\\1\\-1
+\end{pmatrix}$ are a basis.  Since any element of $V$ equals $\begin{pmatrix}
+    a\\b\\-a-b
+\end{pmatrix}$ for some $a,b$, equation \@ref(eq:sp) shows that they are
+a spanning set.  To check they are linearly independent, suppose that
+$\lambda \mathbf{u} +\mu \mathbf{v} = \mathbf{0}_V$, so that
+\begin{equation*}
+    \lambda \begin{pmatrix}
+        1\\0\\-1
+    \end{pmatrix} + \mu \begin{pmatrix}
+        0\\1\\-1
+    \end{pmatrix} = \begin{pmatrix}
+        0\\0\\0
+    \end{pmatrix} .
+\end{equation*}
+The vector on the right has entries $\lambda, \mu, -\lambda-\mu$ so we
+have $\lambda = \mu=0$. This shows that $\mathbf{u}$ and $\mathbf{v}$ are linearly independent, so they're a basis of $V$ which therefore
+has dimension 2.
+```
+
+```{corollary, label="np1"}
+If $\dim V=n$ then any $n+1$ distinct elements of $V$ must be linearly dependent. 
+```
+
+```{proof}
+Otherwise we could use Proposition \@ref(prp:extend) to find a basis
+containing these $n+1$ elements, which has size at least $n+1$. But
+every basis has size $n$.
+```
+
+***
+
+
+### Dimensions of subspaces
+
+If dimension is really a good measure of the size of a vector space,
+then when $U$ is a subspace of $V$ we ought to have $\dim U \leq \dim
+V$.  But it isn't obvious from the definitions that a subspace of a
+finite-dimensional vector space even has a dimension, so we need the
+following:
+```{lemma, label="fdsp"}
+Any subspace of a finite-dimensional vector space is again finite-dimensional.
+```
+
+```{proof}
+Let $U$ be a subspace of the finite-dimensional vector space $V$, and
+suppose for a contradiction that $U$ is not finite-dimensional, so $U$ is not spanned by any finite set of
+elements of $U$.
+
+We claim that for any $n\geq 0$ there exists a linearly independent subset
+of $U$ of size $n$.  The proof is by induction, and for $n=0$ the empty set works.
+For the inductive step, suppose $\mathcal{L}$ is a linearly independent
+subset of $U$ of size $n$.  Since $U$ is not spanned by any finite set
+of its elements, there exists $\mathbf{u}\in U \setminus \spa
+\mathcal{L}$.  Then $\mathcal{L}\cup \{\mathbf{u}\}$ is linearly
+independent by Lemma \@ref(lem:addVec) and has size $n+1$, completing the
+inductive step.
+
+In particular there is a linearly independent subset of $V$ with size
+$\dim V+1$, contradicting Corollary \@ref(cor:np1).
+```
+
+***
+
+
+```{proposition, label="dimssp"}
+Let $U$ be a subspace of the finite-dimensional vector space $V$.  Then
+- $\dim U \leq \dim V$, and
+- if $\dim U=\dim V$ then $U=V$.
+
+```
+```{proof}
+	
+
+- $U$ is finite-dimensional by Lemma \@ref(lem:fdsp), so it has a finite basis $\mathcal{B}$. By Corollary \@ref(cor:np1), $\mathcal{B}$, being a linearly independent subset of $V$, has size at most $\dim V$. Therefore $\dim U = | \mathcal{B} | \leq \dim V$.  
+- If $\dim U = \dim V$ and $\mathbf{v} \in V \setminus U$ then $\mathcal{B} \cup \{ \mathbf{v} \}$ is linearly independent by Lemma \@ref(lem:addVec). But it has size larger than $\dim V$, contradicting Corollary \@ref(cor:np1).  So $V\setminus U=\emptyset$ and $U=V$.
+
+
+```
+
+***
+
+## Linear maps
+
+### Definitions
+
+```{definition}
+Let $U$ and $V$ be $\FF$-vector spaces.  A function $f:U \to V$ is
+called **linear** if 
+
+- $f(\mathbf{x}+\mathbf{y})=f(\mathbf{x})+f(\mathbf{y})$ for all $\mathbf{x},\mathbf{y} \in U$, and
+- $f(\lambda \mathbf{x})= \lambda f(\mathbf{x})$ for all $\mathbf{x} \in U$ and all $\lambda\in \FF$. 
+
+
+```
+
+
+```{example, label="mxAsLinMap"}
+
+
+- Let $U$ and $V$ be $\FF$-vector spaces.  The identity map $\id_U :U \to U$ defined by $\id_U(\mathbf{u}) = \mathbf{u}$ for all $\mathbf{u}\in U$  is linear, as is the zero map $U \to V$ that sends every element of $U$ to $\mathbf{0}_V$.
+- **Important!** Let $A$ be an $m\times n$ matrix with entries in $\FF$ and define $T_A: \FF^n \to \FF^m$ by $T_A(\mathbf{v})=A \mathbf{v}$.  Then $T_A$ is linear.  Here $\FF^n$ is the vector space of column vectors of height $n$ with entries from $\FF$. This example is important, because it shows every matrix gives rise to a linear map.  We will see later that every linear map can be represented as a matrix, linking the concrete linear algebra we did in the previous part of these notes with what we're doing now. 
+- Let $f: \rr^3 \to \rr$ be $f \begin{pmatrix} a\\b\\c \end{pmatrix} = a+b-2c$. Then $f$ is linear.  On the other hand, if $f \begin{pmatrix} a\\b\\c \end{pmatrix} =\sqrt{a^2+b^2+c^2}$ then $f$ is not linear: for example, for any nonzero $\mathbf{x}$ we have $f(- \mathbf{x} ) \neq -f( \mathbf{x})$.
+- Let $V$ be the vector space of polynomials in one variable $x$ over $\FF$.  Let $D:V \to V$ be defined by $D(f) = \frac{df}{dx}$.  Then $D$ is linear.
+
+```
+
+***
+
+If $f,g :U \to V$ are linear maps and $\lambda$ is a scalar then $\lambda f$ defined
+by $(\lambda f)(\mathbf{u})=\lambda f(\mathbf{u})$ and $f+g$ is defined
+by $(f+g)(\mathbf{u}) =
+f(\mathbf{u})+g(\mathbf{u})$.  These definitions make the set $\hom_\FF(U,V)$ of linear maps from $U$
+to $V$ into a vector space.
+
+```{lemma}
+    
+
+- Let $f:U \to V$ and $g:V \to W$ be linear maps.  Then $g\circ f:U \to W$
+is a linear map.
+- Let $f,g: U \to V$ be linear maps and $\lambda,\mu \in \ff$. Then $\lambda f+ \mu g$ is linear.
+    
+
+```
+
+```{proof}
+
+
+- For any $\mathbf{x} , \mathbf{y}  \in U$, \begin{align*} g(f( \mathbf{x}+ \mathbf{y}))&= g( f( \mathbf{x}) + f( \mathbf{y})) & \text{as } f \text{ is linear} \\ &= g(f( \mathbf{x} ))+ g(f( \mathbf{y} )) & \text{as } g \text{ is linear} \end{align*} so $g\circ f$ meets the first condition for being linear. The second one is similar.
+- $\lambda f + \mu g$ is the map that sends $\mathbf{u} \in U$ to $\lambda f(\mathbf{u}) + \mu g(\mathbf{u})$.  For any $\mathbf{x} , \mathbf{y} \in U$, \begin{align*} (\lambda f + \mu g)( \mathbf{x} + \mathbf{y} ) &= \lambda f( \mathbf{x} + \mathbf{y} ) + \mu g ( \mathbf{x} + \mathbf{y}) \\ &= \lambda f( \mathbf{x} ) + \lambda f( \mathbf{y} ) + \mu g( \mathbf{x} ) + \mu g( \mathbf{y} ) \\ &= \lambda f( \mathbf{x} ) + \mu g( \mathbf{x} )  + \lambda f ( \mathbf{y} )+ \mu g( \mathbf{y} ) \\ &= (\lambda f + \mu g)( \mathbf{x} ) + (\lambda f + \mu g) ( \mathbf{y} ) \end{align*} so $\lambda f + \mu g$ meets the first condition for being linear, and the second condition is similar.
+
+
+```
+
+***
+
+```{lemma, label="oker"}
+	If $f:U \to V$ is linear then $f(\mathbf{0}_U)=\mathbf{0}_V$.
+```
+```{proof}
+$f(\mathbf{0}_U)=f(\mathbf{0}_U+\mathbf{0}_U)=f(\mathbf{0}_U)+f(\mathbf{0}_U)$ so adding the additive inverse of $f(\mathbf{0}_U)$ to both sides we get $\mathbf{0}_V = f(\mathbf{0}_U)$.
+```
+
+***
+
+```{definition}
+Let $f:U \to V$ be a linear map between $\FF$-vector spaces $U$ and $V$.
+
+- The **kernel**  of $f$, written $\ker f$, is defined to be
+\begin{equation*}
+\{ \mathbf{u} \in U : f(\mathbf{u})=\mathbf{0}_V \}.
+\end{equation*}
+- The **image**  of $f$, written $\im f$, is defined to be
+\begin{equation*} \{f(\mathbf{u}) : \mathbf{u} \in U\}.  \end{equation*}
+
+
+```
+
+```{lemma}
+A linear map $f:U \to V$ is one-to-one if and only if $\ker f =
+\{\mathbf{0}_U\}$.
+```
+```{proof}
+Suppose $f$ is one-one and $u \in \ker f$. Then
+$f(\mathbf{u})=\mathbf{0}_V=f(\mathbf{0}_U)$  so
+$\mathbf{u}=\mathbf{0}_U$.
+
+Suppose $\ker f=\{\mathbf{0}_U\}$ and
+$f(\mathbf{x})=f(\mathbf{y})$.  Then
+$\mathbf{0}_V=f(\mathbf{x})-f(\mathbf{y})=f(\mathbf{x}-\mathbf{y})$
+so $\mathbf{x}-\mathbf{y} \in \ker f$ and therefore
+$\mathbf{x}-\mathbf{y}=\mathbf{0}_U$, that is,
+$\mathbf{x}=\mathbf{y}$.
+```
+
+***
+
+```{lemma}
+Let $f:U \to V$ be a linear map between $\FF$-vector spaces.  Then $\ker
+f$ is a subspace of $U$ and $\im f$ is a subspace of $V$.
+```
+
+```{proof}
+$\mathbf{0}_U \in \ker f$ by Lemma \@ref(lem:oker) and $f(\mathbf{0}_U)\in \im f$ so neither is empty.  
+
+Let $\mathbf{x},\mathbf{y} \in \ker f$ and $\lambda \in \FF$.
+Then $f(\mathbf{x}+\mathbf{y})=f(\mathbf{x})+f(\mathbf{y})=\mathbf{0}_V+\mathbf{0}_V=\mathbf{0}_V$ and
+$f(\lambda \mathbf{x})=\lambda f(\mathbf{x})=\lambda
+\mathbf{0}_V = \mathbf{0}_V$, so $\ker f$ is
+closed under addition and under scalar multiplication.
+
+Let $f(\mathbf{x}),f(\mathbf{y}) \in \im f$ and $\lambda \in \FF$.  Then
+$f(\mathbf{x})+f(\mathbf{y})=f(\mathbf{x}+\mathbf{y}) \in \im f$
+and $\lambda f(\mathbf{x}) = f(\lambda \mathbf{x})
+\in \im f$ so $\im f$ is closed under addition and scalar
+multiplication.
+```
+
+***
+
+### Linear maps and matrices
+
+In this section all vector spaces will be assumed to be
+non-zero and finite-dimensional.
+
+You know everything a linear map does as soon as you know what it does
+on a basis:
+```{lemma}
+Let $f,g :U \to V$ be linear maps and let $\mathcal{B}=( \mathbf{b} _1,\ldots, \mathbf{b} _n)$ be a basis of $U$.  Suppose $f(\mathbf{b}_i)=g(\mathbf{b}_i)$ for all $i$.  Then $f=g$.
+```
+
+```{proof}
+We must show $f(\mathbf{u})=g(\mathbf{u})$ for all $\mathbf{u} \in U$.  But 
+$$\mathbf{u} = \sum_{i=1}^n\lambda_i \mathbf{b}_i$$
+for some scalars $\lambda_i$, and so $f(\mathbf{u})$ equals
+$$
+f\left(\sum_{i=1}^n\lambda_i
+	\mathbf{b}_i\right) 
+= \sum_{i=1}^n \lambda_i
+f(\mathbf{b}_i) 
+= \sum_{i=1}^n \lambda_i
+g(\mathbf{b}_i) 
+= g\left( \sum_{i=1}^n
+	\lambda_i \mathbf{b}_i\right) 
+$$
+which is $g(\mathbf{u})$. 
+```
+
+***
+
+
+Slogan version: if two linear maps agree on a basis, they are equal.
+
+
+Suppose we have a basis $\mathcal{B} =( \mathbf{b} _1,\ldots,
+\mathbf{b} _n)$ of a vector space $V$.  Let $\mathbf{v } \in V$. There
+are scalars $\lambda_i$ such that
+$\mathbf{v} = \lambda_1 \mathbf{v} _1 + \cdots \lambda_n \mathbf{v}
+_m$, and we define
+\begin{equation*}
+[ \mathbf{v} ]_ \mathcal{B} = \begin{pmatrix}
+\lambda_1 \\ \vdots \\ \lambda_n
+\end{pmatrix}.
+\end{equation*}
+This is called the **representation of $\mathbf{v}$ in the basis**
+$\mathcal{B}$. Some properties:
+
+***
+
+```{lemma}
+Let $\mathbf{u} , \mathbf{v} \in V$, let $\lambda,\mu \in \ff$, and let $\mathcal{B}$ be a basis of $V$. Then $[\lambda \mathbf{u} + \mu \mathbf{v} ]_ \mathcal{B} = \lambda [ \mathbf{u} ]_ \mathcal{B} + \mu [ \mathbf{v}]_ \mathcal{B}$.   
+```
+***
+
+Notice that another way to state this lemma would be to say 'the
+function $V \to \ff^m$ given by $v \mapsto [v]_ \mathcal{B}$ is a
+linear map.'
+
+```{proof}
+Let $\mathcal{B} =( \mathbf{b}_1,\ldots, \mathbf{b} _n)$, and let $\mathbf{u} = \sum_i u_i \mathbf{b} _i$ and $\mathbf{v} = \sum_i
+v_i \mathbf{b} _i$. Then $\lambda \mathbf{u} + \mu \mathbf{v}  =
+\sum_i( \lambda u_i+ \mu v_i) \mathbf{b} _i$, and so
+\begin{align*}
+[\lambda \mathbf{u} + \mu \mathbf{v} ]_ \mathcal{B} &= \begin{pmatrix}
+    \lambda u_1 + \mu v_1 \\ \vdots \\ \lambda u_n + \mu v_n
+\end{pmatrix}  \\
+&= \lambda \begin{pmatrix}
+    u_1\\ \vdots \\ u_n
+\end{pmatrix} + \mu \begin{pmatrix}
+    v_1 \\ \vdots \\ v_n
+\end{pmatrix} \\
+&= \lambda [ \mathbf{u} ]_ \mathcal{B}  + \mu [ \mathbf{v} ]_
+\mathbf{B}  
+\end{align*}
+```
+
+***
+
+Let $f:V \to W$ be linear, $\mathcal{B}$ be a basis of $V$ and
+$\mathcal{C}$ a basis of $W$.  We already know that $f$ is uniquely
+determined by the $f(\mathbf{b})$ for $\mathbf{b} \in \mathcal{B}$, and
+that each $f(\mathbf{b})$ can be expressed uniquely as a linear
+combination of elements of $\mathcal{C}$.  So the numbers appearing in
+these linear combinations determine $f$, and we can record them as a
+matrix.
+
+```{definition}
+Let $V$ and $W$ be $\FF$-vector spaces and let
+$\mathcal{B}=(\mathbf{b}_1,\ldots,\mathbf{b}_m)$ be a 
+basis of $V$ and 
+$\mathcal{C}=(\mathbf{c}_1,\ldots,\mathbf{c}_n)$ be a  basis
+of $W$.  The **matrix of $f$ with respect to the initial basis $\mathcal{B}$ and final basis $\mathcal{C}$**,
+written $[f]^{\mathcal{B}}_{\mathcal{C}}$, is
+defined to be $( [f( \mathbf{b} _1)]_ \mathcal{C} , \ldots, [f(
+\mathbf{b}_m )]_ \mathcal{C} )$.
+```
+
+***
+
+So for any $j$, the $j$th column of $[f]^ \mathcal{B} _ \mathcal{C}$ is
+the representation of $f( \mathbf{b} _j)$ in the basis $\mathcal{C}$. 
+An equivalent way to think of $[f]^ \mathcal{B}  _ \mathcal{C}$ is that
+it has $i,j$ entry $\lambda_{ij}$ where
+\begin{equation*}
+	f(\mathbf{b}_j)=\sum_{i=1}^n \lambda_{ij}\mathbf{c}_i.
+\end{equation*}
+
+```{example}
+
+    
+- Let $D: \RR[x]_{\leq 2} \to \RR[x]_{\leq 2}$ be the
+differentiation map.  The vector space $\RR[x]_{\leq 2}$ has a
+basis $\mathcal{B} = (1,x,x^2)$. We find the matrix of $D$ with
+respect to initial and final bases $\mathcal{B}$. Here is what $D$
+does to the elements of $\mathcal{B}$: 
+\begin{align*}
+D(1)&= 0 = 0\times 1 + 0 \times x + 0 \times x^2 \\
+D(x) &= 1 = 1\times 1 + 0 \times x + 0 \times x^2\\
+D(x^2) &= 2x = 0\times 1 + 2 \times x + 0 \times x^2
+\end{align*}
+The first of these tells us the first column of
+$[D]^\mathcal{B}_\mathcal{B}$, and so on.  We get
+\begin{equation*}
+[D]^\mathcal{B}_\mathcal{B}=	\begin{pmatrix}
+0 & 1 & 0 \\ 0 & 0 & 2 \\ 0 & 0 & 0	
+	\end{pmatrix}
+\end{equation*}
+- Let $A$ be any $m\times n$ matrix.  Let $T_A: \rr^n \to \rr^m$
+be $T_A( \mathbf{v} ) = A \mathbf{v}$. Let $\mathcal{B}$ and
+$\mathcal{C}$ be
+the standard bases of $\rr^n$ and $\rr^m$. Then $[ T_A]_
+\mathcal{C} ^ \mathcal{B} = A$.  This is because the
+$j$th column of $[T_A]^ \mathcal{B} _ \mathcal{C}$ is the
+representation of $T_A( \mathbf{e} _j)$ with respect to the
+basis $\mathcal{C}$, and
+$T_A( \mathbf{e} _j) = A \mathbf{e} _j$ which equals the $j$th column of $A$.
+- Let $T : \rr^3 \to \rr^3$ be the linear map defined by 
+\begin{equation*}
+    T \begin{pmatrix}
+        x\\y\\z
+    \end{pmatrix} = \begin{pmatrix}
+        x+2y+3z \\ 4y+5z \\ 5y+6z
+    \end{pmatrix} 
+\end{equation*}
+We'll find $[T]_ \mathcal{B} ^ \mathcal{B}$, where $\mathcal{B}=( \mathbf{e} _1, \mathbf{e} _2, \mathbf{e} _3)$ is
+the standard basis of $\rr^3$. To do that we have to work out
+$[T( \mathbf{e} _j)]_ \mathcal{B}$ for each $j$.  We have
+\begin{align*}
+    T( \mathbf{e} _1) &= \begin{pmatrix}
+        1\\0\\0
+    \end{pmatrix}  = \mathbf{e} _1 \\
+    T( \mathbf{e} _2) &= \begin{pmatrix}
+        2\\4\\5
+    \end{pmatrix} =2 \mathbf{e}_1 + 4 \mathbf{e} _2 + 5
+    \mathbf{e}_5   \\
+    T( \mathbf{e} _3) &= \begin{pmatrix}
+        3\\5\\6
+    \end{pmatrix} = 3 \mathbf{e} _1 + 5 \mathbf{e} _2 + 6
+    \mathbf{e}_3 
+\end{align*}
+and so $[T]_ \mathcal{B} ^ \mathcal{B}  = \begin{pmatrix}
+    1&2&3\\0&4&5 \\0&5&6
+\end{pmatrix}$. 
+
+
+```
+
+```{example}
+The matrix of the identity map $\id : V \to V$  is the identity matrix if the initial and final bases chosen are the same, and the matrix of the zero map from $U$ to $V$ with respect to any initial and final bases is the appropriately-sized zero matrix.
+```
+
+***
+
+Matrix multiplication is defined the way it is so that it corresponds to
+composition of linear maps.
+
+```{proposition, label="comp"}
+Let $f:U \to V$ and $g:V \to W$ be linear maps, let $\mathcal{B}=(\mathbf{b}_1,\ldots,\mathbf{b}_l)$ be a basis of $U$, let $\mathcal{C}=(\mathbf{c}_1,\ldots,\mathbf{c}_m)$ a basis of $V$  and let $\mathcal{D}=(\mathbf{d}_1,\ldots,\mathbf{d}_n)$ be a basis of $W$.  Then 
+$$[g\circ f]^\mathcal{B}_\mathcal{D} = [g]^{\mathcal{C}}_{\mathcal{D}}[f]^\mathcal{B}_{\mathcal{C}}.$$
+```
+
+```{proof}
+\begin{equation*} g(f(\mathbf{b}_j)) = g\left( \sum_{k=1}^m
+		f_{kj} \mathbf{c}_k \right) = \sum_{k=1}^m
+	f_{kj}g(\mathbf{c}_k)  =\sum_{k=1}^m \sum_{i=1}^n
+	f_{kj}g_{ik}\mathbf{d}_i \end{equation*}
+where $f_{kj}$ is the $(k,j)$ entry of
+$[f]^\mathcal{B}_{\mathcal{C}}$ and $g_{ik}$ is the
+$(i,j)$ entry of $[g]^{\mathcal{C}}_{\mathcal{D}}$.  So the
+$(i,j)$ entry of $[g\circ
+f]^\mathcal{B}_\mathcal{D}$, that is, the coefficient of
+$\mathbf{d}_i$
+in the above, is $\sum_{k=1}^m g_{ik}f_{kj}$ which is
+the $(i,j)$ entry of
+$[g]^{\mathcal{C}}_{\mathcal{D}}[f]^\mathcal{B}_{\mathcal{C}}$
+as required.
+```
+
+***
+
+We can take the matrix of a linear map $f$ with respect to different
+choices of initial and final bases.  The next result tells you how the
+resulting matrices are related.
+
+```{corollary}
+Let $f:U \to V$ be a linear map and let $\mathcal{B}, \mathcal{B}'$ be
+bases of $U$ and $\mathcal{C}, \mathcal{C}'$ be bases of $V$.  Then
+\begin{equation*}
+[f]^{\mathcal{B}'}_{\mathcal{C}'}
+[\id_U]^\mathcal{B}_{\mathcal{B'}} =
+[\id_V]^\mathcal{C}_{\mathcal{C}'} [f]^\mathcal{B}_ \mathcal{C}
+\end{equation*}
+```
+
+This is called the **change of basis formula**.
+
+```{proof}
+Using the previous proposition we have one the one hand
+\begin{equation*}
+[f]^\mathcal{B}_{\mathcal{C}'} = [f \circ
+\id_U]^\mathcal{B}_{\mathcal{C}'} =
+[f]^{\mathcal{B}'}_{\mathcal{C}'}[\id_U]^\mathcal{B}_{\mathcal{B}'}
+\end{equation*}
+and on the other
+\begin{equation*}
+[f]^\mathcal{B}_{\mathcal{C}'}=[\id_V\circ
+f]^\mathcal{B}_{\mathcal{C}'} =
+[\id_V]^\mathcal{C}_{\mathcal{C}'}[f]^\mathcal{B}_{\mathcal{C}}
+\end{equation*}
+which gives the claimed result.
+```
+
+***
+
+Here are some more properties of the matrix of a linear map.
+```{proposition}
+Let $f,g: U \to V$ be linear maps and $\mu,\lambda \in \ff$. Let $\mathcal{B}$ be a basis of $U$ and $\mathcal{C}$ a basis of $V$.
+    
+- $[\lambda f + \mu g] ^ \mathcal{B} _ \mathcal{C} = \lambda [f] ^ \mathcal{B} _ \mathcal{C} + \mu [g]^ \mathcal{B} _ \mathcal{C}$.
+-  If $f$ is invertible then $[f^{-1}]^ \mathcal{C} _ \mathcal{B} = ( [f]^ \mathcal{B} _ \mathcal{C} )^{-1}$. 
+
+
+```
+
+```{proof}
+
+
+- Let $\mathcal{B}$ be $\mathbf{b} _1,\ldots, \mathbf{b} _n$. This follows because the $j$th column of $[ \lambda f + \mu g]_ \mathcal{C} ^ \mathcal{B}$ is $[ (\lambda f+\mu g)( \mathbf{b}_j]_ \mathcal{C}  = [ \lambda f( \mathbf{b} _j) + \mu g( \mathbf{b} _j)]_ \mathcal{C} = \lambda [f( \mathbf{b} _j) ]_ \mathcal{C} + \mu [g( \mathbf{b} _j)]_ \mathcal{C}$, which is the same as the $j$th column of $\lambda [f] ^ \mathcal{B} _ \mathcal{C} + \mu [g] ^ \mathcal{B} _ \mathcal{C}$.
+- By the previous proposition, $[\id_W] ^ \mathcal{C} _ \mathcal{C}= [f \circ f^{-1}]^ \mathcal{C} _ \mathcal{C}   = [f]^ \mathcal{B} _ \mathcal{C}   [f^{-1}] ^ \mathcal{C} _ \mathcal{B}$. But $[\id_W] ^ \mathcal{C} _ \mathcal{C} =I_n$, where $n = \dim W$. So $[f] ^ \mathcal{B} _ \mathcal{C} [f^{-1}] ^ \mathcal{C} _ \mathcal{B}= I_n$, which gives the result we want.
+
+
+```
+
+***
+
+### The rank-nullity theorem and linear bijections
+
+```{definition}
+Let $U$ and $V$ be finite-dimensional $\FF$-vector spaces and $f:U \to
+V$ be a linear map.  Then- the **rank of $f$**, written $\rk f$, is defined to be $\dim \im f$-  the **nullity of $f$**, written  $\nul f$,  is defined to be $\dim \ker f$. 
+```
+
+```{theorem}
+(**Rank-nullity theorem**) Let $U$ and $V$ be
+finite-dimensional $\FF$-vector spaces and $f:U \to V$ be a
+linear map.  Then $$\dim \im f + \dim \ker f = \dim U.$$
+```
+```{proof}
+Let $\mathbf{k} _1,\ldots, \mathbf{k} _m$ be a basis of $\ker f$. Using
+Proposition \@ref(prp:extend),  extend it to a basis
+$\mathbf{k} _1,\ldots, \mathbf{k} _m, \mathbf{u} _1,\ldots,
+\mathbf{u}_n$ of $U$.
+Then $\dim \ker f= m$, $\dim U =
+m+n$ and so we need to prove that $\dim \im f = n$.  To do this we show
+that $f(\mathbf{u}_1),\ldots,f(\mathbf{u}_n)$  is a basis of
+$\im f$.
+
+First we show that $f(\mathbf{u}_1),\ldots,f(\mathbf{u}_n)$ 
+spans $\im f$.  If $\mathbf{x} \in U$
+then we can write
+$$\mathbf{x} =
+    \sum_{i=1}^m \lambda_i \mathbf{k} _i + \sum_{i=1}^n \mu_i \mathbf{u}
+    _i $$
+for some scalars
+$\lambda_i,\mu_i$ since $\mathbf{k} _1,\ldots, \mathbf{k} _m,
+\mathbf{u} _1,\ldots , \mathbf{u} _n$ is a basis of
+$U$.  Then
+\begin{multline*}
+	f(\mathbf{x})=f\left( \sum_{i=1}^m \lambda_i \mathbf{k} _i +
+    \sum_{i=1}^n \mu_i \mathbf{u} \right)
+    =\sum_{i=1}^m \lambda_i f(\mathbf{k} _i) +
+    \sum_{i=1}^n \mu_i (\mathbf{u}_i)  
+	=\sum_{i=1}^n \mu_i f(\mathbf{u}_i)
+\end{multline*}
+because $f(\mathbf{k}_i)=\mathbf{0}_V$ for all $i$. This shows that any element $f(\mathbf{x})$ of the image
+of $f$ is in the span of the
+$f(\mathbf{u}_i)$.
+
+Now we show $f(\mathbf{u}_1),\ldots,f(\mathbf{u}_n)$ is linearly independent.  Suppose
+$$\sum_{i=1}^n \lambda_i f(\mathbf{u}_i)=\mathbf{0}_V$$ for some scalars $\lambda_i$; we want to
+prove all these scalars must be zero.  By linearity $f\left(\sum_{i=1}^n
+	\lambda_i\mathbf{u}_i\right)=\mathbf{0}_V$
+and so $\sum _{i=1}^n \lambda_i \mathbf{u}_i \in \ker f$.  But
+$\mathbf{k} _1,\ldots, \mathbf{k} _m$ is a basis of
+the kernel of $f$, so there exist scalars $\mu_i$ such that
+\begin{equation*}
+	\sum_{i=1}^n \lambda_i \mathbf{u}_i = \sum_{i=1}^m \mu_i
+    \mathbf{k}_i
+\end{equation*}
+or equivalently
+\begin{equation*}
+	\sum_{i=1}^n \mu_i
+	\mathbf{k}_i-\sum_{i=1}^m \lambda_i \mathbf{u}_i=\mathbf{0}_U.
+\end{equation*}
+This is a linear dependence relation on $\mathbf{k} _1,\ldots, \mathbf{k   _m}, \mathbf{u} _1,\ldots, \mathbf{u}_n$,
+but those vectors are a basis of $U$ hence linearly independent.
+ Thus all the $\lambda_i$ and $\mu_i$ are zero,
+completing the proof that $f(\mathbf{u}_1),\ldots,f(\mathbf{u}_n)$ is
+linearly independent.
+```
+
+***
+
+```{corollary, label="pig"}
+Let $U$ and $V$ be finite-dimensional $\FF$-vector spaces with $\dim U = \dim V$, and let $f:U \to V$ be a linear map.  Then the following are
+equivalent:
+
+- $f$ is a bijection.
+- $f$ is one-to-one.
+- $f$ is onto.
+
+```
+
+***
+
+You should compare this result about finite-dimensional vector spaces to
+the [pigeonhole principle](http://en.wikipedia.org/wiki/Pigeonhole_principle) for finite sets.
+
+```{proof}
+Suppose $f$ is one-to-one.  Then $\ker f = \{\mathbf{0}_U\}$, so by the
+rank-nullity theorem $\dim \im f = \dim V$.  Thus $\im f$ is a
+subspace of $V$ with the same dimension as $V$, so by
+Proposition \@ref(prp:dimssp) part 2, $\im f = V$
+and $f$ is onto.
+
+Suppose $f$ is onto, so $\im f = V$.  Then $\dim \im f = \dim V
+= \dim U$ so by rank-nullity, $\dim \ker f = 0$ and $\ker f =
+\{\mathbf{0}_U\}$.  So $f$ is one-to-one and is therefore a bijection.
+
+Lastly, $f$ being a bijection certainly implies it is
+one-to-one.  We've shown 1) implies 2) implies 3) implies 1)
+therefore they are all equivalent.
+```
+
+***
+
+A linear map $f:U \to V$ which is a bijection is called an
+**isomorphism of vector spaces** or just an isomorphism.  If there
+exists an isomorphism from $U$ to $V$ we say that $U$ and $V$ are
+**isomorphic** and write $U \cong V$.
+
+
+### Eigenvalues and eigenvectors
+
+We defined eigenvalues and eigenvectors for square matrices in the last
+part of these notes.  Now we will define them for linear maps from a
+vector space to itself. Because we know how to turn a $n\times n$
+matrix into a linear map $\ff^n \to \ff^n$ (Example \@ref(exm:mxAsLinMap)
+part 2) this will generalize the old definition for matrices.
+
+```{definition}
+Let $f:V \to V$ be a linear map.  An **eigenvector** for $f$ is a nonzero $\mathbf{v} \in V$ such that there exists $\lambda \in \ff$ with $f( \mathbf{v} )= \lambda \mathbf{v}$.  In this case we say that $\mathbf{v}$ is a $\lambda$-eigenvector of $f$, and that $\lambda$ is an eigenvalue of $f$.
+
+```
+
+***
+
+```{example}
+
+
+- Let $A$ be a $n\times n$ matrix. Let $T_A: \ff^n \to \ff^n$ be $T_A( \mathbf{v} )= A \mathbf{v}$. Then a column
+vector $\mathbf{v}$ is an eigenvector for $T_A$ in the
+sense defined above if and only if it is an eigenvector for
+$A$ in the sense defined in the previous part of these
+notes.
+- Let $V$ be the real vector space of all polynomials in
+one variable $x$ with degree at
+most $n$ with real coefficients, and let $D:V \to V$  be
+$D(f)= \frac{df}{dx}$, the differentiation map.  Then $D$ is a
+linear map.  Any nonzero constant polynomial $c$ is an
+0-eigenvector of $D$, because
+\begin{equation*}
+    D(c) = 0 = 0 \times c
+\end{equation*}
+Any nonconstant polynomial $f$ is \emph{not} an eigenvector
+of $D$, because $D(f)$ has strictly smaller degree than
+$f$ so cannot be a scalar multiple of $f$.
+- Let $V$ be the real vector space of all differentiable
+functions $\rr \to \rr$, and let $D:V \to V$ be $D(f)=f'$ be
+the differentiation map again. The function $f(x)=e^{\lambda x}$ is
+a $\lambda$-eigenvector of $D$.
+- Let $M_{2\times 2}(\rr)$ be the real vector space of all
+$2\times 2$ matrices with real entries. Let
+$\operatorname{tr}:M_{2\times
+2}(\rr)
+\to M_{2\times 2}(\rr)$ be the map $\operatorname{tr}(A) =
+A^T$, the transpose of $A$.  The matrices
+$$\begin{pmatrix}
+        0&1\\1&0
+\end{pmatrix} \text{ and } \begin{pmatrix}
+    0&1 \\ -1 & 0
+\end{pmatrix}  $$
+are a 1-eigenvector and a $-1$-eigenvector of
+$\operatorname{tr}$ respectively.  Can you find some more
+$1$-eigenvectors?
+- Let $\id_V:V \to V$ be the identity map.  Then any nonzero $\mathbf{v}\in V$ is an eigenvector for $\id_V$ with eigenvalue 1.
+
+
+```
+
+***
+
+```{proposition, label="disteval"}
+Let $T:V \to V$ be linear and let $\mathbf{v} _1,\ldots, \mathbf{v}
+_n$ be eigenvectors of $T$ with \emph{distinct} eigenvalues
+$\lambda_1,\ldots, \lambda _n$. Then $\mathbf{v} _1,\ldots,
+\mathbf{v}_n$ are linearly independent. 
+```
+
+***
+
+Slogan version: eigenvectors with different eigenvalues are linearly
+independent.
+
+```{proof}
+By contradiction.  Choose a counterexample with $n$ as small as
+possible.  Note that $n$ must be bigger than 1 in this counterexample,
+as eigenvectors are nonzero so an eigenvector $\mathbf{v} _1$ on its
+own is linearly independent.
+
+A counterexample is a linear dependence relation 
+\begin{equation}
+(\#eq:deprel)
+    \sum _{i=1}^n a_i \mathbf{v} _i= \mathbf{0}_V.
+\end{equation}
+with not all $a_i=0$. Apply the linear map $T-\lambda_n \id_V$ to both sides. We have
+$$(T-\lambda _n\id_V) \mathbf{v} _i = T( \mathbf{v} _i)-\lambda _n
+\mathbf{v}_i = \lambda _i \mathbf{v} _i - \lambda _n \mathbf{v} _i =
+(\lambda _i-\lambda _n) \mathbf{v} _i$$
+and so \@ref(eq:deprel) becomes
+$$\sum_{i=1}^n a_i (\lambda_i-\lambda_n) \mathbf{v} _i = \mathbf{0}
+_V.$$
+The $i=n$ term is 0, so we can rewrite this as
+\begin{equation*}
+    \sum _{i=1}^{n-1} a_i (\lambda_i-\lambda_n) \mathbf{v} _i =
+    \mathbf{0}_V. 
+\end{equation*}
+This is a shorter linear dependence relation, so all the coefficients
+must be 0.  Since $\lambda_i-\lambda _n \neq 0$ for $i<n$ we must have
+$a_i=0$ for $i<n$.  Then \@ref(eq:deprel) just says $a_n \mathbf{v} _n=
+\mathbf{0}_V$, so $a_n=0$ too. We've shown all the $a_i$ in
+\@ref(eq:deprel) were zero, a contradiction. 
+
+```
+
+***
+
+```{definition}
+
+    
+- A linear map $T:V \to V$ is called **diagonalizable** if and only if there is a basis of $V$ consisting of eigenvectors of $T$.    
+- An $n\times n$ matrix is called **diagonalizable** if and only if there is a  basis of $\ff^n$ consisting of eigenvectors of $A$. 
+
+
+```
+
+This means $A$ is diagonalizable if and only if $T_A:\ff^n \to \ff^n$ is
+diagonalizable.
+
+Diagonalizable linear maps $T:V \to V$ are the easiest linear maps to understand, because they
+behave in a simple way: $V$ has a basis $\mathbf{v} _1,\ldots,
+\mathbf{v}_n$ say, consisting of eigenvectors of $T$, and all $T$ does
+is to multiply each $\mathbf{v} _i$ by a certain scalar.
+
+```{example}
+
+
+- The zero map $V \to V$ is diagonalizable. Any basis of $V$ is a basis consisting of 0-eigenvectors for this map.
+- The identity map $V \to V$ is diagonalizable. Any basis of $V$ is a basis consisting of $1$-eigenvectors for this map.  For the same sort of reason, any multiple $\lambda \id_V$ is diagonalizable too
+- Let $n>1$ and let $V$ be the space of polynomials of degree at most $n$ in one variable $x$ over the real numbers. Let $D:V \to V$ be the differentiation map.  We've already seen that every eigenvector of $D$ is a constant polynomial, so there cannot be a basis of $V$ consisting of eigenvectors of $D$ which is therefore not diagonalizable.
+- The transpose map $\operatorname{tr}: M_{2\times 2}(\rr) \to M_{2\times 2}(\rr)$ is diagonalizable.  First note that we have $\tr (\tr(A))=A$. It follows that if $\lambda$ is an eigenvalue of $\tr$ then $\lambda^2=1$: if $A$ is a $\lambda$-eigenvector then $A= \tr(\tr(A)) = \tr(\lambda A) = \lambda \tr(A) = \lambda ^2 A$. So $\lambda=\pm 1$.  A 1-eigenvector is a matrix which is its own transpose, e.g.
+$$\begin{pmatrix}
+        1&0\\0&0
+\end{pmatrix} , \begin{pmatrix}
+    0&0\\0&1 
+\end{pmatrix} , \begin{pmatrix}
+    0&1 \\1&0
+  \end{pmatrix}.$$
+The matrix 
+$$\begin{pmatrix}
+        0& 1 \\ -1 & 0
+\end{pmatrix}$$
+is a $-1$-eigenvector for $\tr$.  You can check that these four
+eigenvectors are linearly independent, so they form a basis of the
+four-dimensional vector space $M_{2\times 2}(\rr)$, so $\tr$ is
+diagonalizable.
+
+
+```
+
+***
+
+A **diagonal matrix** is a square matrix of the form
+\begin{equation*}
+    \begin{pmatrix}
+d_{11} & 0      & 0      & \cdots & 0 \\
+0      & d_{11} & 0      & \cdots & 0        \\
+0 &   0    & \ddots &        & \vdots   \\
+\vdots &  \vdots     &  &  \ddots       & \vdots   \\
+0      & 0      & \cdots & \cdots  & 0
+    \end{pmatrix}
+\end{equation*}
+that is, a matrix $(d_{ij})$ where $d_{ij}=0$ if $i \neq j$. 
+We  write $\diag( a_1,\ldots,a_n)$ for the $n\times n$ diagonal matrix
+whose $(1,1),(2,2),\ldots$ entries are $a_1,a_2,\ldots$
+
+If $T:V \to V$ is diagonalizable and $\mathcal{B} = \mathbf{v} _1,\ldots,
+\mathbf{v}_n$ is a basis of $V$ in eigenvectors of $T$ then its matrix
+with respect to $\mathcal{B}$ is diagonal:
+\begin{equation*}
+    [T]_ \mathcal{B} ^ \mathcal{B}  = \diag (
+    \lambda_1,\ldots,\lambda_n)
+\end{equation*}
+where $\lambda_i$ is the eigenvalue of $\mathbf{v} _i$.
+
+```{proposition}
+If $\dim V=n$ and $T:V \to V$ has $n$ distinct eigenvalues then $T$
+is diagonalizable.
+```
+
+```{proof}
+Let the distinct eigenvalues be $\lambda_1,\ldots,\lambda_n$.  Let $\mathbf{v_i}$ be  a $\lambda_i$-eigenvector. Then the $\mathbf{v} _i$
+form a basis of $V$, since they are linearly independent  by Proposition
+\@ref(prp:disteval) and there are $n=\dim V$ of them so they span a subspace
+of $V$ with dimension $\dim V$ and which is therefore all of $V$.
+```
+
+***
+
+It is important to remember that the converse of this result is false.
+A diagonalizable linear map **does not have to have $\dim V$
+distinct eigenvalues**.  Consider the identity map $V \to V$: it only has
+one eigenvalue, namely 1, but it is diagonalizable: \emph{any} basis of
+$V$ is a basis consisting of 1-eigenvectors of the identity map.
+
+
+```{proposition}
+Let $A$ be a diagonalizable matrix. Let $\mathbf{v} _1,\ldots,
+\mathbf{v}_n$ be a basis of $\ff^n$ consisting of eigenvectors of
+$A$. Let  $P$ be the matrix whose columns are the $\mathbf{v}_i$.
+Then
+\begin{equation*}
+    P^{-1}AP =D 
+\end{equation*}
+where $D$ is the diagonal matrix whose $i$th diagonal entry is the
+eigenvalue of $\mathbf{v} _i$.
+```
+```{proof}
+Let $\mathcal{B}$ be the standard basis of $\ff^n$ and $\mathcal{C}$ the basis $\mathbf{v}_1,\ldots, \mathbf{v} _n$.
+$P$ is the matrix of the identity map with respect to initial basis $\mathcal{C}$ and final basis $\mathcal{B}$ that is,
+$P=[\id]^\mathcal{C}_\mathcal{B}$. By 
+Proposition \@ref(prp:comp),
+\begin{equation*}
+   I_n= [\id]_ \mathcal{B} ^ \mathcal{B} = [\id]_ \mathcal{B} ^ \mathcal{C}
+   [\id]_ \mathcal{C} ^ \mathcal{B} = P [\id]_ \mathcal{C}^ \mathcal{B}
+   .
+\end{equation*}
+So $P$ is invertible with inverse $P^{-1}=[\id]_ \mathcal{C} ^
+\mathcal{B}$.  By the change of basis formula,
+\begin{equation*}
+    [T_A]_ \mathcal{B} ^ \mathcal{B} [\id] _ \mathcal{B} ^ \mathcal{C} =
+    [\id]^ \mathcal{C} _ \mathcal{B} [T_A]^ \mathcal{C} _ \mathcal{C} 
+\end{equation*}
+Since $[T_A]^ \mathcal{B} _ \mathcal{B} =A$ and $[T_A]^ \mathcal{C} _
+\mathcal{C}=D$ this says $AP=PD$, which is equivalent to what we wanted
+to prove.
+```
+
+***
+
+One reason this is useful is in finding powers of matrices.  It's very
+easy to find powers of diagonal matrices, for example,
+\begin{equation*}
+\begin{pmatrix}
+    a &  0 \\ 0 & b 
+\end{pmatrix} ^n = \begin{pmatrix}
+    a^n & 0 \\ 0 & b^n
+\end{pmatrix} .
+\end{equation*}
+If we have a diagonalizable matrix $A$ there is a basis of $\ff^n$
+consisting of eigenvectors of $A$, and we can form a matrix $P$ whose
+columns are the elements of this basis.  Then $P^{-1}AP=D$ for a
+diagonal matrix $D$, so $A=PDP^{-1}$, so
+\begin{align*}
+    A^n &= (PDP^{-1})^n \\
+        &= PDP^{-1}PDP^{-1}\cdots PDP^{-1}PDP^{-1} \\
+        &= PDI_n D I_n \cdots I_n D I_n P^{-1} \\
+        &= PDD\cdots D P^{-1}\\
+        &= PD^n P^{-1}
+\end{align*}
+Since $D^n$ is easy to find, this gives a method of computing a closed
+formula for $A^n$.
+
+```{example}
+Let $A = \begin{pmatrix} 1 & 1 \\  1&1
+\end{pmatrix}$. We've seen that the characteristic polynomial of
+$A$ is $x(x-2)$, so $A$ has two distinct eigenvalues 0 and 2, so $A$
+is diagonalizable.  If we find a 0-eigenvector and a 2-eigenvector
+they must be linearly independent (as they are eigenvectors with
+different eigenvalues), so they will form a basis of $\rr^2$.  It
+turns out that $\begin{pmatrix}
+    1\\1
+\end{pmatrix}$ is a 2-eigenvector and $\begin{pmatrix}
+    1\\-1
+\end{pmatrix}$ is a 0-eigenvector.  Let $P$ be the matrix with
+these eigenvectors as columns, so $P = \begin{pmatrix}
+    1 & 1 \\ 1 & -1
+\end{pmatrix}$.  Then $P^{-1}AP$ is a diagonal matrix with the
+eigenvalues of $A$ on the diagonal: 
+\begin{equation*}
+    P^{-1}AP = \begin{pmatrix}
+        2&0 \\ 0 & 0
+    \end{pmatrix} .
+\end{equation*}
+```

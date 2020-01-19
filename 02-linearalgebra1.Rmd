@@ -1,0 +1,1328 @@
+# Matrices and vectors {#linalg1}
+
+
+## Definitions and matrix algebra
+
+***
+
+```{definition}
+
+
+- An $m\times n$ **matrix** is a rectangular grid of numbers with $m$ rows
+and $n$ columns.
+- A **column vector** is an $m\times 1$ matrix. 
+-  The set of all $m\times 1$ column vectors with real numbers are entries is written $\mathbb{R}^n$.
+- A **row vector** is a $1\times n$ matrix.
+- A **square** matrix is one which is $m\times m$ for some $m$. 
+
+
+```
+
+***
+
+We typeset matrices like this:
+$$A= \begin{pmatrix}
+1 & 2 & 3 \\ 0 & -1 & \pi
+  \end{pmatrix}, B=\begin{pmatrix}
+1 \\ 2 \\ 3
+  \end{pmatrix}, C=\begin{pmatrix}
+0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 1
+  \end{pmatrix}$$
+these being a $2\times 3$ matrix, a $3\times 1$ column vector, and a
+$3\times 3$ square matrix respectively.
+
+***
+
+```{definition}
+The $i,j$ entry of a matrix is the number in row $i$ and column $j$.
+
+
+```
+
+***
+
+For example, the $1,2$ entry of $A$ is 2, the $2,1$ entry is 0,
+and the $2,3$ entry is $\pi$.  We often write $A_{ij}$ for the
+$i,j$ entry of $A$, or write $A=(a_{ij})$ to mean that $A$ is a
+matrix whose $i,j$ entry is $a_{ij}$.
+
+If two matrices $A$ and $B$ are the same size (that is, they are both
+$m\times n$ for the same $m$ and $n$) then we add and subtract them
+by adding and subtracting each entry separately:
+
+\begin{align*} \begin{pmatrix}
+1&2\\ 3 & 4
+\end{pmatrix} + \begin{pmatrix}
+0 & 1 \\ -1 & -1
+\end{pmatrix} &= \begin{pmatrix}
+1 & 3 \\ 2 & 3
+\end{pmatrix} \\
+\begin{pmatrix}
+1&0
+\end{pmatrix} - \begin{pmatrix}
+9 & 9
+\end{pmatrix} &= \begin{pmatrix}
+-8 & -9
+\end{pmatrix}
+\end{align*}
+
+We also multiply matrices by numbers one entry at a time
+('entrywise'):
+$$ 2 \begin{pmatrix}
+1&2&3 \\0 & 1 & 0
+  \end{pmatrix}= \begin{pmatrix}
+    2&4&6\\0&2&0
+  \end{pmatrix} $$
+
+This is called **scalar multiplication**. It satisfies some
+simple identities: for any matrices $A$ and $B$ of the same size and
+any number $\lambda$ and $\mu$,
+\begin{align*}
+(\lambda + \mu) A &= \lambda A + \mu A \\
+\lambda (A+B) &= \lambda A + \lambda B \\
+\lambda(\mu A) &= (\lambda \mu)A.
+\end{align*}
+
+***
+
+```{definition}
+The $m\times n$ **zero matrix**, written $\mathbf{0}_{m\times
+  n}$, is the $m\times n$ matrix all of whose entries are zero.
+
+
+```
+
+***
+
+```{definition}
+The **transpose** of an $m\times n$ matrix $A$, written $A^T$, is
+the $n\times m$ matrix whose $i,j$ entry is the $j,i$ entry of $A$.
+
+
+```
+
+***
+
+To get $A^T$ from $A$ you reflect $A$ in a mirror placed along its
+'leading diagonal': the line containing the entries
+$(1,1),(2,2),\ldots$. Another way to think about transpose is that the
+columns of $A$ become the rows of $A^T$, or alternatively the rows of
+$A$ become the columns of $A^T$.
+
+$$ \begin{pmatrix}
+1&2 \\ 0 & 3
+  \end{pmatrix}^T =\begin{pmatrix}
+1 & 0 \\ 2 & 3
+  \end{pmatrix}, \begin{pmatrix}
+1&2
+  \end{pmatrix}^T = \begin{pmatrix}
+1 \\ 2
+  \end{pmatrix}, \begin{pmatrix}
+a & b & c \\ d & e & f
+  \end{pmatrix}^T = \begin{pmatrix}
+a & d \\ b & e \\ c & f
+  \end{pmatrix}.
+  $$
+
+Notice that for any matrix $A$ we have $(A^{T})^T = A$.
+
+## Matrix multiplication
+
+***
+
+```{definition}
+Let $A=(a_{ij})$ be $m\times n$ and $B=(b_{ij})$ be $n \times p$. The
+matrix product $AB$ is the $m\times p$ matrix whose $i,j$ entry is
+$$ \sum_{k=1}^n a_{ik}b_{kj}. $$
+
+
+```
+
+***
+
+Notice that we *only* define the product $AB$ when the number of columns
+of $A$ is the same as the number of rows of $B$.
+
+This definition is mostly useful when we want to prove facts about
+matrix multiplication.  To actually calculate matrix products this
+way, it's easier to remember how to multiply a $m\times n$ matrix and
+a $n\times 1$ column vector:
+$$ A \begin{pmatrix}
+x_1 \\ x_2 \\ \vdots \\ x_n
+  \end{pmatrix} = \begin{pmatrix}
+a_{11} x_1 + a_{12}x_2 + \cdots + a_{1n}x_n \\
+a_{21} x_1 + a_{22}x_2 + \cdots + a_{2n}x_n \\
+\vdots \\
+a_{m1} x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n \\
+  \end{pmatrix} $$
+then use the fact that matrix multiplication works columnwise: if the
+columns of $B$ are $\mathbf{c}_1,\ldots,\mathbf{c}_p$ then
+$$ AB = \begin{pmatrix}A\mathbf{c}_1 & \cdots &
+    A\mathbf{c}_p \end{pmatrix}
+$$
+that is, $AB$ is the matrix whose $i$th column is $A\mathbf{c}_i$.
+
+Another way to think about matrix multiplication, if you are already
+familiar with dot products, is that the $i,j$ entry of $AB$ is the
+dot product of the $i$th row of $A$ and the (transpose of the) $j$th
+column of $B$.
+
+Here are some important properties of matrix multiplication:
+
+***
+
+```{proposition}
+  Let $A$ and $A'$ be $m\times n$, $B$ and $B'$ be $n \times p$, and $C$ be $p \times
+  q$. Let $\lambda$ be a number.
+
+
+- $(AB)C=A(BC)$ (that is, matrix multiplication is **associative**).
+- $(A+A')B=AB + A'B$, $A(B+B')=AB+AB'$ (matrix multiplication **distributes over addition**).
+- $(\lambda A) B = \lambda (AB) = A(\lambda B)$.
+- $A \mathbf{0}_{n\times p}= \mathbf{0}_{m\times p}$ and $\mathbf{0}_{p\times m} A = \mathbf{0}_{p\times n}$.
+- $(AB)^T = B^T A^T$.
+  
+
+```
+
+```{proof}
+  Let $A=(a_{ij}), A'=(a'_{ij}), B=(b_{ij}), B'=(b'_{ij}),
+  C=(c_{ij})$.  We'll sometimes write $X_{ij}$ to mean the $i,j$ entry
+  of a matrix $X$ during this proof.
+
+
+- $AB$ has $i,j$ entry $\sum_{k=1}^n a_{ik}b_{kj}$, so the $i,j$ entry of $(AB)C$ is $$ \sum_{l=1}^p (AB)_{il} c_{lj} = \sum_{l=1}^p \sum_{k=1}^n a_{ik}b_{kl}c_{lj}.$$ On the other hand, the $i,j$ entry of $BC$ is $\sum_{l=1}^pb_{il}c_{lj}$ so the $i,j$ entry of $A(BC)$ is 
+\begin{align*}\sum_{k=1}^n a_{ik}(BC)_{kj} &= \sum_{k=1}^n a_{ik} \sum_{l=1}^p b_{kl}c_{lj}\\ &= \sum_{k=1}^n \sum_{l=1}^p a_{ik}b_{kl}c_{lj}.  \end{align*}
+These are the same: it doesn't matter if we do the $k$ or $l$ summation first, since we just get the same terms in a different order.
+- See problem sheet 4.
+- The $i,j$ entry of $\lambda A$ is $\lambda a_{ij}$, so the $i,j$ entry of $(\lambda A)B$ is $$ \sum_{k=1}^n(\lambda a_{ik})b_{kj} = \lambda \sum_{k=1}^n a_{ik}b_{kj}= \lambda (AB)_{ij}$$ so $(\lambda A)B$ and $\lambda (AB)$ have the same $i,j$ entry for any $i,j$, and are therefore equal.  The second equality can be proved similarly.
+- This is clear from the definition of matrix multiplication.
+- See problem sheet 3, question 6. 
+
+
+```
+
+***
+
+
+These properties show some of the ways in which matrix multiplication
+is like ordinary multiplication of numbers.  There are two important
+ways in which it is different: in general, $AB \neq BA$
+\begin{align*} 
+\begin{pmatrix}
+1 & 2 \\ 3 & 4
+  \end{pmatrix} 
+\begin{pmatrix}
+5 & 6 \\ 7 & 8
+  \end{pmatrix}
+& = \begin{pmatrix}
+19 & 22 \\
+43 & 50
+  \end{pmatrix} \\
+\begin{pmatrix}
+5 & 6 \\ 7 & 8
+  \end{pmatrix}
+\begin{pmatrix}
+1 & 2 \\ 3 & 4
+  \end{pmatrix}  &= 
+\begin{pmatrix}
+23 & 34 \\
+31 & 46
+\end{pmatrix}
+\end{align*}
+and unlike for multiplying numbers, we can have $AB=\mathbf{0}$ even
+when $A,B\neq \mathbf{0}$:
+$$ \begin{pmatrix}
+0&1\\0&0
+  \end{pmatrix} \begin{pmatrix}
+0 & 2 \\ 0 & 0
+  \end{pmatrix} = \begin{pmatrix}
+0&0\\0&0
+  \end{pmatrix}.$$
+
+There is a matrix which behaves like 1 does under multiplication:
+
+***
+
+```{definition}
+  The $n\times n$ **identity matrix** $I_n$ is the matrix whose
+  $i,j$ entry is 1 if $i=j$ and 0 otherwise.
+```
+
+***
+
+$$ I_2= \begin{pmatrix} 1&0\\0&1\end{pmatrix}, I_3 = \begin{pmatrix}
+    1&0&0\\0&1&0\\0&0&1 \end{pmatrix} .$$
+
+***
+
+```{proposition}
+Let $A$ be $m\times n$. Then $AI_n = A = I_m A$.
+```
+
+```{proof}
+Let $A=(a_{ij})$, and write $I_n = (\delta_{ij})$ so that
+$\delta_{ij}=0$ if $i\neq j$ and $\delta_{ii}=1$ for each $i$.  Using
+the definition of matrix multiplication, the $i,j$ entry of $AI_n$
+is
+$$
+\sum_{k=1}^n a_{ik}\delta_{kj}.
+$$
+The only term in the sum which is not zero is when $k=j$, and this
+term is $a_{ij}\times 1 = a_{ij}$. Thus the $i,j$ entry of $AI_n$ is
+the same as the $i,j$ entry of $A$, and $AI_n=A$.
+
+The proof that $I_m A=A$ is similar.
+```
+
+***
+
+
+```{definition}
+  An $n\times n$ matrix $A$ is called **invertible** if there is
+  an $n\times n$ matrix $B$ such that $AB=I_n=BA$.
+```
+
+***
+
+If $A$ is invertible then there is one and only one matrix $B$ such
+that $AB=I_n=BA$, since if $AC=CA=I_n$ then
+$$ B= I_nB=(CA)B = C(AB)=CI_n = C.$$
+We therefore use the notation $A^{-1}$ for the matrix such that $AA^{-1}=A^{-1}A=I_n$.
+
+Not every non-zero square matrix is invertible.  For example, suppose that
+$A$ and $B$ are non-zero matrices such that $AB=\mathbf{0}_{n\times
+  n}$ (we have already seen examples of this).  If $A$ were invertible
+we would have 
+\begin{align*}
+A^{-1} AB &= A^{-1} \mathbf{0}_{n\times n} \\
+B &= \mathbf{0}_{n\times n}
+    \end{align*}
+which is not the case.  It follows that if there is a non-zero matrix
+$B$ such that $AB=\mathbf{0}_{n\times n}$ then $A$ isn't invertible
+(and a similar argument shows neither is $B$).
+
+The last thing in this section on matrix multiplication is a quick
+comment on where it comes from.  If $A$ is an $m\times n$ matrix (with
+real number entries, say) then there is a function
+\begin{align*}
+T_A: &  \mathbb{R}^n \to \mathbb{R}^m \\
+ & T_A(\mathbf{v}) = A\mathbf{v}
+\end{align*}
+
+Now suppose $B$ is $n \times p$, so that there is a similar map $T_B :
+\mathbb{R}^p \to \mathbb{R}^n$.  The composition $T_A \circ T_B$ makes
+sense as a map $\mathbb{R}^p \to \mathbb{R}^m$, and it turns out
+$$ T_A \circ T_B = T_{AB}.$$
+The connection with composition of maps is why matrix multiplication
+is defined the way it is.
+
+## Linear equations
+
+A **system of linear equations** in the variables $x_1,\ldots,x_m$ is a list of simultaneous
+equations
+\begin{align} 
+a_{11}x_1 + a_{12} x_2 + \cdots + a_{1m}x_m &= b_1 \\
+a_{21}x_1 + a_{22} x_2 + \cdots + a_{2m}x_m &= b_2 \\
+\vdots & \vdots \\
+a_{n1}x_1 + a_{n2} x_2 + \cdots + a_{nm}x_m &= b_n
+\end{align}
+(\#eq:sle)
+where the $a_{ij}$ and $b_i$ are numbers.
+
+If we let $A$ be the matrix $(a_{ij})$, $\mathbf{b}$ the column vector $\begin{pmatrix}
+b_1\\ \vdots \\ b_n
+\end{pmatrix}$, and $\mathbf{x}$ the column vector $\begin{pmatrix}
+x_1 \\ \vdots \\ x_m
+\end{pmatrix}$ then we can express \@ref(eq:sle) by saying
+
+$$
+(\#eq:mxform) A \mathbf{x} = \mathbf{b}.
+$$
+
+A **solution** of this system is a list of values for the $x_i$s
+such that when we substitute them into \@ref(eq:mxform), the equation
+holds.  A system of linear equations is **consistent** if it has
+a solution, otherwise it is **inconsistent**.
+
+## Row operations
+
+When we want to find solutions to a system of linear equations, we
+usually go about it by adding or subtracting multiples of one equation
+from another in order to eliminate variables one by one.  These
+operations on equations correspond to **row operations** on the
+matrix form \@ref(eq:mxform) of the equations.
+
+***
+
+```{definition, label="rowops"}
+A **row operation**, or row op, is one of the following procedures we can apply to a matrix.
+
+- $r_i(\lambda)$: multiply each entry in row $i$ by the number $\lambda \neq 0$. This is also written $r_i \mapsto \lambda r_i$.
+- $r_{ij}$: swap rows $i$ and $j$. This is also written $r_i \leftrightarrow r_j$.
+- $r_{ij}(\lambda)$: add $\lambda$ times row $i$ to row $j$, where $i \neq j$. This is also written $r_j \mapsto r_j + \lambda r_i$. 
+
+
+```
+
+***
+
+Sometimes these are called **elementary row operations**, but
+we'll just call them row operations. If $r$ is a row operation and $A$ a matrix we write $r(A)$ for the
+result of applying $r$ to $A$.
+
+
+***
+
+```{example}
+Let $A$ be the matrix $\begin{pmatrix}
+1 & 2 \\ 3 & 4
+\end{pmatrix}$.  Then
+\begin{align*} r_1(2) (A) &= \begin{pmatrix}
+2 & 4 \\ 3 & 4
+\end{pmatrix}\\ r_{12}(A) &= \begin{pmatrix}
+3 & 4 \\ 1 & 2
+\end{pmatrix} \\ r_{12}(-3)(A) &= \begin{pmatrix}
+1 & 2 \\ 0 & -2
+\end{pmatrix}.\end{align*}
+```
+
+***
+
+```{lemma, label="rowopsinvertible"}
+All row operations are invertible.  That is, if $r$ is a row operation
+then there is another row operation such that $r(s(A))=s(r(A))=A$ for
+all matrices $A$.
+```
+
+```{proof}
+	This is done case by case: a row swap is its own inverse, $r_i(\lambda)$ has inverse $r_i(\lambda^{-1})$ and $r_{ij}(\lambda)$ has inverse $r_{ij}(-\lambda)$.
+```
+
+***
+
+```{definition}
+The **augmented matrix** associated to a system of linear equations written in matrix form $A \mathbf{x}=\mathbf{b}$ is the matrix obtained by adding $\mathbf{b}$ as an extra column on the right of $A$.
+```
+
+***
+
+Often people write $(A | \mathbf{b})$ or put a dotted line before the last column of an augmented matrix to emphasise where it came from.
+
+***
+
+```{example}
+The augmented matrix associated to the system
+\begin{align*}
+2x+3y &= 0 \\
+4x-7y &= 2
+\end{align*}
+  is
+$$ \begin{pmatrix}
+	2 & 3 & 0 \\
+	4 & - 7 & 2
+\end{pmatrix} $$
+```
+
+***
+
+Doing a row operation to the
+augmented matrix of a system corresponds to manipulating the system of
+equations in a way that doesn't change the solutions.
+
+Suppose we have a matrix equation $A \mathbf{x}=\mathbf{b}$, where
+$\mathbf{x}$ is a matrix of indeterminates. A **solution**
+$\mathbf{v}$ of this matrix equation is defined to be a column vector of
+numbers such that $A \mathbf{v}=\mathbf{b}$.
+
+***
+```{proposition, label="ropsolns"}
+Let $A \mathbf{x} = \mathbf{b}$ be a system of linear
+equations in matrix form.  Let $r$ be one of the row operations from
+Definition \@ref(def:rowops), and let $(A' | \mathbf{b}')$ be the
+result of applying $r$ to the augmented matrix $(A |
+\mathbf{b})$.  Then a vector $\mathbf{v}$ is a solution of $A
+\mathbf{x}=\mathbf{b}$ if and only if it is a solution of $A'
+\mathbf{x}= \mathbf{b}'$.  
+```
+
+```{proof}
+The only row operation for which this is not obvious is $r_{ij}(\lambda)$, which adds $\lambda$ times row $i$ to row $j$.
+
+First suppose $\mathbf{v}=\begin{pmatrix}
+v_1 \\ \vdots \\ v_m
+\end{pmatrix}$ is a solution of the system $A \mathbf{x}=\mathbf{b}$.
+We have to show it is a solution to the new system $A'
+\mathbf{x}=\mathbf{b}'$.    Since $\mathbf{v}$ is a solution of $A
+\mathbf{x}=\mathbf{b}$ we have
+\begin{align*}
+	a_{i1}v_1 + \cdots + a_{im}v_m &= b_i \\
+	a_{j1}v_1 + \cdots + a_{jm}v_m &= b_j .
+\end{align*}
+It follows by adding $\lambda$ times the first equation to the second that
+$$
+	(a_{j1}+\lambda a_{i1})v_1 + \cdots + (a_{jm}+\lambda a_{im})v_m
+	= b_j + \lambda b_i,
+$$
+and therefore $\mathbf{v}$ is a solution of $A'\mathbf{x}=\mathbf{b}'$.
+
+Conversely, suppose $\mathbf{v}=\begin{pmatrix}
+v_1 \\ \vdots \\ v_m
+\end{pmatrix}$ is a solution of the system $A' \mathbf{x}=\mathbf{b}'$.
+We have to show $A \mathbf{v}=\mathbf{b}$. First note that only the
+$j$th equation in this system is a problem, since all the other
+equations are the same as those of the system $A'
+\mathbf{x}=\mathbf{b}'$.  So we only need to show that the $j$th holds,
+that is, that
+$$
+	a_{j1}v_1 + \cdots + a_{jm}v_m = b_j .
+$$
+But the $i$th and $j$th equations of the system $A'
+\mathbf{x}=\mathbf{b}'$ tell us
+\begin{align*}
+	a_{i1}v_1 + \cdots + a_{im}v_m &= b_i \\
+	(a_{j1}+\lambda a_{i1})v_1 + \cdots + (a_{jm}+\lambda a_{im})v_m
+&	= b_j + \lambda b_i.
+\end{align*}
+Subtracting $\lambda$ times the first equation from the second gives us
+what we need.
+```
+
+***
+
+```{definition}
+An **elementary matrix** is one that results from doing a single row operation to an identity matrix.
+```
+
+***
+
+The next proposition shows that doing a row operation to a matrix has the same effect as multiplying
+it by an elementary matrix.
+
+***
+
+```{proposition, label="rowOpsAreMult"}
+Let $r$ be a row operation and $A$ an $m\times n$ matrix. Then $r(A)=r(I_m)A$.
+```
+
+```{proof}
+It's enough to check the case when $A=\begin{pmatrix}
+a_1\\ \vdots \\ a_m
+\end{pmatrix}$ is a column vector, because of
+the columnwise nature of matrix multiplication.  There are three cases
+according to the three types of row operation. In each case we will work out
+$r(I_m)A$ and show that it is the same as $r(A)$. For any $l$, the
+$l$th entry of  $r(I_m)A$ is
+
+\begin{equation}
+(\#eq:lth)
+\sum_{k=1}^m s_{lk}a_k
+\end{equation}
+
+where $s_{lk}$ is the $l,k$ entry of $r(I_m)$.
+
+
+- $r=r_i(\lambda)$. For $l\neq i$, the $l$th row of $r(I_m)$ is the same as the $l$th row of $I_m$, so $s_{lk}=0$ unless $k=l$ in which case it is 1. So from \@ref(eq:lth), the $l$th entry of $r(I_m)A$ is $a_l$.  If $l=i$ then $s_{lk}=\lambda$ if $k=l$ and 0 otherwise, so by \@ref(eq:lth) the $i$th entry of $r(I_m)A$ is $\lambda a_i$. Therefore $r(I_m)A$ is the same as $A$, except that the $i$th entry is multiplied by $\lambda$. This is $r(A)$.
+- $r=r_{ij}$.  There are three cases for $l$. 
+    * $l\neq i,j$. In this case $s_{lk}=0$ unless $k=l$ in which case it is 1, so from \@ref(eq:lth) the sum equals $a_r$.  
+    * $l=i$. Since $r_{ij}(I_m)$ swaps rows $i$ and $j$ of $I_m$, $s_{ik}=1$ if $k=j$ and 0 otherwise. So the sum is $a_j$.
+    * $l=j$. Similar to the last case, the sum equals $a_i$.
+Therefore $r(I_m)A$ is the same as $A$, except in row $i$ where $a_j$ appears and row $j$ where $a_i$ appears. This is $r(A)$.
+- $r=r_{ij}(\lambda)$. This time the rows of $r(I_m)$ are the same as the rows of $I_m$, except the $i$th which has $i,i$ entry 1 and $i,j$ entry $\lambda$, so $s_{ii}=1, s_{ij}=\lambda$, and all other $s_{ik}=0$. From \@ref(eq:lth), every entry of $r(I_m)A$ is the same as the corresponding entry of $A$ except the $i$th, where we get $a_i+\lambda a_j$, and again, $r(I_m)A$ is the same as $r(A)$.
+
+
+```
+
+***
+
+```{corollary, label="elemInv"}
+Elementary matrices are invertible.
+```
+
+```{proof}
+Each row operation $r$ has an inverse $r^{-1}$ by Lemma \@ref(lem:rowopsinvertible). Then
+
+$$ 
+r(I_m) r^{-1}(I_m) = r(r^{-1}(I_m))
+$$
+
+by Proposition \@ref(prp:rowOpsAreMult), and this equals $I_m$.
+Similarly $r^{-1}(I_m)r(I_m)=I_m$, so the elementary matrix
+$r(I_m)$ is invertible with inverse $r^{-1}(I_m)$.
+```
+
+***
+
+
+### Row reduced echelon form
+
+Because doing row operations to the augmented matrix $(A|\mathbf{b})$
+doesn't change the solutions of the matrix equation
+$A\mathbf{x}=\mathbf{b}$, we have a method of solving such a system of
+linear equations: keep doing row ops until the equations are so simple
+that the solutions can be easily read off.  The 'simple' form we are
+looking for is called row reduced echelon form.
+
+***
+
+```{definition}
+
+
+- A **zero row** of a matrix is one in which every entry is 0.
+- The **leading entry** in a row of a matrix is the first non-zero entry, starting from the left.
+- A matrix is in **row reduced echelon form**, or RRE form or RREF for short, if:
+    * all leading entries are 1,
+    * any leading entry is strictly to the right of any leading entry in the row above it,
+    * if a column contains a leading entry, every other entry in that column is 0, and
+    * any zero rows are below any non-zero rows. 
+
+
+```
+
+***
+
+```{example}
+
+
+- $\begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix}$ isn't in RRE form: the zero row is at the top.
+- $\begin{pmatrix} 2 & 0 \\ 0 & 0 \end{pmatrix}$ isn't in RRE form: there is a row in which the left-most non-zero entry is not 1.
+- $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$ isn't in RRE form: the left-most 1 in row 2 is not to the right of the left-most 1 in the row above it.
+- $\begin{pmatrix} 1 &\alpha  &\beta & 3 \\ 0 &0 & 1 & -2 \end{pmatrix}$ is not in RRE  unless $\beta = 0$: the left-most 1 in row 2 is in column 3, but it is not the only non-zero entry in column 3 unless $\beta = 0$.
+- $\begin{pmatrix} 1 & 0 & 0 & 3 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 0 \end{pmatrix}$ is in RRE form. 
+
+
+```
+
+***
+
+
+If $(A|\mathbf{b})$ is the augmented matrix of a system of
+linear equations and $A$ is in RRE form, we can easily read off the
+solutions (if any) of the system.  For example, if we think of the
+fourth
+example above with $\alpha=1, \beta=0$ as the augmented matrix of a system of linear equations,
+those equations are
+
+\begin{align*}
+	x_1 + x_2&= 3 \\
+	x_3 &= -2
+\end{align*}
+
+and we can see that the general solution is $x_3=-2$, $x_2$
+can be anything, and $x_1 = 3-x_2$.  Similarly if we had a system whose
+augmented matrix was
+$$
+	\begin{pmatrix}
+	1 & 0 & 1 \\
+	0 & 1 & 5 \\
+	0 & 0 & 2
+	\end{pmatrix}
+$$
+then we can see that the system has no solutions, since the last
+equation says $0 = 2$ which is impossible.
+
+***
+
+```{proposition}
+Any matrix can be put into RRE form by performing a sequence of row operations.
+```
+
+
+```{proof}
+We'll first show that a matrix can be put into echelon form by doing row operations.
+The proof is by induction on the number of columns.  It is easy to get a
+one-column matrix into echelon form: if all entries are zero then the
+matrix is in echelon form already, if not, swap the zero rows so that
+they are at the bottom then multiply the non-zero rows by the reciprocal
+of their entries, then subtract the top row from all of the non-zero
+rows below it.  The matrix then looks like $\begin{pmatrix}
+1  \\ 0 \\ \vdots \\ 0
+\end{pmatrix}$ which is in echelon form.
+
+
+Now suppose $A$ is a matrix with $n>1$ columns.  By induction there
+is a sequence of row operations we can do that puts the matrix formed by the first $n-1$ columns of
+$A$ into echelon form.  Let $B$ be the result of doing those row
+operations to
+$A$, so that the first $n-1$ columns of $B$ form a matrix in echelon
+form, but $B$ itself may not be in echelon form because of its final
+column.  
+
+Suppose that the RREF matrix formed by the first $n-1$ columns of $B$
+has $k$ rows of zeros at the bottom.  The row operations we are about
+to do will affect only those $k$ rows.  If there are any zero entries in
+the bottom $k$ rows of the final column of $B$, swap the rows containing
+them to the bottom.  Multiply the rows amongst the last $k$ with
+non-zero final column entry by the reciprocal of that entry.  Subtract
+the top of these $k$ rows from each of the non-zero rows below it.  The
+resulting matrix is in echelon form.
+
+Now we have shown that any matrix $A$ can be reduced to echelon form
+by doing row operations.  To get it into RRE form using row operations, for each row which contains a
+leading entry, subtract multiples of that row from the others so that
+the leading entry is the only non-zero entry in its column.  It is then
+in RRE form.
+```
+
+***
+
+
+Here is the key result on RRE form and the solution of linear equations:
+
+***
+
+```{proposition, label="solnsinrre"}
+	Let $(A' | \mathbf{b}')$ be the result of putting
+	$(A|\mathbf{b})$ into RRE form. Then a vector $\mathbf{v}$ is a
+	solution of
+	$A\mathbf{x}=\mathbf{b}$ if and only if it is a solution of $A'
+	\mathbf{x} = \mathbf{b}'$.
+
+```
+
+```{proof}
+	There is a sequence $r_1,\ldots,r_N$ of row operations that
+	takes $(A|\mathbf{b})$ to $(A|\mathbf{b}')$, so this follows by
+	repeatedly using  Proposition \@ref(prp:ropsolns).
+```
+
+***
+
+```{proposition}
+The RRE form of a matrix is unique.  That is, if $B$ and $C$ are
+matrices in RRE form obtained by doing row ops to a matrix $A$, then
+$B=C$.
+```
+
+
+```{proof}
+(not examinable, taken from Yuster, *Mathematics Magazine* 57 no.\,2 1984
+	pp.93--94).
+The proof is by induction on the number $m$ of columns of $A$; for $m=1$
+the result is clear.  Now suppose $A$ has $m>1$ columns, and that $B$
+and $C$ are different matrices in RRE form obtained by doing row
+operations to $A$.  The first $m-1$ columns of $B$ and $C$ are RRE forms
+for the first $m-1$ columns of $A$, so by the inductive hypothesis $B$
+and $C$ can only differ in their last columns.  Suppose they differ in
+row $j$.
+
+Let $\mathbf{u}$ be any solution to $B \mathbf{u}=\mathbf{0}$.  By the
+previous proposition,  $B \mathbf{u} = \mathbf{0}$ iff $A \mathbf{u} =
+\mathbf{0}$ iff $C \mathbf{u} = \mathbf{0}$, so we have
+$(B-C)\mathbf{u}=\mathbf{0}$.  As the first $m-1$ columns of $B$ and $C$
+are the same, this last equation is equivalent to $(b_{im}-c_{im})u_m =
+0$ for all $i$.  As $b_{jm}\neq c_{jm}$ we must have $u_m=0$.
+
+This means the last columns of $B$ and $C$ have a leading 1.  Otherwise
+the variable $x_m$ corresponding to the last column could be chosen
+freely when solving $B \mathbf{x}=\mathbf{0}$ and $C \mathbf{x}=
+\mathbf{0}$.  Since $B$ and $C$ are in RRE form, this last column has a
+leading 1 and all other entries are zero.  But the first $m-1$ columns
+of $B$ and $C$ determine where the leading 1 in column $m$ can go if
+they are to be in RRE form.  Since the first $m-1$ columns of $B$ and
+$C$ are equal, it follows $B$ and $C$ are equal, a contradiction.
+
+```
+
+***
+
+
+This last result means that we can talk about *the* row reduced
+echelon form of a matrix, because it tells us that given any matrix
+$A$ there is one and only one matrix in RRE form that can be obtained
+from $A$ by doing row operations.
+
+### Solving systems in RRE form
+
+Our method for solving linear systems whose matrix form is
+$A\mathbf{x}=\mathbf{b}$ is then: 
+
+- Form the augmented matrix $(A|\mathbf{b})$, and do row operations until it is in echelon form $(A'| \mathbf{b}')$.  This new system has the same solutions as the old system, by Proposition \@ref(prp:ropsolns).
+- Read off the solutions, if there are any.
+
+***
+
+```{example}
+Suppose the augmented matrix is $$ \begin{pmatrix} 1 & 0 & 2 & 2 \\ 0 & 1 & 3 & -1 \end{pmatrix}.$$ This corresponds to the system 
+\begin{align*} x+2z&= 2 \\ y+3z & =-1.  \end{align*}
+$z$ can be chosen freely, and then the solution is completely determined: $x=2-2z$ and $y=-1-3z$. We can write these solutions in vector form as $$ \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix} + z \begin{pmatrix} -2 \\ -3 \\ 1 \end{pmatrix}.$$ - Suppose the augmented matrix is $$ \begin{pmatrix} 1&0&0&a \\ 0&1&0&b \\ 0&0&1&c \\ 0&0&0&d \end{pmatrix}.  $$
+If $d\neq 0$ then the final equation says $0=d$ which is false, so
+this system has no solutions.  On the other hand if $d=0$ then the
+equations say $x=a,y=b,z=c$ and there is a unique solution to this system.
+```
+
+***
+
+
+We can obtain the solutions of a set of equations whose augmented
+matrix is in row reduced
+echelon form as follows.  Recall that the final column corresponds to
+the constant term of the equations, and each column before that
+corresponds to a variable.
+
+- If the final column has a leading entry, there are no solutions.
+- Otherwise, variables which correspond to columns with no leading entry (if any) can be chosen freely, and the remaining variables are uniquely determined in terms of these.
+
+
+The first bullet point is illustrated by what happens in the second
+example above when $d\neq 0$. In the first example the $z$ column has
+no leading entry, so we were able to choose $z$ freely, therefore
+getting infinitely many solutions. In the second,
+each of the $x,y,z$ columns had leading entries, so there was no free
+choice and the equations had only one solution.
+
+### Invertibility and RRE form
+
+We want to prove that a matrix is invertible if and only if its RRE
+form is the identity, but we need two preliminary lemmas.
+
+***
+
+```{lemma, label="prodInv"}
+A product of invertible matrices is invertible.
+```
+
+```{proof}
+Let $A_1,\ldots,A_m$ be invertible matrices of the same size. Then you
+can easily check that
+$$ A_m^{-1}\cdots A_1^{-1} $$
+is an inverse to $A_1\cdots A_m$.
+```
+
+***
+
+
+```{lemma, label="rowOfZeroes"}
+Let $A$ be a square matrix in RRE form.  Either it is the identity, or
+it has a row of zeroes.
+```
+
+```{proof}
+Suppose $A$ is $n\times n$ and has no row of zeroes, so that each of
+the $n$ rows has a leading entry.  We can't have two leading entries
+in the same column, so every column contains a leading entry. For
+each $i$, the
+leading entry in row $i+1$ must be to the right of the one in row
+$i$.  This means that the leading entry in row 1 must appear in
+column 1: otherwise we'd have to fit the $n-1$ remaining leading
+entries into $< n-1$ columns.  Similarly the leading entry in row 2 must be in column 2, and so on.  It follows $A=I_n$.
+```
+
+***
+
+
+```{theorem, label="invIffRREFI"}
+A matrix is invertible if and only if its RRE form is the identity matrix.
+```
+
+```{proof}
+Suppose the RRE form of $A$ is $I_n$, so that there are row ops
+$r_1,\ldots,r_m$ with
+$$ r_1(r_2(\cdots (r_m (A)))\cdots ) = I_n.$$
+By Proposition \@ref(prp:rowOpsAreMult), 
+$$ r_1(I_n)r_2(I_n)\cdots r_m(I_n) A = I_n.$$
+By Corollary \@ref(cor:elemInv), the $r_i(I_n)$ are invertible, and
+multiplying the above equation on the left by the inverse of
+$r_1(I_n)$, then the inverse of $r_2(I_n)$, and so on,
+$$ A = r_m(I_n)^{-1}r_{m-1}(I_n)^{-1} \cdots r_1(I_n)^{-1}.$$
+It follows that $A$ is a product of invertible matrices, so by Lemma
+\@ref(lem:prodInv) $A$ is invertible.
+
+Conversely suppose the RRE form of $A$ is not $I_n$, so that by
+Lemma \@ref(lem:rowOfZeroes) it has a row of zeroes. There are therefore
+less than $n$ leading entries in the RRE form, so there's a column
+with no leading entry, say column $j$. The matrix equation $A\mathbf{x}=\mathbf{0}$
+then has infinitely many solutions, since we can choose the value of
+the variable corresponding to column $j$ freely.  But if $A$ is
+invertible, $A\mathbf{x}=\mathbf{0}$ implies
+$\mathbf{x}=A^{-1}\mathbf{0}= \mathbf{0}$ so there is only one
+solution.
+```
+
+***
+
+
+
+```{corollary, label="invIffUniqueSoln"}
+A square matrix $A$ is invertible if and only if the only solution to
+$A\mathbf{x}=\mathbf{0}$ is $\mathbf{x}=\mathbf{0}$.
+```
+
+```{proof}
+If $A$ is invertible and $A\mathbf{x}=\mathbf{0}$ then multiplying on
+the left by $A^{-1}$ we get $\mathbf{x}=A^{-1}\mathbf{0}=\mathbf{0}$.
+Conversely if $A$ is not invertible then its RRE form is not the
+identity. When we solve $A\mathbf{x}=\mathbf{0}$ by putting the
+augmented matrix $(A\, \mathbf{0})$ into RRE form we get $(B\,
+\mathbf{0})$ where $B$ is the RRE form of $A$, which  has a column
+with no leading entry since $B$ is not the identity, and we can choose
+the value of the variable corresponding to that column freely. This
+means there are infinitely many solutions of $A\mathbf{x}=\mathbf{0}$.
+```
+
+***
+
+
+If $A$ is invertible and $\mathbf{c}_j$ is the $j$th column of
+$A^{-1}$, the fact that 
+
+$$ A A^{-1}=I_n$$
+
+and the fact that matrix multiplication works column-by-column means
+that $A \mathbf{c}_j=\mathbf{e}_j$, where $\mathbf{e}_j$ is the $j$th
+column of $I_n$ (that is, the column vector with zeroes everywhere
+except for a 1 in row $j$).  This means $\mathbf{c}_j$ is the solution
+of the equation $A\mathbf{x}=\mathbf{e}_j$.  But we can solve this by
+putting $(A \, \mathbf{e}_j)$ into RRE form: we know that the RRE form
+of $A$ is $I_n$, so the result will be $(I_n \, \mathbf{c}_j)$.
+
+Rather than do this $n$ times to work out the $n$ columns of $A^{-1}$,
+we can simply start with the matrix $(A\,\,\, I_n)$ and put it into RRE
+form --- the result will be $(I_n\,\,\, A^{-1})$.
+
+***
+
+```{example}
+To compute the inverse of $A=\begin{pmatrix}
+1&2\\3&4
+\end{pmatrix}$ we put $(A\,\,\, I_2)$ into RRE form:
+\begin{multline}
+\begin{pmatrix}
+1&2 & 1 & 0 \\
+3&4 & 0 & 1 
+\end{pmatrix} \mapsto \begin{pmatrix}
+1&2&1&0\\
+0&-2&-3&1
+\end{pmatrix} \mapsto \begin{pmatrix}
+1&2&1&0\\
+0&1&3/2 & -1/2
+\end{pmatrix} \\
+\mapsto \begin{pmatrix}
+1&0&-2 & 1 \\
+0&1&3/2&-1/2
+\end{pmatrix}
+\end{multline}
+This is in RRE form, so the inverse of $A$ is
+$$ \begin{pmatrix}
+-2&1 \\
+3/2 & -1/2
+  \end{pmatrix}$$
+as you can check.
+```
+
+***
+
+
+We can use this method as a test of the invertibility of $A$ which
+produces at the same time the inverse of $A$, if it exists: start
+with $(A\,\,\, I_n)$ and put it into RRE form, getting $(C\,\,\, D)$ say. If
+$C\neq I_n$ then $A$ isn't invertible, by Theorem
+\@ref(thm:invIffRREFI). If $C=I_n$, then $A$ is invertible and the
+remaining part $D$ of this matrix is $A^{-1}$.
+
+## Determinants
+
+It is straightforward to check that a $2\times 2$ matrix $A=\begin{pmatrix}
+a&b\\c&d
+\end{pmatrix}$ is invertible if and only if $ad-bc\neq 0$.  The
+quantity $ad-bc$ is called the determinant of $A$, and we want to
+generalize this to larger matrices.
+
+***
+
+```{definition}
+  Let $A=(a_{ij})$ be $n\times n$. The **determinant** of $A$,
+  written $\det (A)$, is the number
+
+$$ \sum_{\sigma \in S_n} \sgn(\sigma) a_{1,\sigma(1)}a_{2,\sigma(2)}\cdots a_{n,\sigma(n)}.  $$
+
+```
+
+***
+
+```{example}
+
+
+- $S_2=\{\id, (1,2)\}$ so the determinant of $A=(a_{ij})$ is
+$$ a_{11}a_{22} - a_{12}a_{21}$$
+where the first term is the one arising from $\sigma=\id$ and the
+second is from $\sigma=(1,2)$. This is equivalent to the expression $ad-bd$ at
+the start of this subsection.
+- $S_3=\{\mathrm{id}, (1,2,3), (1,3,2), (1,2), (1,3), (2,3)\}$ and the determinant of $A=(a_{ij})$ is
+$$ a_{11}a_{22}a_{33}+a_{12}a_{23}a_{31}+a_{13}a_{21}a_{32}
+  -a_{12}a_{21}a_{33}-a_{13}a_{22}a_{31} -
+  a_{11}a_{23}a_{32}.  $$
+
+
+```
+
+***
+
+
+Our aims in this section are to show that $A$ is invertible if and
+only if $\det A\neq 0$ for square matrices $A$ of any size, and to
+investigate other ways of computing $\det A$: summing over all
+elements $\sigma \in S_n$ quickly becomes unmanageable as $|S_n|=n!$
+can be very large.
+
+***
+
+```{proposition, label="detIds"}
+  Let $A=(a_{ij})$ be a square matrix and $\lambda$ a number.
+
+
+- If $A$ has a row or a column of zeroes, then $\det A=0$.
+- $\det A = \det A^T$.
+- If $A$ has two equal columns or two equal rows, then $\det A=0$.
+- $\det I_n = 1$.
+
+
+```
+
+
+```{proof}
+
+
+- Suppose the $i$th row of $A$ is zero, so $a_{ij}=0$ for all $j$.  Every term in the sum defining $\det A$ involves some $a_{ij}$ as a factor, so is zero. Thus $\det A=0$. The argument for a column of zeroes is similar.
+- The $i,j$ entry of $A^T$ is $a_{ji}$, so $$ \det A^T = \sum_{\sigma \in S_n} \sgn(\sigma) a_{\sigma(1),1}\cdots a_{\sigma(n),n}.$$ Notice that $$ a_{\sigma(1),1}\cdots a_{\sigma(n),n} = a_{1,\sigma^{-1}(1)}\cdots a_{n,\sigma^{-1}(n)}$$ as the terms on each side are the same, just written in a different order. Therefore 
+\begin{align*} \det A^T& = \sum_{\sigma\in S_n}  \sgn(\sigma) a_{\sigma(1),1}\cdots a_{\sigma(n),n} \\ &= \sum_{\sigma \in S_n} \sgn(\sigma) a_{1,\sigma^{-1}(1)}\cdots a_{n,\sigma^{-1}(n)} & \text{as above} \\ &= \sum_{\sigma \in S_n} \sgn(\sigma^{-1})a_{1,\sigma^{-1}(1)}\cdots a_{n,\sigma^{-1}(n)} & \text{by problem sheet 4, Q1 iv)} \\ &= \sum_{\sigma \in S_n} \sgn(\sigma)a_{1,\sigma(1)}\cdots a_{n,\sigma(n)} \\ &= \det A \end{align*}
+where the second-to-last equality is because the permutations $\sigma^{-1}$ for $\sigma \in S_n$ are just the permutations in $S_n$, written in a different order.
+- Suppose $p<q$ and $a_{pj}=a_{qj}$ for all $j$. Let $\sigma \in S_n$  and consider the terms in the sum defining $\det A$ corresponding to $\sigma$ and $\sigma (p,q)$.  Since $a_{p,\sigma(p)}=a_{q, \sigma(p)}= a_{q, \sigma (p,q) (q)}$ and $a_{q,\sigma(q)}=a_{p,\sigma(p,q)(p)}$ the product of entries of $A$ is exactly the same for $\sigma (p,q)$ as it is for $\sigma$, but $\sgn \sigma = - \sgn (\sigma (p,q))$. It follows that the two terms add to zero.  Pairing up all terms in the sum this way, we see that it is zero.  If $A$ has two equal columns, then $\det A=\det A^T$ by the last part and $A^T$ has two equal rows so has determinant zero by the argument above.
+- Let $I_n = (\delta_{ij})$, so $\delta_{ij}=1$ if $i=j$ and 0 otherwise. For $$ \delta_{1,\sigma(1)}\cdots \delta_{n,\sigma(n)} \neq 0$$ we must have $\sigma(1)=1$, $\sigma(2)=2$, and so on, so the only nonzero term in the sum defining $\det I_n$ is the $\sigma=\id$ term, which has the value $$\sgn(\id)\delta_{11}\cdots \delta_{nn}=1.  $$
+
+
+```
+
+***
+
+
+
+```{proposition}
+Let $A=(a_{ij})$ be a square matrix.
+
+- $\det r_i(\lambda)(A) = \lambda \det A$.
+- $\det r_{ij}(\lambda)(A)=\det A$.
+- $\det r_{ij}(A)=-\det A$.
+
+
+```
+
+```{proof}
+
+
+- Each term in the sum defining $\det r_i(\lambda)(A)$ is the same as the corresponding term in $\det A$, but with exactly one factor of $\lambda$.  Taking these factors outside the sum we get $\det r_i(\lambda)(A) = \lambda \det A$.
+- Let $r_{ij}(\lambda)(A)=(b_{ij})$, so $b_{pq}=a_{pq}$ if $p \neq j$ and $b_{jq}=a_{jq}+\lambda a_{iq}$. The term $$ b_{1,\sigma(1)} \cdots b_{n,\sigma(n)}$$ from the sum defining the determinant of $r_{ij}(\lambda)(A)$ then equals \begin{multline*} a_{1,\sigma(1)}\cdots a_{j-1, \sigma(j-1)} (a_{j, \sigma(j)}+\lambda a_{i, \sigma(j)}) a_{j+1,\sigma(j+1)}\cdots a_{n,\sigma(n)} =\\ a_{1,\sigma(1)}\cdots a_{n,\sigma(n)} + \lambda a_{1,\sigma(1)}\cdots a_{j-1,\sigma(j-1)} a_{i,\sigma(j)} a_{j+1,\sigma(j+1)}\cdots a_{n,\sigma(n)}.\end{multline*} The first term on the right of this equation is the term in the sum defining $\det A$ coming from the permutation $\sigma$. The second term on the right of this equation is $\lambda$ times the term coming from the permutation $\sigma$ in the sum defining the determinant of a matrix which is the same as $A$, except with the $i$th row of $A$ repeated in place of the $j$th row.  Such a matrix has two repeated rows so its determinant is zero. Summing over all $\sigma\in S_n$ gives $$\det r_{ij}(\lambda)(A)= \det A + \det B $$ where $B$ is a matrix with two repeated rows, so $\det B=0$.
+- $r_{ij}(A)$ is the matrix whose $p,q$ entry is $a_{pq}$ if $p\neq i,j$, $a_{jq}$ if $p=i$, and $a_{iq}$ if $p=j$.  The term in the sum defining $\det r_{ij}(A)$ corresponding to $\sigma\in S_n$ is $$ \sgn(\sigma) a_{1, \sigma(1)} \cdots a_{i-1, \sigma(i-1)} a_{j,\sigma(i)} a_{i+1,\sigma(i+1)}\cdots a_{j-1, \sigma(j-1)} a_{j, \sigma(i)} a_{j+1,\sigma(j+1)} \cdots a_{n,\sigma(n)}.$$ The product of $a_{rs}$s appearing here is the same as the one in the term of the sum defining $\det A$ corresponding to $\sigma (i,j)$. But $\sgn (\sigma) = - \sgn (\sigma (i,j))$, so each term in the sum for $\det r_{ij}(A)$ appears with the opposite sign in $\det A$.
+
+
+```
+
+***
+
+
+```{lemma, label="detMultI"}
+Let $A$ be a square matrix and $r$ a row op. Then $\det (E(r)A)=\det
+E(r) \det A$. Furthermore, $\det A=0$ if and only if $\det r(A)=0$.
+```
+
+```{proof}
+Firstly, $E(r) = r(I_n)$, so by the previous proposition $\det
+E(r)=\lambda\det I_n = \lambda$ if $r=r_i(\lambda)$, $\det E(r)=\det
+I_n=1$ if
+$r=r_{ij}(\lambda)$ and $\det E(r)=-\det I_n=-1$ if $r=r_{ij}$.
+The first part of the lemma is now immediate from the last proposition.
+The second part follows from the first, because $r(A)=E(r)A$ and each
+$E(r)$ has nonzero determinant.
+
+```
+
+***
+
+
+```{theorem}
+   Let $A$ be a square matrix.  Then $A$ is invertible if and only if
+   $\det A \neq 0$. 
+```
+
+```{proof}
+The previous lemma shows that doing a row operation to $A$ doesn't
+affect whether or not its determinant is zero, so used repeatedly shows that $\det A \neq 0$ if and
+only if the determinant of the RRE form of $A$ is not 0.
+
+If $A$ is
+invertible its RRE form is $I_n$ which has nonzero determinant, so $A$
+has nonzero determinant. If $A$ is not invertible its RRE form has a row
+of zeroes, so its determinant is zero by Proposition \@ref(prp:detIds), so
+$\det A=0$.
+```
+
+***
+
+
+```{theorem}
+Let $A$ and $B$ be $n\times n$ matrices. Then $\det (AB)=\det A \det B$.
+```
+
+```{proof}
+**Case 1.** $A$ and $B$ are both invertible. As in
+    the proof of Theorem \@ref(thm:invIffRREFI), we can write $A$ and $B$ as
+    products of elementary matrices:
+    \begin{align*}
+        A &= E(r_1)\cdots E(r_l) \\
+        B &= E(s_1)\cdots E(s_m).
+    \end{align*}
+    Now by Lemma \@ref(lem:detMultI), for any two row ops $r$ and $s$ we have $\det E(r)E(s)=\det
+    E(r) \det E(s)$. Using this repeatedly:
+    \begin{align*}
+        \det A &= \det E(r_1)\cdots \det E(r_l) \\
+        \det B &= \det E(s_1)\cdots \det E(s_m) \\
+        \det (AB)&= \det (E(r_1)\cdots E(r_l)E(s_1)\cdots E(s_m))\\&= \det
+        E(r_1) \cdots \det E(r_l) \det E(s_1) \cdots \det E(s_m) \\
+        &= \det A \det B.
+    \end{align*}
+
+**Case 2.** $B$ isn't invertible. By Corollary
+\@ref(cor:invIffUniqueSoln), there is a nonzero vector $\mathbf{v}$ with $B
+\mathbf{v}=\mathbf{0}$. Then $AB \mathbf{v}=A\mathbf{0}=\mathbf{0}$, so
+$AB$ isn't invertible. Thus $\det AB=0$ and $\det B=0$ so certainly
+$\det AB=\det A \det B$.
+
+**Case 3.** $B$ is invertible but $A$ isn't. By Corollary
+\@ref(cor:invIffUniqueSoln) again, there is a nonzero vector $\mathbf{v}$
+with $A\mathbf{v}=\mathbf{0}$. Then $B^{-1}\mathbf{v}$ is nonzero too,
+and $AB (B^{-1}\mathbf{v})=\mathbf{0}$ so $AB$ isn't invertible and
+$\det AB=\det A \det B$ as in case 2.
+```
+
+***
+
+
+```{corollary}
+
+
+- If $A$ is invertible then $\det(A^{-1})=(\det A)^{-1}$.
+- If a square matrix $A$ has a left or right inverse then it is invertible.
+  
+
+```
+
+```{proof}
+
+
+- Apply the previous result to $AA^{-1}=I_n$.
+- If $AB=I_n$ then $\det(AB)=\det(A)\det(B)=1$, so $\det(A)\neq 0$, so $A$ is invertible. The case of a left-inverse is similar. 
+    
+
+```
+
+***
+
+
+Finally we look at computing determinants by row and column expansions.
+
+***
+
+```{definition}
+The $i,j$ minor of a square matrix $A$, written $A_{ij}$, is the
+determinant of the matrix obtained from $A$ by deleting row $i$ and
+column $j$ from $A$.
+```
+
+***
+
+```{definition}
+For $1 \leq i \leq n$ the $i$th row expansion of an
+$n\times n$ matrix $A= (a_{ij})$ is
+\begin{equation*}
+	r_i(A) =\sum_{r=1}^n (-1)^{i+r}a_{ir}A_{ir}.
+\end{equation*}
+```
+
+***
+
+```{definition, label="col_exp"}
+For $1 \leq j \leq n$ the $j$th column expansion of an
+$n\times n$ matrix $A= (a_{ij})$ is
+\begin{equation*}
+	c_j(A)=	\sum_{r=1}^n (-1)^{r+j} a_{rj} A_{rj}.
+\end{equation*}
+```
+
+***
+
+It turns out that each of the row and column expansions actually equal
+$\det A$.
+
+***
+
+```{example}
+Let's look at the $2\times 2$ case to try and convince ourselves that
+these definitions really do all produce the determinant.  Let $$A = \begin{pmatrix}
+		a_{11} & a_{12} \\ a_{21} & a_{22}
+\end{pmatrix}. $$
+The first row expansion is
+\begin{align*}
+	\sum_{r=1}^2 (-1)^{1+r}a_{1r}A_{1r} &= (-1)^{1+1}a_{11}
+	A_{11} + (-1)^{1+2}a_{12}A_{12}\\
+	&= a_{11}a_{22}-a_{12}a_{21}
+\end{align*}
+which agrees with our old definition of the determinant.  Now the second
+column expansion:
+\begin{align*}
+	\sum_{r=1}^2 (-1)^{r+2} a_{r2} A_{r2} &= (-1)^{1+2}a_{12}
+	A_{12} + (-1)^{2+2}a_{22}A_{22} \\
+	&= -a_{12}a_{21} + a_{22}a_{11}
+\end{align*}
+which again agrees with our previous definition.
+```
+
+***
+
+
+The general proof that row and column expansions really do equal the
+determinant is slightly messy.  Here's a special case:
+
+***
+```{proposition}
+    Let $A$ be a square matrix. Then $c_n(A)=\det A$.
+```
+
+```{proof}
+\begin{align*}
+    c_n(A)&= \sum_{r=1}^n (-1)^{n+r} a_{rn} A_{rn} \\
+          &= \sum_{r=1}^n (-1)^{n+r}a_{rn}\sum_{\sigma\in S_{n-1}} \sgn(\sigma)
+    a_{1,\sigma(1)} \cdots a_{r-1,\sigma(r-1)}a_{r+1,\sigma(r)}\cdots
+    a_{n,\sigma(n-1)} \\
+    &= \sum_{r=1}^n \sum_{\sigma\in S_{n-1}}
+    (-1)^{n+r}\sgn(\sigma)a_{1,\sigma(1)}\cdots
+    a_{r-1,\sigma(r-1)}a_{r,n}a_{r+1,\sigma(r)}\cdots a_{n,\sigma(n-1)}
+\end{align*}
+The permutation 
+$$ \begin{pmatrix}
+        1 & 2 & \cdots & r-1 & r & r+1 & \cdots & n \\
+        \sigma(1) & \sigma(2) & \cdots & \sigma(r-1) & n & \sigma(r) &
+        \cdots & \sigma(n-1)
+\end{pmatrix}$$
+obtained by inserting an $n$ into the bottom row of $\sigma$ at position
+$r$, equals $\sigma (n,n-1,\ldots,r+1,r)$. The cycle has length $n-r+1$
+so the sign of $\sigma (n,n-1,\ldots, r+1,r)$ is $\sgn(\sigma)
+(-1)^{n-r}= \sgn(\sigma)(-1)^{n+r}$.  Every permutation in $S_n$ can be obtained in exactly one
+way by inserting $n$ into the bottom row of a permutation from
+$S_{n-1}$. So our sum is
+$$ \sum _{\tau \in S_n} \sgn(\tau) a_{1,\tau(1)}\cdots a_{n,\tau(n)} $$
+which is $\det A$.
+```
+
+***
+
+
+## Eigenvalues and eigenvectors
+
+***
+```{definition}
+Let $A$ be a square matrix. An **eigenvector** of $A$ is a
+*nonzero* column vector $\mathbf{v}$ such that $A
+\mathbf{v}=\lambda \mathbf{v}$ for some number $\lambda$. If such
+a $\mathbf{v}$ exists, we say that $\lambda$ is an
+**eigenvalue** of $A$ and that $\mathbf{v}$ is an eigenvector
+of $A$ with eigenvalue $\lambda$, or a $\lambda$-eigenvector of $A$.
+```
+
+***
+
+Eigenvectors are vectors on which $A$ acts in a particularly simple
+way.
+
+***
+```{lemma}
+$\lambda$ is an eigenvalue of the $n\times n$ matrix $A$ if and only if
+$\det (A-\lambda I_n)=0$.
+```
+
+```{proof}
+$\det (A-\lambda I_n)=0$ if and only if $A-\lambda I_n$ is not
+invertible, if and only if there is a nonzero vector $\mathbf{v}$ with
+$(A-\lambda I_n)\mathbf{v}=\mathbf{0}$. But
+\begin{equation*}
+(A-\lambda I_n)\mathbf{v}= A \mathbf{v}-\lambda \mathbf{v}
+\end{equation*}
+so this holds if and only if $\mathbf{v}$ is a $\lambda$-eigenvector.
+```
+
+***
+
+
+If we think of $\lambda$ as an unknown equation $\det (A-\lambda I_n)=0$
+is a polynomial of degree $n$. This is called the **characteristic
+polynomial** $\chi_A(\lambda)$ of $A$, and the last lemma shows that the
+roots of $\chi_A$ are exactly the eigenvalues of $A$.
+
+***
+```{example}
+Let $A= \begin{pmatrix}
+1&2 \\ 3&4
+\end{pmatrix}$. The characteristic polynomial is
+\begin{equation*}
+\chi_A(x)= \det(A-xI_2)= \det \begin{pmatrix}
+1-x&2 \\ 3&4-x
+\end{pmatrix}=x^2-5x-2.
+\end{equation*}
+The eigenvalues of $A$ are the roots of the characteristic polynomial,
+which are $\frac{5 \pm \sqrt{33}}{2}$.
+```
+
+***
+
+
+Once we know that a certain number $\lambda$ is an eigenvalue of $A$,
+we can find the eigenvectors corresponding to that eigenvalue by
+solving the matrix equation
+\begin{equation*}
+(A-\lambda I_n)\mathbf{x}= \mathbf{0}
+\end{equation*}
+by putting the augmented matrix into RRE form or otherwise.
+
+***
+```{example}
+The characteristic polynomial of $A= \begin{pmatrix}
+1&1\\1&1
+\end{pmatrix}$ is 
+\begin{equation*}
+\det (A-\lambda I_2)= (1-\lambda)(1-\lambda)-1=\lambda^2-2\lambda=\lambda(\lambda-2)
+\end{equation*}
+and so the eigenvalues of $A$ are 0 and 2.  We can find the
+0-eigenvectors by looking for nonzero solutions of the matrix equation
+\begin{equation*}
+(A-0I_2) \mathbf{x} = \mathbf{0},
+\end{equation*}
+that is, $A \mathbf{x}= \mathbf{0}$. By putting this into RRE form or
+just solving directly, you will find that the 0-eigenvectors are the
+vectors $\begin{pmatrix}
+a\\-a
+\end{pmatrix}$ for $a \neq 0$.
+
+To find the 2-eigenvectors we look for nonzero solutions of the matrix
+equation
+\begin{equation*}
+(A-2I_2) \mathbf{x}=\mathbf{0}
+\end{equation*}
+which is
+\begin{equation*}
+\begin{pmatrix}
+-1&1\\1&-1
+\end{pmatrix}
+\begin{pmatrix}
+x\\y
+\end{pmatrix}
+= \mathbf{0}.
+\end{equation*}
+Again by putting the augmented matrix into RRE form, or otherwise,
+you'll find that the 2-eigenvectors are the vectors $\begin{pmatrix}
+  b\\b
+\end{pmatrix}$ for $b\neq 0$.
+```
+
+***
+
+
+
